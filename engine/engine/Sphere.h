@@ -1,5 +1,7 @@
 #pragma once
-class Sphere{
+#include "Shape.h"
+class Sphere: public Shape 
+{
 	float radius;
 	int slices, stacks;
 public:

@@ -1,5 +1,6 @@
 #pragma once
-class Box
+#include "Shape.h"
+class Box: public Shape
 {
 	double x;
 	double y;

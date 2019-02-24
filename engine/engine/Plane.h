@@ -1,5 +1,6 @@
 #pragma once
-class Plane
+#include "Shape.h"
+class Plane: public Shape
 {
 	double x;
 	double z;
