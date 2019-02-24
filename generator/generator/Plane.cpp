@@ -11,7 +11,7 @@ Plane::~Plane()
 {
 }
 
-Plane::Plane(double x, double y) {
+Plane::Plane(double x, double z) {
 	this->x = x;
 	this->z = z;
 }
