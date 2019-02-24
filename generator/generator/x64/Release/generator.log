@@ -1,0 +1,8 @@
+﻿  Cone.cpp
+  main.cpp
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\generator\generator\main.cpp(10): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  Sphere.cpp
+  Generating code
+  All 7 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  generator.vcxproj -> C:\Users\pmcca\Documents\3º Ano\2º Semestre\Computação Gráfica\Computacao-Grafica\generator\x64\Release\generator.exe
