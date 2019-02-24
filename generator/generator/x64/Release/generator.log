@@ -1,7 +1,7 @@
-﻿  Box.cpp
+﻿  main.cpp
   Generating code
-  6 of 7 functions (85.7%) were compiled, the rest were copied from previous compilation.
+  4 of 222 functions ( 1.8%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
-  generator.vcxproj -> C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\generator\x64\Release\generator.exe
+  generator.vcxproj -> C:\Users\Luis\Documents\Luís\3º ano\2º Semestre\CG\Computacao-Grafica\generator\x64\Release\generator.exe
