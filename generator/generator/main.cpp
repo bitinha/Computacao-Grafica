@@ -63,10 +63,9 @@ void writeConeFile(string forma, const char* radius, const char* height, const c
 int main(int argc, const char* argv[]) {
 	string forma = string(argv[1]);
 	string fileName = string(argv[argc - 1]);
-	if (forma.compare("sphere") && argc == 6) { writeSphereFile(forma, argv[2], argv[3], argv[4], fileName); }
-	else if (forma.compare("plane") && argc == 5) { writePlaneFile(forma, argv[2], argv[3], fileName); }
-	else if (forma.compare("box") && argc == 7) { writeBoxFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
-	else if (forma.compare("cone") && argc == 7) { writeConeFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
-	else { printf("Argumentos inválidos\n"); std::this_thread::sleep_for(std::chrono::milliseconds(1000));	}
+	if (!forma.compare("sphere") && argc == 6) { writeSphereFile(forma, argv[2], argv[3], argv[4], fileName); }
+	else if (!forma.compare("plane") && argc == 5) { writePlaneFile(forma, argv[2], argv[3], fileName); }
+	else if (!forma.compare("box") && argc == 7) { writeBoxFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
+	else if (!forma.compare("cone") && argc == 7) { writeConeFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
 	return 1;
 }
