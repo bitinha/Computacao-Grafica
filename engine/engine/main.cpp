@@ -19,7 +19,7 @@ Sphere criaEsfera(FILE *file) {
 	int slices = 0;
 	fscanf_s(file, "Radius: %f\n", &radius);
 	fscanf_s(file, "Slices: %i\n", &slices);
-	fscanf_s(file, "Stacks: %i\n", &stacks);
+	fscanf_s(file, "Stacks: %i", &stacks);
 
 	return Sphere(radius, slices, stacks);
 }
@@ -85,7 +85,7 @@ int main() {
 	}
 
 	for (std::list<string>::iterator it = files.begin(); it != files.end(); ++it)
-		std::cout << ' ' << *it;
+		std::cout << ' ' << *it << '\n';
 
 	formas = interpretador(files);
 	return 1;
