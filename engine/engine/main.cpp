@@ -17,9 +17,9 @@ Sphere criaEsfera(FILE *file) {
 	float radius = 0;
 	int stacks = 0;
 	int slices = 0;
-	fscanf_s(file, "Radius: %f\n", radius);
-	fscanf_s(file, "Slices: %i\n", slices);
-	fscanf_s(file, "Stacks: %i\n", stacks);
+	fscanf_s(file, "Radius: %f\n", &radius);
+	fscanf_s(file, "Slices: %i\n", &slices);
+	fscanf_s(file, "Stacks: %i\n", &stacks);
 
 	return Sphere(radius, slices, stacks);
 }
@@ -35,17 +35,19 @@ Shape novaForma(char forma[], FILE* file) {
 list<Shape> interpretador(list<string> files) {
 	for (std::list<string>::iterator it = files.begin(); it != files.end(); ++it)
 		std::cout << ' ' << *it;
-	list<Shape> sh;
-	list<Shape> ::iterator iter;
+	std::list<Shape> sh;
+	list<Shape> ::iterator iter = sh.begin();
 	errno_t erro;
 	for (list<string>::iterator it = files.begin(); it != files.end(); it++) {
 		FILE *pfile;
-		if (erro = fopen_s(&pfile, (*it).c_str(), "r") != 0) {
+		erro = fopen_s(&pfile, (*it).c_str(), "r");
+		std::cout << ' ' << erro;
+		if ( erro == 0) {
 			char forma[10];
 			fscanf_s(pfile, "Forma: %s\n", forma, sizeof(forma));
 			std::cout << ' ' << forma;
-			for (;;);
-			sh.insert(iter, novaForma(forma, pfile));
+			Shape s = novaForma(forma, pfile);
+			sh.insert(iter, s);
 			fclose(pfile);
 		}
 	}
