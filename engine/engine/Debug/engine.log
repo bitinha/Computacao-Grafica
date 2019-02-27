@@ -1,0 +1,9 @@
+﻿  main.cpp
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(20): warning C4477: 'fscanf_s' : format string '%f' requires an argument of type 'float *', but variadic argument 1 has type 'double'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(21): warning C4477: 'fscanf_s' : format string '%i' requires an argument of type 'int *', but variadic argument 1 has type 'int'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(22): warning C4477: 'fscanf_s' : format string '%i' requires an argument of type 'int *', but variadic argument 1 has type 'int'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(33): warning C4715: 'novaForma': not all control paths return a value
+  engine.vcxproj -> C:\Users\pmcca\Documents\3º Ano\2º Semestre\Computação Gráfica\Computacao-Grafica\engine\Debug\engine.exe

@@ -122,6 +122,7 @@
   <ItemGroup>
     <ClCompile Include="Box.cpp" />
     <ClCompile Include="Cone.cpp" />
+    <ClCompile Include="Interpretador.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Shape.cpp" />
@@ -131,6 +132,7 @@
   <ItemGroup>
     <ClInclude Include="Box.h" />
     <ClInclude Include="Cone.h" />
+    <ClInclude Include="Interpretador.h" />
     <ClInclude Include="Plane.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="Sphere.h" />
