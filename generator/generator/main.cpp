@@ -12,7 +12,7 @@ void writeSphereFile(string forma, const char* radius, const char* slices, const
 	file.open(name, ios::out);
 	if (file.is_open()) {
 		file << "Forma: " + forma;
-		file << "\nRadious: " + string(radius);
+		file << "\nRadius: " + string(radius);
 		file << "\nSlices: " + string(slices);
 		file << "\nStacks: " + string(stacks);
 	}
@@ -51,7 +51,7 @@ void writeConeFile(string forma, const char* radius, const char* height, const c
 	file.open(name, ios::out);
 	if (file.is_open()) {
 		file << "Forma: " + forma;
-		file << "\nBottom Radious: " + string(radius);
+		file << "\nBottom Radius: " + string(radius);
 		file << "\nHeight: " + string(height);
 		file << "\nSlices: " + string(slices);
 		file << "\nStacks: " + string(stacks);
