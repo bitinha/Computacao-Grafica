@@ -5,6 +5,9 @@
 #include <list>;
 #include "Shape.h"
 #include "Sphere.h"
+#include "Cone.h"
+#include "Box.h"
+#include "Plane.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -24,12 +27,47 @@ Sphere criaEsfera(FILE *file) {
 	return Sphere(radius, slices, stacks);
 }
 
+Cone criaCone(FILE *file) {
+	float radius = 0;
+	float height = 0;
+	int stacks = 0;
+	int slices = 0;
+	fscanf_s(file, "Radius: %f\n", &radius);
+	fscanf_s(file, "Height: %f\n", &height);
+	fscanf_s(file, "Slices: %i\n", &slices);
+	fscanf_s(file, "Stacks: %i", &stacks);
+
+	return Cone(radius, height, slices, stacks);
+}
+
+Box criaBox(FILE *file) {
+	double x = 0;
+	double y = 0;
+	double z = 0;
+	int divisions = 0;
+	fscanf_s(file, "X: %d\n", &x);
+	fscanf_s(file, "Y: %d\n", &y);
+	fscanf_s(file, "Z: %d\n", &z);
+	fscanf_s(file, "Divisions: %i", &divisions);
+
+	return Box(x, y, z, divisions);
+}
+
+Plane criaPlano(FILE *file) {
+	double x = 0;
+	double z = 0;
+	fscanf_s(file, "X: %d\n", &x);
+	fscanf_s(file, "Z: %d\n", &z);
+
+	return Plane(x, z);
+}
+
 Shape novaForma(char forma[], FILE* file) {
 	string shape = string(forma);
 	if (!shape.compare("sphere")) { return (criaEsfera(file)); }
-	/*else if (!shape.compare("plane")) { return (criaPlano(file));}
+	else if (!shape.compare("plane")) { return (criaPlano(file));}
 	else if (!shape.compare("box")) { return (criaBox(file));}
-	else if (!shape.compare("cone")) { return (criaCone(file));}*/
+	else if (!shape.compare("cone")) { return (criaCone(file));}
 }
 
 list<Shape> interpretador(list<string> files) {
