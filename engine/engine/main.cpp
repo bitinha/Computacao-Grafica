@@ -92,29 +92,37 @@ list<Shape> interpretador(list<string> files) {
 	return sh;
 }
 
-int main() {
+list<string> extraiFicheiros(const char* filename) {
+
 
 	list<string> files;
 	list<string> ::iterator it;
-	int i = 0;
-
-	it = files.begin();
-
 	/*Ler um ficheiro XML*/
-	list<Shape> formas;
 	XMLDocument xmlDoc;
-	const char * filename = "../teste.xml";
 	XMLError eResult = xmlDoc.LoadFile((char*)filename);
 
+	if (eResult) {
+		printf("Não foi possível carregar o ficheiro xml");
+		exit(1);
+	}
+
+
+
 	XMLNode * pRoot = xmlDoc.FirstChild();
-	if (pRoot == nullptr) return XML_ERROR_FILE_READ_ERROR;
+	if (pRoot == nullptr) {
+		printf("Erro ao ler o ficheiro xml");
+		exit(XML_ERROR_FILE_READ_ERROR);
+	}
 
 	XMLElement * pElement = pRoot->FirstChildElement("model");
-	if (pElement == nullptr) return XML_ERROR_PARSING_ELEMENT;
+	if (pElement == nullptr) {
+		printf("Erro ao ler o ficheiro xml");
+		exit(XML_ERROR_PARSING_ELEMENT);
+	}
 
 	const char * szAttributeText = nullptr;
 	XMLElement * pListElement = pRoot->FirstChildElement("model");
-
+	it = files.begin();
 	while (pListElement != nullptr) {
 		const char* iOutListValue;
 		iOutListValue = pListElement->Attribute("file");
@@ -122,9 +130,29 @@ int main() {
 		pListElement = pListElement->NextSiblingElement("model");
 	}
 
+	return files;
+
+}
+
+int main(int argc, const char* argv[]) {
+
+	if (argc < 2) {
+
+		printf("Indique um ficheiro a partir do qual se deva gerar");
+		return 1;
+	}
+
+	const char * filename = argv[1];
+
+	list<Shape> formas;
+	list<string> files = extraiFicheiros(filename);
+
+	list<string> ::iterator it;
+	it = files.begin();
+
 	for (std::list<string>::iterator it = files.begin(); it != files.end(); ++it)
 		std::cout << ' ' << *it << '\n';
 
 	formas = interpretador(files);
-	return 1;
+	return 0;
 }
