@@ -46,9 +46,9 @@ Box criaBox(FILE *file) {
 	double y = 0;
 	double z = 0;
 	int divisions = 0;
-	fscanf_s(file, "X: %d\n", &x);
-	fscanf_s(file, "Y: %d\n", &y);
-	fscanf_s(file, "Z: %d\n", &z);
+	fscanf_s(file, "X: %lf\n", &x);
+	fscanf_s(file, "Y: %lf\n", &y);
+	fscanf_s(file, "Z: %lf\n", &z);
 	fscanf_s(file, "Divisions: %i", &divisions);
 
 	return Box(x, y, z, divisions);
@@ -57,8 +57,8 @@ Box criaBox(FILE *file) {
 Plane criaPlano(FILE *file) {
 	double x = 0;
 	double z = 0;
-	fscanf_s(file, "X: %d\n", &x);
-	fscanf_s(file, "Z: %d\n", &z);
+	fscanf_s(file, "X: %lf\n", &x);
+	fscanf_s(file, "Z: %lf\n", &z);
 
 	return Plane(x, z);
 }
@@ -72,19 +72,16 @@ Shape novaForma(char forma[], FILE* file) {
 }
 
 list<Shape> interpretador(list<string> files) {
-	for (std::list<string>::iterator it = files.begin(); it != files.end(); ++it)
-		std::cout << ' ' << *it;
+	
 	std::list<Shape> sh;
 	list<Shape> ::iterator iter = sh.begin();
 	errno_t erro;
 	for (list<string>::iterator it = files.begin(); it != files.end(); it++) {
 		FILE *pfile;
 		erro = fopen_s(&pfile, (*it).c_str(), "r");
-		std::cout << ' ' << erro;
 		if ( erro == 0) {
 			char forma[10];
 			fscanf_s(pfile, "Forma: %s\n", forma, sizeof(forma));
-			std::cout << ' ' << forma;
 			Shape s = novaForma(forma, pfile);
 			sh.insert(iter, s);
 			fclose(pfile);
@@ -106,8 +103,6 @@ list<string> extraiFicheiros(const char* filename) {
 		printf("Não foi possível carregar o ficheiro xml");
 		exit(1);
 	}
-
-
 
 	XMLNode * pRoot = xmlDoc.FirstChild();
 	if (pRoot == nullptr) {
@@ -196,13 +191,7 @@ int main(int argc, char** argv) {
 		printf("Indique um ficheiro a partir do qual se deva gerar");
 		return 1;
 	}
-
-	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
-	glutInitWindowPosition(100, 100);
-	glutInitWindowSize(800, 800);
-	glutCreateWindow("CG@DI-UM");
-
+	
 	const char * filename = argv[1];
 
 	list<Shape> formas;
@@ -210,9 +199,6 @@ int main(int argc, char** argv) {
 
 	list<string> ::iterator it;
 	it = files.begin();
-
-	for (std::list<string>::iterator it = files.begin(); it != files.end(); ++it)
-		std::cout << ' ' << *it << '\n';
 
 	formas = interpretador(files);
 
