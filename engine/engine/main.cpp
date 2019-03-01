@@ -8,6 +8,7 @@
 #include "Cone.h"
 #include "Box.h"
 #include "Plane.h"
+#include "glut.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -131,16 +132,76 @@ list<string> extraiFicheiros(const char* filename) {
 	}
 
 	return files;
+}
+
+void changeSize(int w, int h) {
+
+	// Prevent a divide by zero, when window is too short
+	// (you cant make a window with zero width).
+	if (h == 0)
+		h = 1;
+
+	// compute window's aspect ratio 
+	float ratio = w * 1.0 / h;
+
+	// Set the projection matrix as current
+	glMatrixMode(GL_PROJECTION);
+	// Load Identity Matrix
+	glLoadIdentity();
+
+	// Set the viewport to be the entire window
+	glViewport(0, 0, w, h);
+
+	// Set perspective
+	gluPerspective(45.0f, ratio, 1.0f, 1000.0f);
+
+	// return to the model view matrix mode
+	glMatrixMode(GL_MODELVIEW);
+}
+
+void renderScene(void) {
+
+	// clear buffers
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// set the camera
+	glLoadIdentity();
+	gluLookAt(10, 10, 10,
+		0.0, 0.0, 0.0,
+		0.0f, 1.0f, 0.0f);
+
+	glutWireTeapot(10);
+	// End of frame
+	glutSwapBuffers();
+}
+
+void processKeys(unsigned char c, int xx, int yy) {
+
+	// put code to process regular keys in here
 
 }
 
-int main(int argc, const char* argv[]) {
+
+void processSpecialKeys(int key, int xx, int yy) {
+
+	// put code to process special keys in here
+	switch (key) {
+	}
+	glutPostRedisplay();
+}
+
+int main(int argc, char** argv) {
 
 	if (argc < 2) {
-
 		printf("Indique um ficheiro a partir do qual se deva gerar");
 		return 1;
 	}
+
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(800, 800);
+	glutCreateWindow("CG@DI-UM");
 
 	const char * filename = argv[1];
 
@@ -154,5 +215,28 @@ int main(int argc, const char* argv[]) {
 		std::cout << ' ' << *it << '\n';
 
 	formas = interpretador(files);
+
+	// init GLUT and the window
+	glutInit(&argc, argv);
+	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
+	glutInitWindowPosition(100, 100);
+	glutInitWindowSize(800, 800);
+	glutCreateWindow("CG@DI-UM");
+
+	// Required callback registry 
+	glutDisplayFunc(renderScene);
+	glutReshapeFunc(changeSize);
+
+	// Callback registration for keyboard processing
+	glutKeyboardFunc(processKeys);
+	glutSpecialFunc(processSpecialKeys);
+
+	//  OpenGL settings
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+
+	// enter GLUT's main cycle
+	glutMainLoop();
+
 	return 0;
 }

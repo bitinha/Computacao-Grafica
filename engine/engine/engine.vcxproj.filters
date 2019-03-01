@@ -36,10 +36,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Interpretador.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DrawSphere.cpp">
+    <ClCompile Include="DrawShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,13 +59,10 @@
     <ClInclude Include="Shape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Interpretador.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="glut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DrawSphere.h">
+    <ClInclude Include="DrawShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

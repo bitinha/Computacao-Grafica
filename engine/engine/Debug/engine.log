@@ -1,6 +1,14 @@
-﻿  main.cpp
+﻿  DrawShape.cpp
+  main.cpp
 c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
 c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(33): warning C4715: 'novaForma': not all control paths return a value
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(49): warning C4477: 'fscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(50): warning C4477: 'fscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(51): warning C4477: 'fscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(60): warning C4477: 'fscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(61): warning C4477: 'fscanf_s' : format string '%d' requires an argument of type 'int *', but variadic argument 1 has type 'double *'
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(189): warning C4060: switch statement contains no 'case' or 'default' labels
+  Generating Code...
+c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(72): warning C4715: 'novaForma': not all control paths return a value
   engine.vcxproj -> C:\Users\pmcca\Documents\3º Ano\2º Semestre\Computação Gráfica\Computacao-Grafica\engine\Debug\engine.exe
