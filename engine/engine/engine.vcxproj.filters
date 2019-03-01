@@ -39,6 +39,9 @@
     <ClCompile Include="Interpretador.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrawSphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tinyxml2.h">
@@ -60,6 +63,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Interpretador.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="glut.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
