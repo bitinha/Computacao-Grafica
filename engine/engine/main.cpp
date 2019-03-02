@@ -4,10 +4,6 @@
 #include <string>;
 #include <list>;
 #include "Shape.h"
-#include "Sphere.h"
-#include "Cone.h"
-#include "Box.h"
-#include "Plane.h"
 #include "glut.h"
 
 #ifndef XMLCheckResult
@@ -17,77 +13,33 @@
 using namespace tinyxml2;
 using namespace std;
 
-Sphere criaEsfera(FILE *file) {
-	float radius = 0;
-	int stacks = 0;
-	int slices = 0;
-	fscanf_s(file, "Radius: %f\n", &radius);
-	fscanf_s(file, "Slices: %i\n", &slices);
-	fscanf_s(file, "Stacks: %i", &stacks);
-
-	return Sphere(radius, slices, stacks);
-}
-
-Cone criaCone(FILE *file) {
-	float radius = 0;
-	float height = 0;
-	int stacks = 0;
-	int slices = 0;
-	fscanf_s(file, "Radius: %f\n", &radius);
-	fscanf_s(file, "Height: %f\n", &height);
-	fscanf_s(file, "Slices: %i\n", &slices);
-	fscanf_s(file, "Stacks: %i", &stacks);
-
-	return Cone(radius, height, slices, stacks);
-}
-
-Box criaBox(FILE *file) {
-	double x = 0;
-	double y = 0;
-	double z = 0;
-	int divisions = 0;
-	fscanf_s(file, "X: %lf\n", &x);
-	fscanf_s(file, "Y: %lf\n", &y);
-	fscanf_s(file, "Z: %lf\n", &z);
-	fscanf_s(file, "Divisions: %i", &divisions);
-
-	return Box(x, y, z, divisions);
-}
-
-Plane criaPlano(FILE *file) {
-	double x = 0;
-	double z = 0;
-	fscanf_s(file, "X: %lf\n", &x);
-	fscanf_s(file, "Z: %lf\n", &z);
-
-	return Plane(x, z);
-}
-
-Shape novaForma(char forma[], FILE* file) {
-	string shape = string(forma);
-	if (!shape.compare("sphere")) { return (criaEsfera(file)); }
-	else if (!shape.compare("plane")) { return (criaPlano(file));}
-	else if (!shape.compare("box")) { return (criaBox(file));}
-	else if (!shape.compare("cone")) { return (criaCone(file));}
-}
-
-list<Shape> interpretador(list<string> files) {
+vector<Vertice> interpretador(list<string> files) {
 	
-	std::list<Shape> sh;
-	list<Shape> ::iterator iter = sh.begin();
+	vector<Vertice> vr;
+	Vertice v;
 	errno_t erro;
+	float px = 0, py = 0, pz = 0;
+	int ch, ok;
+	
 	for (list<string>::iterator it = files.begin(); it != files.end(); it++) {
 		FILE *pfile;
 		erro = fopen_s(&pfile, (*it).c_str(), "r");
 		if ( erro == 0) {
-			char forma[10];
-			fscanf_s(pfile, "Forma: %s\n", forma, sizeof(forma));
-			Shape s = novaForma(forma, pfile);
-			sh.insert(iter, s);
+			while (EOF != (ch = getc(pfile))) {
+				ok = fscanf_s(pfile, "%f ",  &px, sizeof(px));
+				fscanf_s(pfile, "%f ",  &py, sizeof(py));
+				fscanf_s(pfile, "%f" , &pz, sizeof(pz));
+				if (ok >= 0) {
+					v = Vertice(px, py, pz);
+					vr.push_back(v);
+				}
+			}
 			fclose(pfile);
 		}
 	}
-	return sh;
+
+
+	return vr;
 }
 
 list<string> extraiFicheiros(const char* filename) {
@@ -194,13 +146,13 @@ int main(int argc, char** argv) {
 	
 	const char * filename = argv[1];
 
-	list<Shape> formas;
+	vector<Vertice> vertices;
 	list<string> files = extraiFicheiros(filename);
 
 	list<string> ::iterator it;
 	it = files.begin();
 
-	formas = interpretador(files);
+	vertices = interpretador(files);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);
