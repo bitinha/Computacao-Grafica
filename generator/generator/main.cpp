@@ -24,27 +24,27 @@ void writeSphereFile(string forma, const char* r, const char* sl, const char* st
 			float gama = (i + 1)* 2 * pi / slices;
 			float b = pi / 2 - (pi / (stacks));
 			
-			file << 0 << " " << radius << " " << 0 << "\n";
-			file << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
-			file << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+			file << " " << 0 << " " << radius << " " << 0 << "\n";
+			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 
 			b = -b;
 
-			file << 0 << " " << -radius << " " << 0 << "\n";
-			file << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
-			file << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+			file << " " << 0 << " " << -radius << " " << 0 << "\n";
+			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
 
 			for (int j = 1; j < stacks - 1; j++) {
 				b = pi / 2 - (j * pi / (stacks));
 				float teta = pi / 2 - ((j + 1) * pi / (stacks));
 
-				file << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
-				file << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
-				file << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+				file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
+				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 
-				file << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
-				file << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
-				file << radius * cos(teta) * sin(gama) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(gama) << "\n";
+				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
+				file << " " << radius * cos(teta) * sin(gama) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(gama) << "\n";
 
 			}
 		}
@@ -58,13 +58,13 @@ void writePlaneFile(string forma, const char* x, string name) {
 	file.open(name, ios::out);
 	if (file.is_open()) {
 		float size = atof(x) / 2;
-		file << -size << " " << 0 << " " << - size << "\n";
-		file <<  size  << " " << 0 << " " <<  size << "\n";
-		file <<  size  << " " << 0 << " " << -size << "\n";
+		file << " " << -size << " " << 0 << " " << - size << "\n";
+		file << " " <<  size  << " " << 0 << " " <<  size << "\n";
+		file << " " <<  size  << " " << 0 << " " << -size << "\n";
 		
-		file <<  size  << " " << 0 << " " <<  size << "\n";
-		file << -size << " " << 0 << " " <<  -size << "\n";
-		file << -size << " " << 0 << " " <<   size << "\n";
+		file << " " <<  size  << " " << 0 << " " <<  size << "\n";
+		file << " " << -size << " " << 0 << " " <<  -size << "\n";
+		file << " " << -size << " " << 0 << " " <<   size << "\n";
 	}
 	else printf("File not opened\n");
 	file.close();
@@ -78,53 +78,53 @@ void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char
 	float z = atof(sizeZ) / 2;
 	if (file.is_open()) {
 		//Baixo
-		file << -x << " " << -y << " " << -z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
-		file << x << " " << -y << " " <<  z  << "\n";
+		file << " " << -x << " " << -y << " " << -z << "\n";
+		file << " " << x << " " << -y << " " << -z << "\n";
+		file << " " << x << " " << -y << " " <<  z  << "\n";
 
-		file << x << " " << -y << " " << z << "\n";
-		file << -x << " " << -y << " " << z << "\n";
-		file << -x << " " << -y << " " << -z << "\n";
+		file << " " << x << " " << -y << " " << z << "\n";
+		file << " " << -x << " " << -y << " " << z << "\n";
+		file << " " << -x << " " << -y << " " << -z << "\n";
 		//Cima
-		file << -x << " " << y << " " << -z << "\n";
-		file << x << " " << y << " " << z << "\n";
-		file << x << " " << y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << -z << "\n";
+		file << " " << x << " " << y << " " << z << "\n";
+		file << " " << x << " " << y << " " << -z << "\n";
 
-		file << x << " " << y << " " << z << "\n";
-		file << -x << " " << y << " " << -z << "\n";
-		file << -x << " " << y << " " << z << "\n";
+		file << " " << x << " " << y << " " << z << "\n";
+		file << " " << -x << " " << y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << z << "\n";
 		//Tras
-		file << -x << " " << y << " " << -z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
-		file << -x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << -z << "\n";
+		file << " " << x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << -y << " " << -z << "\n";
 
-		file << x << " " << y << " " << -z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
-		file << -x << " " << y << " " << -z << "\n";
+		file << " " << x << " " << y << " " << -z << "\n";
+		file << " " << x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << -z << "\n";
 		//Frente
-		file << -x << " " << y << " " << -z << "\n";
-		file << -x << " " << -y << " " << z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << z << "\n";
+		file << " " << -x << " " << -y << " " << z << "\n";
+		file << " " << x << " " << -y << " " << z << "\n";
 
-		file << x << " " << y << " " << z << "\n";
-		file << -x << " " << y << " " << -z << "\n";
-		file << x << " " << -y << " " << z << "\n";
+		file << " " << x << " " << y << " " << z << "\n";
+		file << " " << -x << " " << y << " " << z << "\n";
+		file << " " << x << " " << -y << " " << z << "\n";
 		//Esquerda
-		file << -x << " " << y << " " << -z << "\n";
-		file << -x << " " << -y << " " << -z << "\n";
-		file << -x << " " << y << " " << z << "\n";
+		file << " " << -x << " " << y << " " << -z << "\n";
+		file << " " << -x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << y << " " << z << "\n";
 
-		file << -x << " " << y << " " << z << "\n";
-		file << -x << " " << -y << " " << -z << "\n";
-		file << -x << " " << -y << " " << z << "\n";
+		file << " " << -x << " " << y << " " << z << "\n";
+		file << " " << -x << " " << -y << " " << -z << "\n";
+		file << " " << -x << " " << -y << " " << z << "\n";
 		//Direita
-		file << x << " " << y << " " << -z << "\n";
-		file << x << " " << y << " " << z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
+		file << " " << x << " " << y << " " << -z << "\n";
+		file << " " << x << " " << y << " " << z << "\n";
+		file << " " << x << " " << -y << " " << -z << "\n";
 
-		file << x << " " << y << " " << z << "\n";
-		file << x << " " << -y << " " << z << "\n";
-		file << x << " " << -y << " " << -z << "\n";
+		file << " " << x << " " << y << " " << z << "\n";
+		file << " " << x << " " << -y << " " << z << "\n";
+		file << " " << x << " " << -y << " " << -z << "\n";
 
 	}
 	else printf("File not opened\n");
@@ -148,9 +148,9 @@ void writeConeFile(string forma, const char* r, const char* h, const char* sl, c
 			float angle2 = (i + 1) * slice;
 
 			//Cria a base
-			file << 0 << " " << 0 << " " << 0 << "\n";
-			file << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
-			file << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
+			file << " " << 0 << " " << 0 << " " << 0 << "\n";
+			file << " " << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
+			file << " " << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
 
 			for (int j = 0; j < stacks; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
 				float lowerH = j * stackH; // Altura na camada inferior
@@ -158,15 +158,14 @@ void writeConeFile(string forma, const char* r, const char* h, const char* sl, c
 				float lowerR = radius - stackR * j;// Raio para a camada inferior
 				float upperR = radius - stackR * (j + 1);// Raio para a camada superior
 
-				file << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
-				file << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
-				file << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
+				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
+				file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 
 
-				file << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
-				file << upperR * cos(angle2) << " " << upperH << " " << upperR * sin(angle2) << "\n";
-				file << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
-
+				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+				file << " " << upperR * cos(angle2) << " " << upperH << " " << upperR * sin(angle2) << "\n";
+				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 
 			}
 		}

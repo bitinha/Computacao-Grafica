@@ -5,6 +5,8 @@
 #include <list>;
 #include "Shape.h"
 #include "glut.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -13,9 +15,16 @@
 using namespace tinyxml2;
 using namespace std;
 
-vector<Vertice> interpretador(list<string> files) {
+Shape formas;
+float alfa = 0;
+float beta = 0;
+
+float pi = M_PI;
+
+Shape interpretador(list<string> files) {
 	
 	vector<Vertice> vr;
+	Shape sh;
 	Vertice v;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
@@ -37,9 +46,9 @@ vector<Vertice> interpretador(list<string> files) {
 			fclose(pfile);
 		}
 	}
+	sh.setVertices(vr);
 
-
-	return vr;
+	return sh;
 }
 
 list<string> extraiFicheiros(const char* filename) {
@@ -113,11 +122,11 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(10, 10, 10,
+	gluLookAt(20 * cos(beta) * sin(alfa), 20 * sin(beta), 20 * cos(beta) * cos(alfa),
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
-	glutWireTeapot(10);
+	formas.draw();
 	// End of frame
 	glutSwapBuffers();
 }
@@ -133,6 +142,20 @@ void processSpecialKeys(int key, int xx, int yy) {
 
 	// put code to process special keys in here
 	switch (key) {
+	case GLUT_KEY_UP:
+		if (!(beta + 0.01 > (pi / 2)))
+			beta += 0.05;
+		break;
+	case GLUT_KEY_DOWN:
+		if (!(beta - 0.01 < -(pi / 2)))
+			beta -= 0.05;
+		break;
+	case GLUT_KEY_LEFT:
+		alfa -= 0.05;
+		break;
+	case GLUT_KEY_RIGHT:
+		alfa += 0.05;
+		break;
 	}
 	glutPostRedisplay();
 }
@@ -146,13 +169,14 @@ int main(int argc, char** argv) {
 	
 	const char * filename = argv[1];
 
-	vector<Vertice> vertices;
+	Shape sh;
 	list<string> files = extraiFicheiros(filename);
 
 	list<string> ::iterator it;
 	it = files.begin();
 
-	vertices = interpretador(files);
+	sh = interpretador(files);
+	formas = sh;
 
 	// init GLUT and the window
 	glutInit(&argc, argv);

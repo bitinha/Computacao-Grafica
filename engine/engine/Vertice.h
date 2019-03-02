@@ -6,5 +6,8 @@ public:
 	Vertice();
 	~Vertice();
 	Vertice(float px, float py, float pz);
+	float getX();
+	float getY();
+	float getZ();
 };
 
