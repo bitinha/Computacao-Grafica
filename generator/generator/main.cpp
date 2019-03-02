@@ -131,14 +131,14 @@ void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char
 	file.close();
 }
 
-void writeConeFile(string forma, const char* r, const char* h, const char* sl, const char* stacks, string name) {
+void writeConeFile(string forma, const char* r, const char* h, const char* sl, const char* st, string name) {
 	fstream file;
 	file.open(name, ios::out);
 	if (file.is_open()) {
 		float radius = atof(r);
 		float height = atof(h);
-		float slices = atof(sl);
-		float stacks = 3;
+		float slices = atoi(sl);
+		float stacks = atoi(st);
 		float slice = 2 * M_PI / slices; // Angulo de uma fatia
 		float stackH = height / stacks; // Altura de uma camada
 		float stackR = radius / stacks; // "Largura" de uma camada
