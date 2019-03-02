@@ -54,17 +54,17 @@ void writeSphereFile(string forma, const char* r, const char* sl, const char* st
 }
 
 void writePlaneFile(string forma, const char* x, string name) {
-	fstream file;
+	fstream file; //Nome do ficheiro no qual vão ser escritos os vértices
 	file.open(name, ios::out);
 	if (file.is_open()) {
-		float size = atof(x) / 2;
-		file << " " << -size << " " << 0 << " " << - size << "\n";
-		file << " " <<  size  << " " << 0 << " " <<  size << "\n";
-		file << " " <<  size  << " " << 0 << " " << -size << "\n";
+		float size = atof(x) / 2; //Módulo das coordenadas x, z dos vertices dos triangulos
+		file << " " << -size << " " << 0 << " " << - size << "\n"; //Ponto A
+		file << " " <<  size  << " " << 0 << " " <<  size << "\n"; //Ponto B
+		file << " " <<  size  << " " << 0 << " " << -size << "\n"; //Ponto C
 		
-		file << " " <<  size  << " " << 0 << " " <<  size << "\n";
-		file << " " << -size << " " << 0 << " " <<  -size << "\n";
-		file << " " << -size << " " << 0 << " " <<   size << "\n";
+		file << " " <<  size  << " " << 0 << " " <<  size << "\n"; //Ponto B
+		file << " " << -size << " " << 0 << " " <<  -size << "\n"; //Ponto A
+		file << " " << -size << " " << 0 << " " <<   size << "\n"; //Ponto D
 	}
 	else printf("File not opened\n");
 	file.close();
