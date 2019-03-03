@@ -70,61 +70,70 @@ void writePlaneFile(string forma, const char* x, string name) {
 	file.close();
 }
 
-void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char* sizeZ, string name) {
+void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char* sizeZ, const char* divisions, string name) {
 	fstream file;
 	file.open(name, ios::out);
 	float x = atof(sizeX) / 2;
 	float y = atof(sizeY) / 2;
 	float z = atof(sizeZ) / 2;
+	float d = atof(divisions);
 	if (file.is_open()) {
-		//Baixo
-		file << " " << -x << " " << -y << " " << -z << "\n";
-		file << " " << x << " " << -y << " " << -z << "\n";
-		file << " " << x << " " << -y << " " <<  z  << "\n";
 
-		file << " " << x << " " << -y << " " << z << "\n";
-		file << " " << -x << " " << -y << " " << z << "\n";
-		file << " " << -x << " " << -y << " " << -z << "\n";
-		//Cima
-		file << " " << -x << " " << y << " " << -z << "\n";
-		file << " " << x << " " << y << " " << z << "\n";
-		file << " " << x << " " << y << " " << -z << "\n";
+		for (float i = 0; i < d; i++) {
+			for (float j = 0; j < d; j++) {
 
-		file << " " << x << " " << y << " " << z << "\n";
-		file << " " << -x << " " << y << " " << -z << "\n";
-		file << " " << -x << " " << y << " " << z << "\n";
-		//Tras
-		file << " " << -x << " " << y << " " << -z << "\n";
-		file << " " << x << " " << -y << " " << -z << "\n";
-		file << " " << -x << " " << -y << " " << -z << "\n";
+				//Tras
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
 
-		file << " " << x << " " << y << " " << -z << "\n";
-		file << " " << x << " " << -y << " " << -z << "\n";
-		file << " " << -x << " " << y << " " << -z << "\n";
-		//Frente
-		file << " " << -x << " " << y << " " << z << "\n";
-		file << " " << -x << " " << -y << " " << z << "\n";
-		file << " " << x << " " << -y << " " << z << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
+				//Frente
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
 
-		file << " " << x << " " << y << " " << z << "\n";
-		file << " " << -x << " " << y << " " << z << "\n";
-		file << " " << x << " " << -y << " " << z << "\n";
-		//Esquerda
-		file << " " << -x << " " << y << " " << -z << "\n";
-		file << " " << -x << " " << -y << " " << -z << "\n";
-		file << " " << -x << " " << y << " " << z << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
 
-		file << " " << -x << " " << y << " " << z << "\n";
-		file << " " << -x << " " << -y << " " << -z << "\n";
-		file << " " << -x << " " << -y << " " << z << "\n";
-		//Direita
-		file << " " << x << " " << y << " " << -z << "\n";
-		file << " " << x << " " << y << " " << z << "\n";
-		file << " " << x << " " << -y << " " << -z << "\n";
+				//Baixo
+				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
 
-		file << " " << x << " " << y << " " << z << "\n";
-		file << " " << x << " " << -y << " " << z << "\n";
-		file << " " << x << " " << -y << " " << -z << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//Cima
+				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+
+				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+
+				//Esquerda
+				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+
+				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//Direita
+				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+
+				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+			}
+		}
 
 	}
 	else printf("File not opened\n");
@@ -179,7 +188,7 @@ int main(int argc, const char* argv[]) {
 	string fileName = string(argv[argc - 1]);
 	if (!forma.compare("sphere") && argc == 6) { writeSphereFile(forma, argv[2], argv[3], argv[4], fileName); }
 	else if (!forma.compare("plane") && argc == 4) { writePlaneFile(forma, argv[2], fileName); }
-	else if (!forma.compare("box") && argc == 6) { writeBoxFile(forma, argv[2], argv[3], argv[4], fileName); }
+	else if (!forma.compare("box") && argc == 7) { writeBoxFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
 	else if (!forma.compare("cone") && argc == 7) { writeConeFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
 	return 1;
 }
