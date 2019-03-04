@@ -161,7 +161,7 @@ void writeConeFile(string forma, const char* r, const char* h, const char* sl, c
 			file << " " << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
 			file << " " << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
 
-			for (int j = 0; j < stacks; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
+			for (int j = 0; j < stacks - 1; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
 				float lowerH = j * stackH; // Altura na camada inferior
 				float upperH = (j + 1) * stackH; // Altura na camada superior
 				float lowerR = radius - stackR * j;// Raio para a camada inferior
@@ -177,6 +177,15 @@ void writeConeFile(string forma, const char* r, const char* h, const char* sl, c
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 
 			}
+			// Acabar com os triangulos do bico
+			float lowerH = (stacks-1) * stackH; // Altura na camada inferior
+			float upperH = stacks * stackH; // Altura na camada superior
+			float lowerR = radius - stackR * (stacks - 1);// Raio para a camada inferior
+			float upperR = radius - stackR * stacks;// Raio para a camada superior
+
+			file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+			file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
+			file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 		}
 	}
 	else printf("File not opened\n");

@@ -18,6 +18,7 @@ using namespace std;
 Shape formas;
 float alfa = 0;
 float beta = 0;
+float zoom = 20;
 
 float pi = M_PI;
 
@@ -122,7 +123,7 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(20 * cos(beta) * sin(alfa), 20 * sin(beta), 20 * cos(beta) * cos(alfa),
+	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
@@ -133,8 +134,13 @@ void renderScene(void) {
 
 void processKeys(unsigned char c, int xx, int yy) {
 
-	// put code to process regular keys in here
+	if (c == '+' && zoom > 1) {
+		zoom -= 1;
+	}if (c == '-') {
+		zoom += 1;
+	}
 
+	glutPostRedisplay();
 }
 
 

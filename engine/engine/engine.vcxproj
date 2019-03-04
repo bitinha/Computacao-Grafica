@@ -120,24 +120,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Cone.cpp" />
     <ClCompile Include="DrawShape.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Shape.cpp" />
-    <ClCompile Include="Sphere.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
+    <ClCompile Include="Vertice.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Cone.h" />
     <ClInclude Include="DrawShape.h" />
     <ClInclude Include="glut.h" />
-    <ClInclude Include="Plane.h" />
     <ClInclude Include="Shape.h" />
-    <ClInclude Include="Sphere.h" />
     <ClInclude Include="tinyxml2.h" />
+    <ClInclude Include="Vertice.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
