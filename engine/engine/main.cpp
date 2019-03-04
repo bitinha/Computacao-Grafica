@@ -22,6 +22,11 @@ float zoom = 20;
 
 float pi = M_PI;
 
+/**
+\brief Função que devolve uma Shape(vetor com vértices) a partir de uma lista de ficheiros com vértices
+@param files Ficheiros a ler
+@return Shape com vértices a desenhar
+*/
 Shape interpretador(list<string> files) {
 	
 	vector<Vertice> vr;
@@ -52,6 +57,11 @@ Shape interpretador(list<string> files) {
 	return sh;
 }
 
+/**
+\brief Função que escreve os vértices de uma caixa num ficheiro
+@param filename Ficheiro xml a ler
+@return Ficheiros que se devem ler
+*/
 list<string> extraiFicheiros(const char* filename) {
 
 

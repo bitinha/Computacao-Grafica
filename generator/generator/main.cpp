@@ -11,7 +11,14 @@ float pi = M_PI;
 
 using namespace std;
 
-void writeSphereFile(string forma, const char* r, const char* sl, const char* st, string name) {
+/**
+\brief Função que escreve os vértices de uma esfera num ficheiro
+@param r Raio da esfera
+@param sl Número de fatias da esfera
+@param st Número de camadas da esfera
+@param name Ficheiro onde escrever os vértices
+*/
+void writeSphereFile(const char* r, const char* sl, const char* st, string name) {
 	fstream file;
 	file.open(name, ios::out);
 	if (file.is_open()) {
@@ -53,7 +60,12 @@ void writeSphereFile(string forma, const char* r, const char* sl, const char* st
 	file.close();
 }
 
-void writePlaneFile(string forma, const char* x, string name) {
+/**
+\brief Função que escreve os vértices de um plano num ficheiro
+@param x Comprimento do plano
+@param name Ficheiro onde escrever os vértices
+*/
+void writePlaneFile(const char* x, string name) {
 	fstream file; //Nome do ficheiro no qual vão ser escritos os vértices
 	file.open(name, ios::out);
 	if (file.is_open()) {
@@ -70,7 +82,15 @@ void writePlaneFile(string forma, const char* x, string name) {
 	file.close();
 }
 
-void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char* sizeZ, const char* divisions, string name) {
+/**
+\brief Função que escreve os vértices de uma caixa num ficheiro
+@param sizeX Comprimento da caixa
+@param sizeY Altura da caixa
+@param sizeZ Largura da caixa
+@param divisions Número de divisões da caixa
+@param name Ficheiro onde escrever os vértices
+*/
+void writeBoxFile(const char* sizeX, const char* sizeY, const char* sizeZ, const char* divisions, string name) {
 	fstream file;
 	file.open(name, ios::out);
 	float x = atof(sizeX) / 2;
@@ -140,7 +160,15 @@ void writeBoxFile(string forma, const char* sizeX, const char* sizeY, const char
 	file.close();
 }
 
-void writeConeFile(string forma, const char* r, const char* h, const char* sl, const char* st, string name) {
+/**
+\brief Função que escreve os vértices de um cone num ficheiro
+@param r Raio do cone
+@param h Altura do cone
+@param sl Número de fatias do cone
+@param st Número de camadas do cone
+@param name Ficheiro onde escrever os vértices
+*/
+void writeConeFile(const char* r, const char* h, const char* sl, const char* st, string name) {
 	fstream file;
 	file.open(name, ios::out);
 	if (file.is_open()) {
@@ -192,12 +220,13 @@ void writeConeFile(string forma, const char* r, const char* h, const char* sl, c
 	file.close();
 }
 
+/** Recebe o nome da forma a gerar, os seus parâmetros e o ficheiro onde escrever os vértices da forma */
 int main(int argc, const char* argv[]) {
 	string forma = string(argv[1]);
 	string fileName = string(argv[argc - 1]);
-	if (!forma.compare("sphere") && argc == 6) { writeSphereFile(forma, argv[2], argv[3], argv[4], fileName); }
-	else if (!forma.compare("plane") && argc == 4) { writePlaneFile(forma, argv[2], fileName); }
-	else if (!forma.compare("box") && argc == 7) { writeBoxFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
-	else if (!forma.compare("cone") && argc == 7) { writeConeFile(forma, argv[2], argv[3], argv[4], argv[5], fileName); }
+	if (!forma.compare("sphere") && argc == 6) { writeSphereFile(argv[2], argv[3], argv[4], fileName); }
+	else if (!forma.compare("plane") && argc == 4) { writePlaneFile(argv[2], fileName); }
+	else if (!forma.compare("box") && argc == 7) { writeBoxFile(argv[2], argv[3], argv[4], argv[5], fileName); }
+	else if (!forma.compare("cone") && argc == 7) { writeConeFile(argv[2], argv[3], argv[4], argv[5], fileName); }
 	return 1;
 }
