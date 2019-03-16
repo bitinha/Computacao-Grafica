@@ -1,7 +1,7 @@
 #include "Figura.h"
 #include <vector>
 #include "Transformacao.h"
-
+#define strdup _strdup
 
 Figura::Figura(vector<Transformacao> trans, char * f)
 {

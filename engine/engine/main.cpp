@@ -1,3 +1,4 @@
+#include "glew.h"
 #include <iostream>
 #include <vector>
 #include "tinyxml2.h";
@@ -15,23 +16,23 @@
 using namespace tinyxml2;
 using namespace std;
 
-Shape formas;
+//Shape formas;
 float alfa = 0;
 float beta = 0;
 float zoom = 20;
 
 float pi = M_PI;
 
+GLuint buffers[3];
+vector<float> vetor;
+
 /**
 \brief Função que devolve uma Shape(vetor com vértices) a partir de uma lista de ficheiros com vértices
 @param files Ficheiros a ler
 @return Shape com vértices a desenhar
 */
-Shape interpretador(list<string> files) {
+void interpretador(list<string> files) {
 	
-	vector<Vertice> vr;
-	Shape sh;
-	Vertice v;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
 	int ch, ok;
@@ -45,16 +46,14 @@ Shape interpretador(list<string> files) {
 				fscanf_s(pfile, "%f ",  &py, sizeof(py));
 				fscanf_s(pfile, "%f" , &pz, sizeof(pz));
 				if (ok >= 0) {
-					v = Vertice(px, py, pz);
-					vr.push_back(v);
+					vetor.push_back(px);
+					vetor.push_back(py);
+					vetor.push_back(pz);
 				}
 			}
 			fclose(pfile);
 		}
 	}
-	sh.setVertices(vr);
-
-	return sh;
 }
 
 /**
@@ -63,7 +62,6 @@ Shape interpretador(list<string> files) {
 @return Ficheiros que se devem ler
 */
 list<string> extraiFicheiros(const char* filename) {
-
 
 	list<string> files;
 	list<string> ::iterator it;
@@ -137,7 +135,10 @@ void renderScene(void) {
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 
-	formas.draw();
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	glVertexPointer(3, GL_FLOAT, 0, 0);
+	glDrawArrays(GL_TRIANGLES, 0, vetor.size() / 3);
+
 	// End of frame
 	glutSwapBuffers();
 }
@@ -184,15 +185,11 @@ int main(int argc, char** argv) {
 	}
 	
 	const char * filename = argv[1];
-
-	Shape sh;
 	list<string> files = extraiFicheiros(filename);
-
 	list<string> ::iterator it;
 	it = files.begin();
 
-	sh = interpretador(files);
-	formas = sh;
+	interpretador(files);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);
@@ -209,9 +206,19 @@ int main(int argc, char** argv) {
 	glutKeyboardFunc(processKeys);
 	glutSpecialFunc(processSpecialKeys);
 
+#ifndef __APPLE__
+	glewInit();
+#endif
+
 	//  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glGenBuffers(1, buffers);
+
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
+	glBufferData(GL_ARRAY_BUFFER, vetor.size() * 4, &vetor.front(), GL_STATIC_DRAW);
 
 	// enter GLUT's main cycle
 	glutMainLoop();
