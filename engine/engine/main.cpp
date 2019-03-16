@@ -8,6 +8,8 @@
 #include "glut.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
+#include "xmlParser.h"
+#include "Cena.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -25,79 +27,6 @@ float pi = M_PI;
 
 GLuint buffers[3];
 vector<float> vetor;
-
-/**
-\brief Função que devolve uma Shape(vetor com vértices) a partir de uma lista de ficheiros com vértices
-@param files Ficheiros a ler
-@return Shape com vértices a desenhar
-*/
-void interpretador(list<string> files) {
-	
-	errno_t erro;
-	float px = 0, py = 0, pz = 0;
-	int ch, ok;
-	
-	for (list<string>::iterator it = files.begin(); it != files.end(); it++) {
-		FILE *pfile;
-		erro = fopen_s(&pfile, (*it).c_str(), "r");
-		if ( erro == 0) {
-			while (EOF != (ch = getc(pfile))) {
-				ok = fscanf_s(pfile, "%f ",  &px, sizeof(px));
-				fscanf_s(pfile, "%f ",  &py, sizeof(py));
-				fscanf_s(pfile, "%f" , &pz, sizeof(pz));
-				if (ok >= 0) {
-					vetor.push_back(px);
-					vetor.push_back(py);
-					vetor.push_back(pz);
-				}
-			}
-			fclose(pfile);
-		}
-	}
-}
-
-/**
-\brief Função que escreve os vértices de uma caixa num ficheiro
-@param filename Ficheiro xml a ler
-@return Ficheiros que se devem ler
-*/
-list<string> extraiFicheiros(const char* filename) {
-
-	list<string> files;
-	list<string> ::iterator it;
-	/*Ler um ficheiro XML*/
-	XMLDocument xmlDoc;
-	XMLError eResult = xmlDoc.LoadFile((char*)filename);
-
-	if (eResult) {
-		printf("Não foi possível carregar o ficheiro xml");
-		exit(1);
-	}
-
-	XMLNode * pRoot = xmlDoc.FirstChild();
-	if (pRoot == nullptr) {
-		printf("Erro ao ler o ficheiro xml");
-		exit(XML_ERROR_FILE_READ_ERROR);
-	}
-
-	XMLElement * pElement = pRoot->FirstChildElement("model");
-	if (pElement == nullptr) {
-		printf("Erro ao ler o ficheiro xml");
-		exit(XML_ERROR_PARSING_ELEMENT);
-	}
-
-	const char * szAttributeText = nullptr;
-	XMLElement * pListElement = pRoot->FirstChildElement("model");
-	it = files.begin();
-	while (pListElement != nullptr) {
-		const char* iOutListValue;
-		iOutListValue = pListElement->Attribute("file");
-		files.insert(it, iOutListValue);
-		pListElement = pListElement->NextSiblingElement("model");
-	}
-
-	return files;
-}
 
 void changeSize(int w, int h) {
 
@@ -134,11 +63,11 @@ void renderScene(void) {
 	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
-
+	/*
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
 	glDrawArrays(GL_TRIANGLES, 0, vetor.size() / 3);
-
+	*/
 	// End of frame
 	glutSwapBuffers();
 }
@@ -185,11 +114,8 @@ int main(int argc, char** argv) {
 	}
 	
 	const char * filename = argv[1];
-	list<string> files = extraiFicheiros(filename);
-	list<string> ::iterator it;
-	it = files.begin();
-
-	interpretador(files);
+	vector<Figura> figuras = xmlParser(filename);
+	vector<Cena> cenas = getCenas(figuras);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);
@@ -215,11 +141,12 @@ int main(int argc, char** argv) {
 	glEnable(GL_CULL_FACE);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnableClientState(GL_VERTEX_ARRAY);
+	
+	/*
 	glGenBuffers(1, buffers);
-
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
 	glBufferData(GL_ARRAY_BUFFER, vetor.size() * 4, &vetor.front(), GL_STATIC_DRAW);
-
+	*/
 	// enter GLUT's main cycle
 	glutMainLoop();
 

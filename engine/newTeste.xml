@@ -1,0 +1,27 @@
+<scene>
+    <group>
+        <rotate angle="90" x="1" y="1" z="0" />
+        <models>
+            <model file="../sphere.3d" />
+            <model file="../plane.3d" />
+        </models>
+        <group>
+            <rotate angle="90" x="1" y="1" z="0" />
+            <scale x="12" y="20" z="2" />
+            <models>
+                <model file="../sphere.3d" />
+            </models>
+        </group>
+        <group>
+            <translation x="2" y="2" z="2" />
+            <rotate angle="90" x="1" y="0" z="1" />
+            <scale x="2" y="2" z="2" />
+            <models>
+                <model file="../sphere.3d" />
+                <model file="../plane.3d" />
+            </models>
+        </group>
+    </group>
+    <group>
+    </group>
+</scene>
