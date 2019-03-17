@@ -15,7 +15,5 @@ Scale::~Scale()
 }
 
 void Scale::aplicaTransformacao() {
-	glPushMatrix();
 	glScalef(this->x, this->y, this->z);
-	glPopMatrix();
 }

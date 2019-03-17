@@ -23,7 +23,5 @@ void Rotacao::setAngle(float a) {
 }
 
 void Rotacao::aplicaTransformacao() {
-	glPushMatrix();
 	glRotatef(this->angle, this->x, this->y, this->z);
-	glPopMatrix();
 }

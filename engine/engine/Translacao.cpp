@@ -13,7 +13,5 @@ Translacao::~Translacao()
 }
 
 void Translacao::aplicaTransformacao() {
-	glPushMatrix();
 	glTranslatef(this->x, this->y, this->z);
-	glPopMatrix();
 }

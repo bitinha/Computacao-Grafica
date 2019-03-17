@@ -12,6 +12,5 @@ public: vector<Transformacao> transformacoes;
 	virtual vector<float> getPontos();
 	virtual void setTransformacoes(vector<Transformacao> trans);
 	virtual void setPontos(vector<float> p);
-	
+	void aplicaTransformacoes();
 };
-

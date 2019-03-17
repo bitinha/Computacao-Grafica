@@ -26,3 +26,10 @@ void Cena:: setTransformacoes(vector<Transformacao> trans) {
 void Cena::setPontos(vector<float> p) {
 	this->pontos = p;
 }
+
+void Cena::aplicaTransformacoes() {
+	vector<Transformacao>::iterator it;
+	for (it = transformacoes.begin(); it != transformacoes.end(); it++) {
+		(*it).aplicaTransformacao();
+	}
+}

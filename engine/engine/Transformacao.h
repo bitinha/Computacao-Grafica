@@ -11,4 +11,5 @@ public:float x, y, z;
 	virtual void setX(float dx);
 	virtual void setY(float dy);
 	virtual void setZ(float dz);
+	virtual void aplicaTransformacao() = 0;
 };
