@@ -9,7 +9,7 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "xmlParser.h"
-#include "Cena.h"
+#include "Grupo.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -114,8 +114,7 @@ int main(int argc, char** argv) {
 	}
 	
 	const char * filename = argv[1];
-	vector<Figura> figuras = xmlParser(filename);
-	vector<Cena> cenas = getCenas(figuras);
+	vector<Grupo> grupos = xmlParser(filename);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);

@@ -34,3 +34,7 @@ float Transformacao::getZ() {
 void Transformacao::setZ(float dz) {
 	this->z = dz;
 }
+
+void Transformacao::aplicaTransformacao()
+{
+}

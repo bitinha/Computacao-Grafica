@@ -8,7 +8,7 @@
 #include "Translacao.h"
 #include "Rotacao.h"
 #include "Scale.h"
-#include "Cena.h"
+#include "Grupo.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -30,12 +30,11 @@ float str2Float(const char * str) {
 @param 
 @return
 */
-vector<float> interpretador(Figura f) {
+vector<float> interpretador(const char * file) {
 
 	vector<float> point;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
-	char* file = _strdup(f.getFile());
 	int ch, ok;
 	FILE *pfile;
 	erro = fopen_s(&pfile, file, "r");
@@ -56,40 +55,36 @@ vector<float> interpretador(Figura f) {
 	return point;
 }
 
-vector<Cena> getCenas(vector<Figura> figuras) {
-	vector<Cena> cenas;
-	for (vector<Figura>::iterator it = figuras.begin(); it != figuras.end(); it++) {
-		vector<float> pontos = interpretador((*it));
-		Cena c = Cena((*it).getTransformacoes(), pontos);
-		cenas.push_back(c);
-	}
-	return cenas;
-}
-vector<Figura> models(vector<Figura> figuras, XMLNode * element, vector<Transformacao> atual) {
+Grupo models(Grupo group, XMLNode * element) {
 
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
 		const char* iOutListValue;
 		iOutListValue = model->Attribute("file");
-		Figura f = Figura(atual, (char*)iOutListValue);
-		figuras.push_back(f);
+		vector<float> pontos = interpretador(iOutListValue);
+		group.addPontos(pontos);
 		element = element->NextSibling();
 	}
-	return figuras;
+	return group;
 }
 
-vector<Figura> trataGrupo(XMLNode * node, vector<Figura> figuras, vector<Transformacao> atual) {
+Grupo trataGrupo(XMLNode * node) {
 	XMLNode * element = node;
 	XMLElement * transformacao;
+	vector<Transformacao> atual;
+	Grupo gr;
 	while (node != nullptr) {
 		if (!strcmp(node->Value(), "group")) {
 			element = node->FirstChild();
-			figuras = trataGrupo(element, figuras, atual);
+			Grupo g = trataGrupo(element);
+			gr.addGrupo(g);
 			node = node->NextSibling();
 		}
 		else if (!strcmp(node->Value(), "models")) {
 			element = node->FirstChild();
-			figuras = models(figuras, element, atual);
+			vector<Grupo> grupos;
+			vector<float> pontos;
+			gr = models(gr, element);
 			node = node->NextSibling();
 		}
 		else if (!strcmp(node->Value(), "translation")) {
@@ -121,15 +116,17 @@ vector<Figura> trataGrupo(XMLNode * node, vector<Figura> figuras, vector<Transfo
 			node = node->NextSibling();
 		}
 	}
-
-	return figuras;
+	gr.setTransformacoes(atual);
+	return gr;
 }
+
+
 /**
 \brief Função que escreve os vértices de uma caixa num ficheiro
 @param filename Ficheiro xml a ler
 @return Ficheiros que se devem ler
 */
-vector<Figura> xmlParser(const char* filename) {
+vector<Grupo> xmlParser(const char* filename) {
 
 	list<string> files;
 	list<string> ::iterator it;
@@ -149,14 +146,14 @@ vector<Figura> xmlParser(const char* filename) {
 		exit(XML_ERROR_FILE_READ_ERROR);
 	}
 
-	vector<Figura> figuras;
-	vector<Transformacao> atual;
+	vector<Grupo> grupos;
 
 	pRoot = pRoot->FirstChild();
 	while (pRoot != nullptr) {
 		element = pRoot->FirstChild();
-		figuras = trataGrupo(element, figuras, atual);
+		Grupo group = trataGrupo(element);
+		grupos.push_back(group);
 		pRoot = pRoot->NextSibling();
 	}
-	return figuras;
+	return grupos;
 }
