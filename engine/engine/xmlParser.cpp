@@ -87,20 +87,20 @@ Grupo trataGrupo(XMLNode * node) {
 			gr = models(gr, element);
 			node = node->NextSibling();
 		}
-		else if (!strcmp(node->Value(), "translation")) {
+		else if (!strcmp(node->Value(), "translate")) {
 			transformacao = node->ToElement();
-			float dx = str2Float(transformacao->Attribute("x"));
-			float dy = str2Float(transformacao->Attribute("y"));
-			float dz = str2Float(transformacao->Attribute("z"));
+			float dx = str2Float(transformacao->Attribute("X"));
+			float dy = str2Float(transformacao->Attribute("Y"));
+			float dz = str2Float(transformacao->Attribute("Z"));
 			Translacao t = Translacao(dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
 		}
 		else if (!strcmp(node->Value(), "scale")) {
 			transformacao = node->ToElement();
-			float dx = str2Float(transformacao->Attribute("x"));
-			float dy = str2Float(transformacao->Attribute("y"));
-			float dz = str2Float(transformacao->Attribute("z"));
+			float dx = str2Float(transformacao->Attribute("X"));
+			float dy = str2Float(transformacao->Attribute("Y"));
+			float dz = str2Float(transformacao->Attribute("Z"));
 			Scale t = Scale(dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
@@ -108,9 +108,9 @@ Grupo trataGrupo(XMLNode * node) {
 		else if (!strcmp(node->Value(), "rotate")) {
 			transformacao = node->ToElement();
 			float angle = str2Float(transformacao->Attribute("angle"));
-			float dx = str2Float(transformacao->Attribute("x"));
-			float dy = str2Float(transformacao->Attribute("y"));
-			float dz = str2Float(transformacao->Attribute("z"));
+			float dx = str2Float(transformacao->Attribute("X"));
+			float dy = str2Float(transformacao->Attribute("Y"));
+			float dz = str2Float(transformacao->Attribute("Z"));
 			Rotacao t = Rotacao(angle, dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();

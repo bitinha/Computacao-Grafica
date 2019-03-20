@@ -25,8 +25,24 @@ float zoom = 20;
 
 float pi = M_PI;
 
-GLuint buffers[3];
-vector<float> vetor;
+vector<Grupo> grupos;
+GLuint buffers[1024];
+
+
+int generateBuffers(Grupo group, int j) {
+
+	vector<float> points = group.getPontos();
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
+	glBufferData(GL_ARRAY_BUFFER, points.size() * 4, &points.front(), GL_STATIC_DRAW);
+	//group.setBuffer(&buffers[j]);
+	j++;
+	vector<Grupo> grupos = group.getGrupos();
+
+	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		j = generateBuffers((*it), j);
+	}
+	return j;
+}
 
 void changeSize(int w, int h) {
 
@@ -63,11 +79,11 @@ void renderScene(void) {
 	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
-	/*
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-	glVertexPointer(3, GL_FLOAT, 0, 0);
-	glDrawArrays(GL_TRIANGLES, 0, vetor.size() / 3);
-	*/
+	
+	int j = 0;
+	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		j = (*it).draw(buffers, j);
+	}
 	// End of frame
 	glutSwapBuffers();
 }
@@ -114,7 +130,7 @@ int main(int argc, char** argv) {
 	}
 	
 	const char * filename = argv[1];
-	vector<Grupo> grupos = xmlParser(filename);
+	grupos = xmlParser(filename);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);
@@ -141,11 +157,17 @@ int main(int argc, char** argv) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
-	/*
-	glGenBuffers(1, buffers);
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[0]);
-	glBufferData(GL_ARRAY_BUFFER, vetor.size() * 4, &vetor.front(), GL_STATIC_DRAW);
-	*/
+	int tam = 0;
+	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		tam += (*it).tamanhoGrupo();
+	}
+
+	glGenBuffers(tam, buffers);
+	
+	int j = 0;
+	for(vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++){
+		j = generateBuffers((*it), j);
+	}
 	// enter GLUT's main cycle
 	glutMainLoop();
 
