@@ -115,6 +115,9 @@ Grupo* trataGrupo(XMLNode * node) {
 			atual.push_back(t);
 			node = node->NextSibling();
 		}
+		else {
+			node = node->NextSibling();
+		}
 	}
 	gr->setTransformacoes(atual);
 	return gr;

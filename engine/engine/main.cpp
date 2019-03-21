@@ -20,7 +20,8 @@ using namespace std;
 //Shape formas;
 float alfa = 0;
 float beta = 0;
-float zoom = 20;
+float zoom = 200;
+float look = 0;
 
 float pi = M_PI;
 
@@ -76,7 +77,7 @@ void renderScene(void) {
 	// set the camera
 	glLoadIdentity();
 	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
-		0.0, 0.0, 0.0,
+		0,0,0,
 		0.0f, 1.0f, 0.0f);
 	
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
@@ -92,6 +93,12 @@ void processKeys(unsigned char c, int xx, int yy) {
 		zoom -= 1;
 	}if (c == '-') {
 		zoom += 1;
+	}
+
+	if (c == 'a') {
+		look -= 1;
+	}if (c == 'd') {
+		look += 1;
 	}
 
 	glutPostRedisplay();
