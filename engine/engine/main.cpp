@@ -4,7 +4,6 @@
 #include "tinyxml2.h";
 #include <string>;
 #include <list>;
-#include "Shape.h"
 #include "glut.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
