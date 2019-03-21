@@ -5,4 +5,4 @@
 
 using namespace tinyxml2;
 
-vector<Grupo> xmlParser(const char* filename);
+vector<Grupo*> xmlParser(const char* filename);

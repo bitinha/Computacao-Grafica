@@ -25,20 +25,20 @@ float zoom = 20;
 
 float pi = M_PI;
 
-vector<Grupo> grupos;
+vector<Grupo*> grupos;
 GLuint buffers[1024];
 
 
-int generateBuffers(Grupo group, int j) {
+int generateBuffers(Grupo *group, int j) {
 
-	vector<float> points = group.getPontos();
+	vector<float> points = group->getPontos();
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
 	glBufferData(GL_ARRAY_BUFFER, points.size() * 4, &points.front(), GL_STATIC_DRAW);
-	//group.setBuffer(&buffers[j]);
+	group->setBuffer(buffers[j]);
 	j++;
-	vector<Grupo> grupos = group.getGrupos();
+	vector<Grupo*> grupos = group->getGrupos();
 
-	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		j = generateBuffers((*it), j);
 	}
 	return j;
@@ -80,9 +80,8 @@ void renderScene(void) {
 		0.0, 0.0, 0.0,
 		0.0f, 1.0f, 0.0f);
 	
-	int j = 0;
-	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		j = (*it).draw(buffers, j);
+	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		(*it)->draw();
 	}
 	// End of frame
 	glutSwapBuffers();
@@ -105,11 +104,11 @@ void processSpecialKeys(int key, int xx, int yy) {
 	// put code to process special keys in here
 	switch (key) {
 	case GLUT_KEY_UP:
-		if (!(beta + 0.01 > (pi / 2)))
+		if (!(beta + 0.05 > (pi / 2)))
 			beta += 0.05;
 		break;
 	case GLUT_KEY_DOWN:
-		if (!(beta - 0.01 < -(pi / 2)))
+		if (!(beta - 0.05 < -(pi / 2)))
 			beta -= 0.05;
 		break;
 	case GLUT_KEY_LEFT:
@@ -158,14 +157,14 @@ int main(int argc, char** argv) {
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
 	int tam = 0;
-	for (vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		tam += (*it).tamanhoGrupo();
+	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		tam += (*it)->tamanhoGrupo();
 	}
 
 	glGenBuffers(tam, buffers);
 	
 	int j = 0;
-	for(vector<Grupo>::iterator it = grupos.begin(); it != grupos.end(); it++){
+	for(vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++){
 		j = generateBuffers((*it), j);
 	}
 	// enter GLUT's main cycle

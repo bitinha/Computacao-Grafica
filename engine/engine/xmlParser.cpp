@@ -55,29 +55,29 @@ vector<float> interpretador(const char * file) {
 	return point;
 }
 
-Grupo models(Grupo group, XMLNode * element) {
+Grupo* models(Grupo *group, XMLNode * element) {
 
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
 		const char* iOutListValue;
 		iOutListValue = model->Attribute("file");
 		vector<float> pontos = interpretador(iOutListValue);
-		group.addPontos(pontos);
+		group->addPontos(pontos);
 		element = element->NextSibling();
 	}
 	return group;
 }
 
-Grupo trataGrupo(XMLNode * node) {
+Grupo* trataGrupo(XMLNode * node) {
 	XMLNode * element = node;
 	XMLElement * transformacao;
-	vector<Transformacao> atual;
-	Grupo gr;
+	vector<Transformacao*> atual;
+	Grupo *gr = new Grupo;
 	while (node != nullptr) {
 		if (!strcmp(node->Value(), "group")) {
 			element = node->FirstChild();
-			Grupo g = trataGrupo(element);
-			gr.addGrupo(g);
+			Grupo *g = trataGrupo(element);
+			gr->addGrupo(g);
 			node = node->NextSibling();
 		}
 		else if (!strcmp(node->Value(), "models")) {
@@ -92,7 +92,7 @@ Grupo trataGrupo(XMLNode * node) {
 			float dx = str2Float(transformacao->Attribute("X"));
 			float dy = str2Float(transformacao->Attribute("Y"));
 			float dz = str2Float(transformacao->Attribute("Z"));
-			Translacao t = Translacao(dx, dy, dz);
+			Translacao *t = new Translacao(dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
 		}
@@ -101,7 +101,7 @@ Grupo trataGrupo(XMLNode * node) {
 			float dx = str2Float(transformacao->Attribute("X"));
 			float dy = str2Float(transformacao->Attribute("Y"));
 			float dz = str2Float(transformacao->Attribute("Z"));
-			Scale t = Scale(dx, dy, dz);
+			Scale *t = new Scale(dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
 		}
@@ -111,12 +111,12 @@ Grupo trataGrupo(XMLNode * node) {
 			float dx = str2Float(transformacao->Attribute("X"));
 			float dy = str2Float(transformacao->Attribute("Y"));
 			float dz = str2Float(transformacao->Attribute("Z"));
-			Rotacao t = Rotacao(angle, dx, dy, dz);
+			Rotacao *t = new Rotacao(angle, dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
 		}
 	}
-	gr.setTransformacoes(atual);
+	gr->setTransformacoes(atual);
 	return gr;
 }
 
@@ -126,7 +126,7 @@ Grupo trataGrupo(XMLNode * node) {
 @param filename Ficheiro xml a ler
 @return Ficheiros que se devem ler
 */
-vector<Grupo> xmlParser(const char* filename) {
+vector<Grupo*> xmlParser(const char* filename) {
 
 	list<string> files;
 	list<string> ::iterator it;
@@ -146,12 +146,12 @@ vector<Grupo> xmlParser(const char* filename) {
 		exit(XML_ERROR_FILE_READ_ERROR);
 	}
 
-	vector<Grupo> grupos;
+	vector<Grupo*> grupos;
 
 	pRoot = pRoot->FirstChild();
 	while (pRoot != nullptr) {
 		element = pRoot->FirstChild();
-		Grupo group = trataGrupo(element);
+		Grupo *group = trataGrupo(element);
 		grupos.push_back(group);
 		pRoot = pRoot->NextSibling();
 	}

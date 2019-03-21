@@ -2,7 +2,6 @@
 #include "glut.h"
 #include "Transformacao.h"
 
-
 Transformacao::Transformacao(){
 }
 
