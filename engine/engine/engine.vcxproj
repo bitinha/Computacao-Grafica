@@ -103,6 +103,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -120,18 +121,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DrawShape.cpp" />
+    <ClCompile Include="Grupo.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="Rotacao.cpp" />
+    <ClCompile Include="Scale.cpp" />
     <ClCompile Include="tinyxml2.cpp" />
-    <ClCompile Include="Vertice.cpp" />
+    <ClCompile Include="Transformacao.cpp" />
+    <ClCompile Include="Translacao.cpp" />
+    <ClCompile Include="xmlParser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawShape.h" />
     <ClInclude Include="glut.h" />
-    <ClInclude Include="Shape.h" />
+    <ClInclude Include="Grupo.h" />
+    <ClInclude Include="Rotacao.h" />
+    <ClInclude Include="Scale.h" />
     <ClInclude Include="tinyxml2.h" />
-    <ClInclude Include="Vertice.h" />
+    <ClInclude Include="Transformacao.h" />
+    <ClInclude Include="Translacao.h" />
+    <ClInclude Include="xmlParser.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

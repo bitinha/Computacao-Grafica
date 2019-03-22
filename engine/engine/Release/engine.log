@@ -1,16 +1,1 @@
-﻿  main.cpp
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(44): warning C4474: 'fscanf_s' : too many arguments passed for format string
-  c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(44): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(45): warning C4474: 'fscanf_s' : too many arguments passed for format string
-  c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(45): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
-c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(46): warning C4474: 'fscanf_s' : too many arguments passed for format string
-  c:\users\user\source\repos\computacao-grafica\engine\engine\main.cpp(46): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
-  Generating code
-  0 of 597 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  engine.vcxproj -> C:\Users\User\source\repos\Computacao-Grafica\engine\Release\engine.exe
+﻿  engine.vcxproj -> C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\engine\Release\engine.exe

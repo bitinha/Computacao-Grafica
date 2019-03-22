@@ -14,6 +14,7 @@
 		</group>
 		<group>		<!-- VENUS -->
 			<translate X="35"     />
+			<rotate angle="177" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="2" Y="2" Z="2" />
 			<models>
 				<model file="../sphere.3d" />
@@ -21,6 +22,7 @@
 		</group>
 		<group>			<!-- TERRA -->
 			<translate X="45"     />
+			<rotate angle="23" axisX="0" axisY="1" axisZ="0" /> 
 			<group>			<!-- TERRA -->
 				<scale X="2" Y="2" Z="2" />
 				<models>
@@ -37,6 +39,7 @@
 		</group>
 		<group>				<!-- MARTE -->
 			<translate X="60"     />
+			<rotate angle="25" axisX="0" axisY="1" axisZ="0" /> 
 			<group>
 				<scale X="1.2" Y="1.2" Z="1.2" />
 				<models>
@@ -60,6 +63,7 @@
 		</group>
 		<group>				<!-- JUPITER -->
 			<translate X="100"     />
+			<rotate angle="3" axisX="0" axisY="1" axisZ="0" /> 
 			<group>
 				<scale X="8" Y="8" Z="8" />
 				<models>
@@ -81,6 +85,7 @@
 		</group>
 		<group>				<!-- SATURNO -->
 			<translate X="130"     />
+			<rotate angle="27" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="5" Y="5" Z="5" />
 			<models>
 				<model file="../sphere.3d" />
@@ -88,6 +93,7 @@
 		</group>
 		<group>				<!-- URANO -->
 			<translate X="150"     />
+			<rotate angle="98" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="3" Y="3" Z="3" />
 			<models>
 				<model file="../sphere.3d" />
@@ -95,6 +101,7 @@
 		</group>
 		<group>				<!-- NEPTUNO -->
 			<translate X="190"/>
+			<rotate angle="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="2.95" Y="2.95" Z="2.95" />
 			<models>
 				<model file="../sphere.3d" />
