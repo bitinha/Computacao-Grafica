@@ -108,9 +108,9 @@ Grupo* trataGrupo(XMLNode * node) {
 		else if (!strcmp(node->Value(), "rotate")) {
 			transformacao = node->ToElement();
 			float angle = str2Float(transformacao->Attribute("angle"));
-			float dx = str2Float(transformacao->Attribute("X"));
-			float dy = str2Float(transformacao->Attribute("Y"));
-			float dz = str2Float(transformacao->Attribute("Z"));
+			float dx = str2Float(transformacao->Attribute("axisX"));
+			float dy = str2Float(transformacao->Attribute("axisY"));
+			float dz = str2Float(transformacao->Attribute("axisZ"));
 			Rotacao *t = new Rotacao(angle, dx, dy, dz);
 			atual.push_back(t);
 			node = node->NextSibling();
