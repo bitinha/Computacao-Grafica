@@ -26,7 +26,7 @@ float look = 0;
 float pi = M_PI;
 
 vector<Grupo*> grupos;
-GLuint buffers[1024];
+GLuint *buffers;
 
 
 int generateBuffers(Grupo *group, int j) {
@@ -166,6 +166,8 @@ int main(int argc, char** argv) {
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		tam += (*it)->tamanhoGrupo();
 	}
+
+	buffers = (GLuint*) malloc(tam * sizeof(GLuint));
 
 	glGenBuffers(tam, buffers);
 	
