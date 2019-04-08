@@ -4,8 +4,12 @@ cmake_minimum_required(VERSION 3.5)
 PROJECT(generator)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+file(GLOB SOURCES
+    *.h
+    *.cpp
+)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 if  (WIN32)
 
