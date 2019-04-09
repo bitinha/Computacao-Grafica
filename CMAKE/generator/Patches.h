@@ -3,7 +3,7 @@
 using namespace std;
 class Patches
 {
-public: vector<float> pontos;
+public: vector<Ponto> pontos;
 		int nPatches;
 		int nCP;
 		vector<Patch> patches;
@@ -11,6 +11,11 @@ public: vector<float> pontos;
 		
 		Patches();
 		~Patches();
+		void setNPatches(int nPatches);
+		void setNCP(int nCP);
+
 		vector<float> generatePoints();
 		void write(FILE *filename);
+		void addPatches(Patch p);
+		void addPontos(Ponto ponto);
 };
