@@ -11,6 +11,59 @@ float pi = M_PI;
 
 using namespace std;
 
+Patch readPatch(FILE *file){
+	Patch p = new Patch();
+	int ind;
+	for(int i = 0; i < 15; i++){
+		fscanf_s(pfile, "%d, ", &ind);
+		p.addIndice(ind);
+	}
+	fscanf_s(pfile, "%d\n", &ind);
+	p.addIndice(ind);
+	return p;
+}
+
+Ponto readPoint(FILE *file){
+
+	float x,y,z;
+
+	fscanf_s(pfile, "%d, %d, %d\n", &x, &y, &z);
+	Ponto p = new Ponto(x,y,z);
+
+	return p;
+}
+
+void writePatchFile(argv[1], argv[2],fileName){
+	Patches ps = new Patches();
+	FILE *pfile;
+	erro = fopen_s(&pfile, fileName, "r");
+	
+	if (erro == 0) {
+		int np;
+		ps.setNP(fscanf_s(pfile, "%d\n", &np));
+		
+		for(int i = 0; i< np; i++){
+			Patch p = readPatch(pfile);
+			ps.addPatch(p);
+		}
+		
+		int nCP;
+		ps.setNCP(fscanf_s(pfile, "%d\n", &nCP));
+		
+		for(int i = 0; i< nCP; i++){
+			Ponto p = readPoint(pfile);
+			ps.addPonto(p);
+		}
+		
+		fclose(pfile);
+		
+		ps.generatePoints();
+		
+		ps.write(fileName);
+		
+	}
+}
+
 /**
 \brief Função que escreve os vértices de uma esfera num ficheiro
 @param r Raio da esfera
@@ -228,5 +281,6 @@ int main(int argc, const char* argv[]) {
 	else if (!forma.compare("plane") && argc == 4) { writePlaneFile(argv[2], fileName); }
 	else if (!forma.compare("box") && argc == 7) { writeBoxFile(argv[2], argv[3], argv[4], argv[5], fileName); }
 	else if (!forma.compare("cone") && argc == 7) { writeConeFile(argv[2], argv[3], argv[4], argv[5], fileName); }
+	else if (argc == 4) { writePatchFile(argv[1], argv[2],fileName); }
 	return 1;
 }
