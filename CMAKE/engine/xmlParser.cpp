@@ -8,6 +8,8 @@
 #include "Rotacao.h"
 #include "Scale.h"
 #include "Grupo.h"
+#include "RotacaoDinamica.h"
+#include "TranslacaoDinamica.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -54,6 +56,21 @@ vector<float> interpretador(const char * file) {
 	return point;
 }
 
+vector<Ponto> getControlPoints(XMLNode * element) {
+	
+	vector<Ponto> pontos;
+	while (element != nullptr) {
+		XMLElement * point = element->ToElement();
+		float dx = str2Float(point->Attribute("X"));
+		float dy = str2Float(point->Attribute("Y"));
+		float dz = str2Float(point->Attribute("Z"));
+		Ponto p = Ponto(dx, dy, dz);
+		pontos.push_back(p);
+		element = element->NextSibling();
+	}
+	return pontos;
+}
+
 Grupo* models(Grupo *group, XMLNode * element) {
 
 	while (element != nullptr) {
@@ -88,11 +105,20 @@ Grupo* trataGrupo(XMLNode * node) {
 		}
 		else if (!strcmp(node->Value(), "translate")) {
 			transformacao = node->ToElement();
-			float dx = str2Float(transformacao->Attribute("X"));
-			float dy = str2Float(transformacao->Attribute("Y"));
-			float dz = str2Float(transformacao->Attribute("Z"));
-			Translacao *t = new Translacao(dx, dy, dz);
-			atual.push_back(t);
+			if (transformacao->Attribute("time") != nullptr) {
+				float time = str2Float(transformacao->Attribute("time"));
+				element = node->FirstChild();
+				vector<Ponto> controlPoints = getControlPoints(element);
+				TranslacaoDinamica td = TranslacaoDinamica(time, controlPoints);
+				(*gr).setTransDinamica(td);
+			}
+			else {
+				float dx = str2Float(transformacao->Attribute("X"));
+				float dy = str2Float(transformacao->Attribute("Y"));
+				float dz = str2Float(transformacao->Attribute("Z"));
+				Translacao *t = new Translacao(dx, dy, dz);
+				atual.push_back(t);
+			}
 			node = node->NextSibling();
 		}
 		else if (!strcmp(node->Value(), "scale")) {
@@ -106,12 +132,19 @@ Grupo* trataGrupo(XMLNode * node) {
 		}
 		else if (!strcmp(node->Value(), "rotate")) {
 			transformacao = node->ToElement();
-			float angle = str2Float(transformacao->Attribute("angle"));
 			float dx = str2Float(transformacao->Attribute("axisX"));
 			float dy = str2Float(transformacao->Attribute("axisY"));
 			float dz = str2Float(transformacao->Attribute("axisZ"));
-			Rotacao *t = new Rotacao(angle, dx, dy, dz);
-			atual.push_back(t);
+			if (transformacao->Attribute("time") != nullptr) {
+				float time = str2Float(transformacao->Attribute("time"));
+				RotacaoDinamica rd = RotacaoDinamica(time, dx, dy, dz);
+				(*gr).setRotacaoDinamica(rd);
+			}
+			else {
+				float angle = str2Float(transformacao->Attribute("angle"));
+				Rotacao *t = new Rotacao(angle, dx, dy, dz);
+				atual.push_back(t);
+			}
 			node = node->NextSibling();
 		}
 		else {
