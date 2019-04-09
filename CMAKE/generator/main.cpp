@@ -6,60 +6,80 @@
 #include <chrono>
 #include <thread>
 #include <math.h>
+#include "Patches.h"
+#include "Patch.h"
+#include "Ponto.h"
 
 float pi = M_PI;
 
 using namespace std;
 
-Patch readPatch(FILE *file){
-	Patch p = new Patch();
+Patch* readPatch(FILE *file){
+	Patch *p = new Patch();
 	int ind;
 	for(int i = 0; i < 15; i++){
-		fscanf_s(pfile, "%d, ", &ind);
-		p.addIndice(ind);
+		fscanf_s(file, "%d, ", &ind);
+		p->addIndice(ind);
 	}
-	fscanf_s(pfile, "%d\n", &ind);
-	p.addIndice(ind);
+	fscanf_s(file, "%d\n", &ind);
+	p->addIndice(ind);
 	return p;
 }
 
-Ponto readPoint(FILE *file){
+Ponto* readPoint(FILE *file){
 
 	float x,y,z;
 
-	fscanf_s(pfile, "%d, %d, %d\n", &x, &y, &z);
-	Ponto p = new Ponto(x,y,z);
+	fscanf(file, " %f, %f, %f\n", &x, &y, &z);
+	Ponto *p = new Ponto(x,y,z);
 
 	return p;
 }
 
-void writePatchFile(argv[1], argv[2],fileName){
-	Patches ps = new Patches();
+void writePatchFile(const char *inputFile, const char *tesselation,string outputFile){
+	Patches *ps = new Patches();
 	FILE *pfile;
-	erro = fopen_s(&pfile, fileName, "r");
+	errno_t erro = fopen_s(&pfile, inputFile, "r");
 	
 	if (erro == 0) {
+		// LÊ PONTOS
+		int tess = atoi(tesselation);
+		ps->setTesselation(tess);
 		int np;
-		ps.setNP(fscanf_s(pfile, "%d\n", &np));
+		fscanf_s(pfile, "%d\n", &np);
+		ps->setNPatches(np);
 		
 		for(int i = 0; i< np; i++){
-			Patch p = readPatch(pfile);
-			ps.addPatch(p);
+			Patch* p = readPatch(pfile);
+			ps->addPatch(p);
 		}
 		
 		int nCP;
-		ps.setNCP(fscanf_s(pfile, "%d\n", &nCP));
+		ps->setNCP(fscanf_s(pfile, "%d\n", &nCP));
 		
 		for(int i = 0; i< nCP; i++){
-			Ponto p = readPoint(pfile);
-			ps.addPonto(p);
+			Ponto* p = readPoint(pfile);
+			ps->addPonto(p);
 		}
 		
 		fclose(pfile);
 		
-		ps.generatePoints();
+		//GERA PONTOS
+		vector<Ponto*> pts = ps->generatePoints();
 		
-		ps.write(fileName);
+		//ESCREVE PONTOS
+		
+		fstream file; //Nome do ficheiro no qual vão ser escritos os vértices
+		file.open(outputFile, ios::out);
+		if (file.is_open()) {
+			
+			for(vector<Ponto*>::iterator it = pts.begin(); it != pts.end(); it++){
+				file << " " << (*it)->getX() << " " << (*it)->getY() << " " << (*it)->getZ() << "\n";
+			}
+			
+		}
+		else printf("File not opened\n");
+		file.close();
 		
 	}
 }

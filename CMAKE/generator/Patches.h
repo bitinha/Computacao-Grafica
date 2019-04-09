@@ -1,21 +1,23 @@
+#pragma once
+#include "Ponto.h"
 #include "Patch.h"
 #include <vector>
 using namespace std;
 class Patches
 {
-public: vector<Ponto> pontos;
+public: vector<Ponto*> pontos;
 		int nPatches;
 		int nCP;
-		vector<Patch> patches;
+		vector<Patch*> patches;
 		int tesselation;
 		
 		Patches();
 		~Patches();
 		void setNPatches(int nPatches);
 		void setNCP(int nCP);
+		void setTesselation(int tesselation);
 
-		vector<float> generatePoints();
-		void write(FILE *filename);
-		void addPatches(Patch p);
-		void addPontos(Ponto ponto);
+		vector<Ponto*> generatePoints();
+		void addPatch(Patch *p);
+		void addPonto(Ponto *ponto);
 };

@@ -9,27 +9,36 @@ Patches::~Patches()
 {
 }
 
-void setNPatches(int nPatches) {
+void Patches::setNPatches(int nPatches) {
 	this->nPatches = nPatches;
 }
 
-void setNCP(int nCP) {
+void Patches::setTesselation(int tesselation) {
+	this->tesselation = tesselation;
+}
+
+void Patches::setNCP(int nCP) {
 	this->nCP = nCP;
 }
 
-vector<float> generatePoints() {
-	
+vector<Ponto*> Patches::generatePoints() {
+	vector<Ponto*> ret;
+	for (vector<Patch*>::iterator it = this->patches.begin(); it != patches.end(); it++) {
+		(*it)->geraPontos(this->pontos,this->tesselation);
+		vector<Ponto*> pts = (*it)->getPontos();
+		for(vector<Ponto*>::iterator itPonto = pts.begin(); itPonto != pts.end(); itPonto++){
+			ret.push_back((*itPonto));
+		}
+		
+	}
+	return ret;
 }
 
-void write(FILE *filename) {
-
-}
-
-void addPatches(Patch p) {
+void Patches::addPatch(Patch *p) {
 	this->patches.push_back(p);
 
 }
 
-void addPontos(Ponto ponto) {
+void Patches::addPonto(Ponto *ponto) {
 	this->pontos.push_back(ponto);
 }
