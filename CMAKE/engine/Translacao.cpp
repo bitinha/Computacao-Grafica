@@ -8,6 +8,9 @@ Translacao::Translacao(float dx, float dy, float dz) {
 	this->z = dz;
 }
 
+Translacao::Translacao() {
+}
+
 Translacao::~Translacao()
 {
 }

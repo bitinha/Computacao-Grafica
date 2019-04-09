@@ -1,12 +1,15 @@
 #include "GL/glew.h"
 #include "Grupo.h"
 #include "GL/glut.h"
+#include "Translacao.h"
 
 
-Grupo::Grupo(vector<Transformacao*> trans, vector<float> p, vector<Grupo*> grupos){
+Grupo::Grupo(vector<Transformacao*> trans, vector<float> p, vector<Grupo*> grupos, TranslacaoDinamica translacao, RotacaoDinamica rotacao){
 	this->transformacoes = trans;
 	this->pontos = p;
 	this->grupos = grupos;
+	this->translacao = translacao;
+	this->rotacao = rotacao;
 }
 
 Grupo::Grupo() {
@@ -51,20 +54,12 @@ void Grupo::setBuffer(GLuint buf) {
 	this->buffer = buf;
 }
 
-void Grupo::draw() {
-	glPushMatrix();
-	for (vector<Transformacao*>::iterator it = transformacoes.begin(); it != transformacoes.end(); it++) {
-		(*it)->aplicaTransformacao();
-	}
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glVertexPointer(3, GL_FLOAT, 0, 0);
-	glDrawArrays(GL_TRIANGLES, 0, pontos.size() / 3);
+void Grupo::setTransDinamica(TranslacaoDinamica transl) {
+	this->translacao = transl;
+}
 
-	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		(*it)->draw();
-	}
-
-	glPopMatrix();
+void Grupo::setRotacaoDinamica(RotacaoDinamica rotacao) {
+	this->rotacao = rotacao;
 }
 
 void Grupo::addPontos(vector<float> points) {
@@ -81,4 +76,20 @@ int Grupo::tamanhoGrupo() {
 		tam += (*it)->tamanhoGrupo();
 	}
 	return tam;
+}
+
+void Grupo::draw() {
+	glPushMatrix();
+	for (vector<Transformacao*>::iterator it = transformacoes.begin(); it != transformacoes.end(); it++) {
+		(*it)->aplicaTransformacao();
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, buffer);
+	glVertexPointer(3, GL_FLOAT, 0, 0);
+	glDrawArrays(GL_TRIANGLES, 0, pontos.size() / 3);
+
+	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		(*it)->draw();
+	}
+
+	glPopMatrix();
 }
