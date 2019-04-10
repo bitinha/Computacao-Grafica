@@ -17,6 +17,21 @@ Ponto::~Ponto()
 {
 }
 
+float Ponto::getX() {
+	return this->x;
+
+}
+
+float Ponto::getY() {
+	return this->y;
+
+}
+
+float Ponto::getZ() {
+	return this->z;
+
+}
+
 float* Ponto::point2Array() {
 	float p[3];
 	p[0] = this->x;

@@ -2,11 +2,14 @@
     <group>
 		<translate time="10" >
 			<point X="1" Y="0" Z="1" />
-			<point X="14" Y="0" Z="21" />
-			<point X="11" Y="0" Z="1" />
-			<point X="1" Y="0.2" Z="1" />
+			<point X="2" Y="0" Z="2" />
+			<point X="3" Y="0" Z="1" />
+			<point X="4" Y="0.2" Z="1" />
 			<point X="1" Y="30" Z="1.4" />
 		</translate>
-		<rotate time="2" axisX="0" axisY="1" axisZ="0" />
-    </group>
+		<scale X="11" Y="11" Z="11"/>
+		<models>
+			<model file="../xml/sphere.3d" />
+		</models>
+	</group>
 </scene>

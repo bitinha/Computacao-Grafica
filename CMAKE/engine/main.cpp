@@ -79,9 +79,9 @@ void renderScene(void) {
 	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
 		0,0,0,
 		0.0f, 1.0f, 0.0f);
-	
+	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		(*it)->draw();
+		(*it)->draw(time);
 	}
 	// End of frame
 	glutSwapBuffers();
@@ -147,6 +147,7 @@ int main(int argc, char** argv) {
 	// Required callback registry 
 	glutDisplayFunc(renderScene);
 	glutReshapeFunc(changeSize);
+	glutIdleFunc(renderScene);
 
 	// Callback registration for keyboard processing
 	glutKeyboardFunc(processKeys);
