@@ -54,6 +54,10 @@ void Grupo::setBuffer(GLuint buf) {
 	this->buffer = buf;
 }
 
+TranslacaoDinamica Grupo::getTransDinamica(){
+	return this->translacao;
+}
+
 void Grupo::setTransDinamica(TranslacaoDinamica transl) {
 	this->translacao = transl;
 }
@@ -78,18 +82,20 @@ int Grupo::tamanhoGrupo() {
 	return tam;
 }
 
-void Grupo::draw() {
+void Grupo::draw(float time) {
 	glPushMatrix();
 	for (vector<Transformacao*>::iterator it = transformacoes.begin(); it != transformacoes.end(); it++) {
 		(*it)->aplicaTransformacao();
+	}
+	if (translacao.getPontos().size() >= 4) {
+		translacao.aplicaTranslacao(time);
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
 	glDrawArrays(GL_TRIANGLES, 0, pontos.size() / 3);
 
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		(*it)->draw();
+		(*it)->draw(time);
 	}
-
 	glPopMatrix();
 }

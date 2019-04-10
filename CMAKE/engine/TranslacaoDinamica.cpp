@@ -48,7 +48,7 @@ void TranslacaoDinamica::buildRotMatrix(float *x, float *y, float *z, float *m) 
 	m[12] = 0; m[13] = 0; m[14] = 0; m[15] = 1;
 }
 
-void TranslacaoDinamica::getCatmullRomPoint(float t, float *p0, float *p1, float *p2, float *p3, float *pos, float *deriv) {
+void TranslacaoDinamica::getCatmullRomPoint(float t, float p0[3], float p1[3], float p2[3], float p3[3], float *pos, float *deriv) {
 
 
 	// catmull-rom matrix
@@ -78,6 +78,7 @@ void TranslacaoDinamica::getCatmullRomPoint(float t, float *p0, float *p1, float
 void TranslacaoDinamica::getGlobalCatmullRomPoint(float gt, float *pos, float *deriv, int size) {
 
 	float t = (gt * size) / this->time; // this is the real global t
+	float p0[3], p1[3], p2[3], p3[3];
 	int index = floor(t);  // which segment
 	t = t - index; // where within  the segment
 
@@ -87,9 +88,24 @@ void TranslacaoDinamica::getGlobalCatmullRomPoint(float gt, float *pos, float *d
 	indices[1] = (indices[0] + 1) % size;
 	indices[2] = (indices[1] + 1) % size;
 	indices[3] = (indices[2] + 1) % size;
+	
+	p0[0] = this->pontos[indices[0]].getX();
+	p0[1] = this->pontos[indices[0]].getY();
+	p0[2] = this->pontos[indices[0]].getZ();
 
-	getCatmullRomPoint(t, this->pontos[indices[0]].point2Array(), this->pontos[indices[1]].point2Array(),
-		this->pontos[indices[2]].point2Array(), this->pontos[indices[3]].point2Array(), pos, deriv);
+	p1[0] = this->pontos[indices[1]].getX();
+	p1[1] = this->pontos[indices[1]].getY();
+	p1[2] = this->pontos[indices[1]].getZ();
+
+	p2[0] = this->pontos[indices[2]].getX();
+	p2[1] = this->pontos[indices[2]].getY();
+	p2[2] = this->pontos[indices[2]].getZ();
+
+	p3[0] = this->pontos[indices[3]].getX();
+	p3[1] = this->pontos[indices[3]].getY();
+	p3[2] = this->pontos[indices[3]].getZ();
+
+	getCatmullRomPoint(t, p0, p1, p2, p3, pos, deriv);
 }
 
 
@@ -100,7 +116,7 @@ void TranslacaoDinamica::aplicaTranslacao(float t){
 	float m[16];
 	float z[3];
 
-	getGlobalCatmullRomPoint(t, pos, deriv, this->pontos.size);
+	getGlobalCatmullRomPoint(t, pos, deriv, this->pontos.size());
 	glTranslatef(pos[0], pos[1], pos[2]);
 
 	normalize(deriv);
