@@ -1,0 +1,25 @@
+﻿  Building Custom Rule C:/Users/Eu/Desktop/UM/CG/Trabalho/Computacao-Grafica/CMAKE/engine/CMakeLists.txt
+  CMake does not need to re-run because C:/Users/Eu/Desktop/UM/CG/Trabalho/Computacao-Grafica/CMAKE/engine/build/CMakeFiles/generate.stamp is up-to-date.
+  Grupo.cpp
+  Ponto.cpp
+  Rotacao.cpp
+  RotacaoDinamica.cpp
+  Scale.cpp
+  Transformacao.cpp
+  Translacao.cpp
+  TranslacaoDinamica.cpp
+  main.cpp
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\main.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\main.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\main.cpp(6): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+  tinyxml2.cpp
+  xmlParser.cpp
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(44): warning C4474: 'fscanf_s' : too many arguments passed for format string
+  C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(44): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(45): warning C4474: 'fscanf_s' : too many arguments passed for format string
+  C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(45): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
+C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(46): warning C4474: 'fscanf_s' : too many arguments passed for format string
+  C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\xmlParser.cpp(46): note: placeholders and their parameters expect 1 variadic arguments, but 2 were provided
+  Generating Code...
+c:\users\eu\desktop\um\cg\trabalho\computacao-grafica\cmake\engine\ponto.cpp(40): warning C4172: returning address of local variable or temporary: p
+  engine.vcxproj -> C:\Users\Eu\Desktop\UM\CG\Trabalho\Computacao-Grafica\CMAKE\engine\build\Debug\engine.exe

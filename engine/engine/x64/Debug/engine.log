@@ -1,5 +1,0 @@
-﻿  main.cpp
-c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(3): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(4): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-c:\users\pmcca\documents\3º ano\2º semestre\computação gráfica\computacao-grafica\engine\engine\main.cpp(5): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-  engine.vcxproj -> C:\Users\pmcca\Documents\3º Ano\2º Semestre\Computação Gráfica\Computacao-Grafica\engine\x64\Debug\engine.exe
