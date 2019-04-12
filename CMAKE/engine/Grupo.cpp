@@ -14,9 +14,13 @@ Grupo::Grupo(vector<Transformacao*> trans, vector<float> p, vector<Grupo*> grupo
 
 Grupo::Grupo() {
 	vector<Transformacao*> trans;
+	RotacaoDinamica rotacao;
+	TranslacaoDinamica translacao;
 	vector<float> p;
 	vector<Grupo*> g;
 	this->transformacoes = trans;
+	this->rotacao = rotacao;
+	this->translacao = translacao;
 	this->pontos = p;
 	this->grupos = g;
 }
@@ -90,6 +94,9 @@ void Grupo::draw(float time) {
 	if (translacao.getPontos().size() >= 4) {
 		translacao.aplicaTranslacao(time);
 	}
+	if (rotacao.getTime() != 0) 
+		rotacao.aplicaRotacao(time);
+
 	glBindBuffer(GL_ARRAY_BUFFER, buffer);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
 	glDrawArrays(GL_TRIANGLES, 0, pontos.size() / 3);

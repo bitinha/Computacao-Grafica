@@ -3,14 +3,14 @@
 class RotacaoDinamica
 {
 public:
-	float tempo, axisX, axisY, axisZ;
+	float time, axisX, axisY, axisZ;
 	RotacaoDinamica();
 	~RotacaoDinamica();
 	RotacaoDinamica(float time, float x, float y, float z);
-	float getTempo();
+	float getTime();
 	float getAxisX();
 	float getAxisY();
 	float getAxisZ();
-	void draw(float tempo);
+	void aplicaRotacao(float t);
 };
 

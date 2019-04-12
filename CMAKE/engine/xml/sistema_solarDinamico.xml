@@ -2,6 +2,7 @@
     <group>
 		<group>		<!-- SOL -->
 			<rotate angle="7" axisX="1" axisY="0" axisZ="0" /> 
+			<rotate time="20" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
 				<model file="../xml/sphere.3d" />
@@ -14,6 +15,7 @@
 				<point X="0" Y="0" Z="25" />
 				<point X="-25" Y="0" Z="0" />
 			</translate>
+			<rotate time="20" axisX="0" axisY="1" axisZ="0" /> 
 			<models>
 				<model file="../xml/sphere.3d" />
 			</models>

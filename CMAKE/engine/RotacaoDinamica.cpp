@@ -1,22 +1,28 @@
 #include "RotacaoDinamica.h"
 #include "GL/glut.h"
+#include "cmath"
 
 
-RotacaoDinamica::RotacaoDinamica(){}
+RotacaoDinamica::RotacaoDinamica(){
+	this->time = 0;
+	this->axisX = 0;
+	this->axisY = 0;
+	this->axisZ = 0;
+}
 
 
 RotacaoDinamica::~RotacaoDinamica(){}
 
 RotacaoDinamica::RotacaoDinamica(float time, float x, float y, float z){
-	this->tempo = time;
+	this->time = time;
 	this->axisX = x;
 	this->axisY = y;
 	this->axisZ = z;
 }
 
-float RotacaoDinamica::getTempo()
+float RotacaoDinamica::getTime()
 {
-	return this->tempo;
+	return this->time;
 }
 
 float RotacaoDinamica::getAxisX() {
@@ -31,4 +37,7 @@ float RotacaoDinamica::getAxisZ() {
 	return this->axisZ;
 }
 
-void RotacaoDinamica::draw(float tempo){}
+void RotacaoDinamica::aplicaRotacao(float tempo){
+	float angle = fmod((tempo * 360.0 / time), (360.0));
+	glRotatef(angle, axisX, axisY, axisZ);
+}
