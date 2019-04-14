@@ -1,4 +1,4 @@
-#include <vector>
+#include <string>
 #include "tinyxml2.h"
 #include "Grupo.h"
 

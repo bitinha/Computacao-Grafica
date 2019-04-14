@@ -1,3 +1,0 @@
-C:/Users/Eu/Desktop/UM/CG/Trabalho/Computacao-Grafica/CMAKE/engine/build/CMakeFiles/engine.dir
-C:/Users/Eu/Desktop/UM/CG/Trabalho/Computacao-Grafica/CMAKE/engine/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/Eu/Desktop/UM/CG/Trabalho/Computacao-Grafica/CMAKE/engine/build/CMakeFiles/ZERO_CHECK.dir

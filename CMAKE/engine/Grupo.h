@@ -1,6 +1,5 @@
-#include <vector>
+#include "Figura.h"
 #include "Transformacao.h"
-#include "GL/glut.h"
 #include "RotacaoDinamica.h"
 #include "TranslacaoDinamica.h"
 #pragma once
@@ -10,24 +9,22 @@ class Grupo
 public: vector<Transformacao*> transformacoes;
 		TranslacaoDinamica translacao;
 		RotacaoDinamica rotacao;
-		vector<float> pontos;
+		vector<Figura*> figuras;
 		vector<Grupo*> grupos;
-		GLuint buffer;
 
-		Grupo(vector<Transformacao*> trans, vector<float> p, vector<Grupo*> grupos, TranslacaoDinamica translacao, RotacaoDinamica rotacao);
+		Grupo(vector<Transformacao*> trans, vector<Figura*> p, vector<Grupo*> grupos, TranslacaoDinamica translacao, RotacaoDinamica rotacao);
 		Grupo();
 		~Grupo();
 		vector<Transformacao*> getTranformacoes();
-		vector<float> getPontos();
+		vector<Figura*> getFiguras();
 		vector<Grupo*> getGrupos();
 		void setTransformacoes(vector<Transformacao*> trans);
-		void setPontos(vector<float> p);
+		void setFiguras(vector<Figura*> p);
 		void setGrupos(vector<Grupo*> g);
-		void setBuffer(GLuint buf);
 		TranslacaoDinamica getTransDinamica();
 		void setTransDinamica(TranslacaoDinamica translacao);
 		void setRotacaoDinamica(RotacaoDinamica rotacao); 
-		void addPontos(vector<float> pontos);
+		void addFigura(Figura* pontos);
 		void addGrupo(Grupo *g);
 		int tamanhoGrupo();
 		void draw(float time);

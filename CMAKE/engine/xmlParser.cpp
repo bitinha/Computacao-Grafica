@@ -1,15 +1,10 @@
 #include <iostream>
 #include <list>
-#include <vector>
-#include <stack>
-#include "tinyxml2.h"
-#include "Transformacao.h"
+#include "xmlParser.h"
 #include "Translacao.h"
 #include "Rotacao.h"
 #include "Scale.h"
-#include "Grupo.h"
-#include "RotacaoDinamica.h"
-#include "TranslacaoDinamica.h"
+#include "FiguraCor.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -17,6 +12,16 @@
 
 using namespace std;
 using namespace tinyxml2;
+
+
+float str2Color(const char * str) {
+
+	if (str == nullptr) {
+		return 1;
+	}
+	return atof(str);
+}
+
 
 float str2Float(const char * str) {
 
@@ -72,13 +77,20 @@ vector<Ponto> getControlPoints(XMLNode * element) {
 }
 
 Grupo* models(Grupo *group, XMLNode * element) {
-
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
-		const char* iOutListValue;
+		const char* iOutListValue, *diffR, *diffG, *diffB;
+		float r, g, b;
+		diffR = model->Attribute("diffR");
+		diffG = model->Attribute("diffG");
+		diffB = model->Attribute("diffB");
+		r = str2Color(diffR);
+		g = str2Color(diffG);
+		b = str2Color(diffB);
 		iOutListValue = model->Attribute("file");
 		vector<float> pontos = interpretador(iOutListValue);
-		group->addPontos(pontos);
+		FiguraCor* fig = new FiguraCor(r, g, b, pontos);
+		group->addFigura(fig);
 		element = element->NextSibling();
 	}
 	return group;

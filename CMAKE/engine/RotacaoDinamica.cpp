@@ -1,7 +1,6 @@
+#include "cmath"
 #include "RotacaoDinamica.h"
 #include "GL/glut.h"
-#include "cmath"
-
 
 RotacaoDinamica::RotacaoDinamica(){
 	this->time = 0;

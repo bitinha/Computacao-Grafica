@@ -9,7 +9,8 @@
 		</translate>
 		<scale X="11" Y="11" Z="11"/>
 		<models>
-			<model file="../xml/sphere.3d" />
+			<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.8" diffB="0.15"/>
+			<model file="../xml/cone.3d"  	diffR="0.5" diffG="0.5" diffB="0"/>
 		</models>
 	</group>
 </scene>

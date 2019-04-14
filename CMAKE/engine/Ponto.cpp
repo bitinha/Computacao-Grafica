@@ -1,7 +1,5 @@
 #include "Ponto.h"
-
-
-
+#include <stdlib.h>
 Ponto::Ponto()
 {
 }
@@ -33,7 +31,7 @@ float Ponto::getZ() {
 }
 
 float* Ponto::point2Array() {
-	float p[3];
+	float *p = (float *)malloc(sizeof(float) * 3);
 	p[0] = this->x;
 	p[1] = this->y;
 	p[2] = this->z;

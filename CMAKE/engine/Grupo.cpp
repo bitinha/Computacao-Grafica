@@ -1,12 +1,10 @@
-#include "GL/glew.h"
 #include "Grupo.h"
-#include "GL/glut.h"
-#include "Translacao.h"
 
+using namespace std;
 
-Grupo::Grupo(vector<Transformacao*> trans, vector<float> p, vector<Grupo*> grupos, TranslacaoDinamica translacao, RotacaoDinamica rotacao){
+Grupo::Grupo(vector<Transformacao*> trans, vector<Figura*> p, vector<Grupo*> grupos, TranslacaoDinamica translacao, RotacaoDinamica rotacao){
 	this->transformacoes = trans;
-	this->pontos = p;
+	this->figuras = p;
 	this->grupos = grupos;
 	this->translacao = translacao;
 	this->rotacao = rotacao;
@@ -16,15 +14,14 @@ Grupo::Grupo() {
 	vector<Transformacao*> trans;
 	RotacaoDinamica rotacao;
 	TranslacaoDinamica translacao;
-	vector<float> p;
+	vector<Figura*> p;
 	vector<Grupo*> g;
 	this->transformacoes = trans;
 	this->rotacao = rotacao;
 	this->translacao = translacao;
-	this->pontos = p;
+	this->figuras = p;
 	this->grupos = g;
 }
-
 
 Grupo::~Grupo()
 {
@@ -34,8 +31,8 @@ vector<Transformacao*> Grupo::getTranformacoes() {
 	return this->transformacoes;
 }
 
-vector<float> Grupo::getPontos() {
-	return this->pontos;
+vector<Figura*> Grupo::getFiguras() {
+	return this->figuras;
 }
 
 vector<Grupo*> Grupo::getGrupos(){
@@ -46,16 +43,12 @@ void Grupo::setTransformacoes(vector<Transformacao*> trans) {
 	this->transformacoes = trans;
 }
 
-void Grupo::setPontos(vector<float> p) {
-	this->pontos = p;
+void Grupo::setFiguras(vector<Figura*> p) {
+	this->figuras = p;
 }
 
 void Grupo::setGrupos(vector<Grupo*> g){
 	this->grupos = g;
-}
-
-void Grupo::setBuffer(GLuint buf) {
-	this->buffer = buf;
 }
 
 TranslacaoDinamica Grupo::getTransDinamica(){
@@ -70,8 +63,8 @@ void Grupo::setRotacaoDinamica(RotacaoDinamica rotacao) {
 	this->rotacao = rotacao;
 }
 
-void Grupo::addPontos(vector<float> points) {
-	this->pontos.insert(pontos.end(), points.begin(), points.end());
+void Grupo::addFigura(Figura* points) {
+	this->figuras.push_back(points);
 }
 
 void Grupo::addGrupo(Grupo *g) {
@@ -79,7 +72,7 @@ void Grupo::addGrupo(Grupo *g) {
 }
 
 int Grupo::tamanhoGrupo() {
-	int tam = 1;
+	int tam = figuras.size();
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		tam += (*it)->tamanhoGrupo();
 	}
@@ -97,9 +90,9 @@ void Grupo::draw(float time) {
 	if (rotacao.getTime() != 0) 
 		rotacao.aplicaRotacao(time);
 
-	glBindBuffer(GL_ARRAY_BUFFER, buffer);
-	glVertexPointer(3, GL_FLOAT, 0, 0);
-	glDrawArrays(GL_TRIANGLES, 0, pontos.size() / 3);
+	for (vector<Figura*>::iterator it = figuras.begin(); it != figuras.end(); it++) {
+		(*it)->draw();
+	}
 
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		(*it)->draw(time);

@@ -1,4 +1,3 @@
-#include "GL/glut.h"
 #pragma once
 class RotacaoDinamica
 {

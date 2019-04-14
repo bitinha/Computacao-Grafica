@@ -1,14 +1,7 @@
-#include "GL/glew.h"
 #include <iostream>
-#include <vector>
-#include "tinyxml2.h";
-#include <string>;
-#include <list>;
-#include "GL/glut.h"
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "xmlParser.h"
-#include "Grupo.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -31,11 +24,14 @@ GLuint *buffers;
 
 int generateBuffers(Grupo *group, int j) {
 
-	vector<float> points = group->getPontos();
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
-	glBufferData(GL_ARRAY_BUFFER, points.size() * 4, &points.front(), GL_STATIC_DRAW);
-	group->setBuffer(buffers[j]);
-	j++;
+	vector<Figura*> figuras = group->getFiguras();
+	for (vector<Figura*>::iterator it = figuras.begin(); it != figuras.end(); it++) {
+		vector<float> pontos = (*it)->getPontos();
+		glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
+		glBufferData(GL_ARRAY_BUFFER, pontos.size() * 4, &pontos.front(), GL_STATIC_DRAW);
+		(*it)->setBuffer(buffers[j]);
+		j++;
+	}
 	vector<Grupo*> grupos = group->getGrupos();
 
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
