@@ -5,7 +5,7 @@
 			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
-				<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.8" diffB="0.15"/>
+				<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.3" diffB="0.1"/>
 			</models>
 		</group>
 		<group>		<!-- MERCURIO -->
@@ -208,6 +208,19 @@
 					<model file="../xml/sphere.3d" diffR="0.3" diffG="0.45" diffB="0.75"/>
 				</models>
 			</group>
+		</group>
+    </group>
+    <group> 				<!-- COMETA -->
+    	<translate time="40" >
+			<point X="0" Y="0" Z="-80" />
+			<point X="30" Y="0" Z="-140" />
+			<point X="0" Y="0" Z="-200" />
+			<point X="-30" Y="0" Z="-140" />
+		</translate>
+		<group> 
+			<models>
+				<model file="../xml/teapot.3d" diffR="0.9" diffG="0.9" diffB="0.9"/>
+			</models>
 		</group>
     </group>
 </scene>
