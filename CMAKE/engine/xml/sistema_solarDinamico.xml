@@ -212,10 +212,10 @@
     </group>
     <group> 				<!-- COMETA -->
     	<translate time="40" >
-			<point X="0" Y="0" Z="-80" />
-			<point X="30" Y="0" Z="-140" />
+			<point X="0" Y="0" Z="80" />
+			<point X="100" Y="0" Z="0" />
 			<point X="0" Y="0" Z="-200" />
-			<point X="-30" Y="0" Z="-140" />
+			<point X="-100" Y="0" Z="0" />
 		</translate>
 		<group> 
 			<models>
