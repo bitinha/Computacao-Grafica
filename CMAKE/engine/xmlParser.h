@@ -1,7 +1,7 @@
 #include <string>
 #include "tinyxml2.h"
-#include "Grupo.h"
+#include "Cena.h"
 
 using namespace tinyxml2;
 
-vector<Grupo*> xmlParser(const char* filename);
+Cena xmlParser(const char* filename);

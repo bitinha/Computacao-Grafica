@@ -5,6 +5,9 @@
 #include "Rotacao.h"
 #include "Scale.h"
 #include "FiguraCor.h"
+#include "PointLight.h"
+#include "Directional.h"
+#include "Spot.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(a_eResult) if (a_eResult != XML_SUCCESS) { printf("Error: %i\n", a_eResult); return a_eResult; }
@@ -167,14 +170,55 @@ Grupo* trataGrupo(XMLNode * node) {
 	return gr;
 }
 
+Luz* trataLuz(XMLNode * node) {
+	XMLNode * element = node;
+	XMLElement * transformacao;
+	Luz* l = nullptr;
+
+	while (node != nullptr) {
+		if (!strcmp(node->Value(), "light")) {
+			transformacao = node->ToElement();
+			if (!strcmp(transformacao->Attribute("type"), "POINT")) {
+				float dx = str2Float(transformacao->Attribute("posX"));
+				float dy = str2Float(transformacao->Attribute("posY"));
+				float dz = str2Float(transformacao->Attribute("posZ"));
+				PointLight* p = new PointLight(dx, dy, dz);
+				l = p;
+			}
+			else if (!strcmp(transformacao->Attribute("type"), "DIRECTIONAL")) {
+				float dx = str2Float(transformacao->Attribute("dirX"));
+				float dy = str2Float(transformacao->Attribute("dirY"));
+				float dz = str2Float(transformacao->Attribute("dirZ"));
+				Directional* p = new Directional(dx, dy, dz);
+				l = p;
+			}
+			else if (!strcmp(transformacao->Attribute("type"), "SPOT")) {
+				float dx = str2Float(transformacao->Attribute("dirX"));
+				float dy = str2Float(transformacao->Attribute("dirY"));
+				float dz = str2Float(transformacao->Attribute("dirZ"));
+				float angle = str2Float(transformacao->Attribute("angle"));
+				Spot* p = new Spot(dx, dy, dz, angle);
+				l = p;
+			}
+			else;
+			node = node->NextSibling();
+		}
+		else {
+			node = node->NextSibling();
+		}
+	}
+
+	return l;
+}
+
 
 /**
 \brief Função que escreve os vértices de uma caixa num ficheiro
 @param filename Ficheiro xml a ler
 @return Ficheiros que se devem ler
 */
-vector<Grupo*> xmlParser(const char* filename) {
-
+Cena xmlParser(const char* filename) {
+	Cena c;
 	list<string> files;
 	list<string> ::iterator it;
 	/*Ler um ficheiro XML*/
@@ -194,13 +238,24 @@ vector<Grupo*> xmlParser(const char* filename) {
 	}
 
 	vector<Grupo*> grupos;
+	Luz* l = nullptr;
 
 	pRoot = pRoot->FirstChild();
+	
+	if (strcmp(pRoot->Value(), "lights") == 0) {
+		element = pRoot->FirstChild();
+		l = trataLuz(element);
+		pRoot = pRoot->NextSibling();
+	}
+	
 	while (pRoot != nullptr) {
 		element = pRoot->FirstChild();
 		Grupo *group = trataGrupo(element);
 		grupos.push_back(group);
 		pRoot = pRoot->NextSibling();
 	}
-	return grupos;
+
+	c = Cena(grupos, l);
+	
+	return c;
 }

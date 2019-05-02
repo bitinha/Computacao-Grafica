@@ -18,7 +18,7 @@ float look = 0;
 
 float pi = M_PI;
 
-vector<Grupo*> grupos;
+Cena cena;
 GLuint *buffers;
 
 
@@ -76,6 +76,8 @@ void renderScene(void) {
 		0,0,0,
 		0.0f, 1.0f, 0.0f);
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+	vector<Grupo*> grupos = cena.getGrupos();
+
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		(*it)->draw(time);
 	}
@@ -131,7 +133,7 @@ int main(int argc, char** argv) {
 	}
 	
 	const char * filename = argv[1];
-	grupos = xmlParser(filename);
+	cena = xmlParser(filename);
 
 	// init GLUT and the window
 	glutInit(&argc, argv);
@@ -159,6 +161,7 @@ int main(int argc, char** argv) {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	
+	vector<Grupo*> grupos = cena.getGrupos();
 	int tam = 0;
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
 		tam += (*it)->tamanhoGrupo();
