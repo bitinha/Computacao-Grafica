@@ -105,26 +105,48 @@ void writeSphereFile(const char* r, const char* sl, const char* st, string name)
 			float b = pi / 2 - (pi / (stacks));
 			
 			file << " " << 0 << " " << radius << " " << 0 << "\n";
+			//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal
 			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+			//pos[3] = {cos(b) * sin(a), sin(b), cos(b) * cos(a)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+			//pos[3] = {cos(b) * sin(gama), sin(b), cos(b) * cos(gama)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 			b = -b;
 
 			file << " " << 0 << " " << -radius << " " << 0 << "\n";
+			//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal
 			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+			//pos[3] = {cos(b) * sin(gama), sin(b), cos(b) * cos(gama)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+			//pos[3] = {cos(b) * sin(a), sin(b), cos(b) * cos(a)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 			for (int j = 1; j < stacks - 1; j++) {
 				b = pi / 2 - (j * pi / (stacks));
 				float teta = pi / 2 - ((j + 1) * pi / (stacks));
 
 				file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+				//pos[3] = {cos(b) * sin(a), sin(b), cos(b) * cos(a)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
+				//pos[3] = {cos(teta) * sin(a), sin(teta), cos(a) * cos(teta)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+				//pos[3] = {cos(b) * sin(gama), sin(b), cos(b) * cos(gama)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+				//pos[3] = {cos(b) * sin(gama), sin(b), cos(b) * cos(gama)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
+				//pos[3] = {cos(teta) * sin(a), sin(teta), cos(teta) * cos(a)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << radius * cos(teta) * sin(gama) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(gama) << "\n";
+				//pos[3] = {cos(teta) * sin(gama), sin(teta), cos(teta) * cos(gama)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 			}
 		}
@@ -144,12 +166,18 @@ void writePlaneFile(const char* x, string name) {
 	if (file.is_open()) {
 		float size = atof(x) / 2; //Módulo das coordenadas x, z dos vertices dos triangulos
 		file << " " << -size << " " << 0 << " " << - size << "\n"; //Ponto A
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal A
 		file << " " <<  size  << " " << 0 << " " <<  size << "\n"; //Ponto B
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal B
 		file << " " <<  size  << " " << 0 << " " << -size << "\n"; //Ponto C
-		
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal C
+
 		file << " " <<  size  << " " << 0 << " " <<  size << "\n"; //Ponto B
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal B
 		file << " " << -size << " " << 0 << " " <<  -size << "\n"; //Ponto A
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal A
 		file << " " << -size << " " << 0 << " " <<   size << "\n"; //Ponto D
+		//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal D
 	}
 	else printf("File not opened\n");
 	file.close();
@@ -177,54 +205,91 @@ void writeBoxFile(const char* sizeX, const char* sizeY, const char* sizeZ, const
 
 				//Tras
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";
+				//file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
+				
 				//Frente
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";
+				//file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
 
 				//Baixo
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
 				//Cima
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
-
+				//file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
 				//Esquerda
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
 
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
+
 				//Direita
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";
+				//file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
 			}
 		}
 
@@ -252,6 +317,7 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 		float slice = 2 * M_PI / slices; // Angulo de uma fatia
 		float stackH = height / stacks; // Altura de uma camada
 		float stackR = radius / stacks; // "Largura" de uma camada
+		//float z = atan(height/raius);//Declive do cone
 
 		for (int i = 0; i < slices; i++) { // Itera pelas fatias
 			float angle1 = i * slice;
@@ -259,23 +325,37 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 
 			//Cria a base
 			file << " " << 0 << " " << 0 << " " << 0 << "\n";
+			//file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
 			file << " " << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
+			//file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
 			file << " " << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
+			//file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
 
 			for (int j = 0; j < stacks - 1; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
 				float lowerH = j * stackH; // Altura na camada inferior
 				float upperH = (j + 1) * stackH; // Altura na camada superior
 				float lowerR = radius - stackR * j;// Raio para a camada inferior
 				float upperR = radius - stackR * (j + 1);// Raio para a camada superior
-
+				
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+				//pos[3] = {cos(angle1), sin(pi / 2 - z), sin(angle1)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
+				//pos[3] = {cos(angle2), sin(pi / 2 - z), sin(angle2)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
-
+				//pos[3] = {cos(angle1), sin(pi / 2 - z), sin(angle1)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+				//pos[3] = {cos(angle1), sin(pi / 2 - z), sin(angle1)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << upperR * cos(angle2) << " " << upperH << " " << upperR * sin(angle2) << "\n";
+				//pos[3] = {cos(angle2), sin(pi / 2 - z), sin(angle2)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
+				//pos[3] = {cos(angle2), sin(pi / 2 - z), sin(angle2)}; normalize(pos);
+				//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 
 			}
 			// Acabar com os triangulos do bico
@@ -285,8 +365,14 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 			float upperR = radius - stackR * stacks;// Raio para a camada superior
 
 			file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
+			//pos[3] = {cos(angle1), sin(pi / 2 - z), sin(angle1)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 			file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
+			//pos[3] = {cos(angle2), sin(pi / 2 - z), sin(angle2)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 			file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
+			//pos[3] = {cos(angle1), sin(pi / 2 - z), sin(angle1)}; normalize(pos);
+			//file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
 		}
 	}
 	else printf("File not opened\n");
