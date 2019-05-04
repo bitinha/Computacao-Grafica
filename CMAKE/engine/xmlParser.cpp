@@ -4,7 +4,7 @@
 #include "Translacao.h"
 #include "Rotacao.h"
 #include "Scale.h"
-#include "FiguraCor.h"
+#include "FiguraDifusa.h"
 #include "PointLight.h"
 #include "Directional.h"
 #include "Spot.h"
@@ -17,7 +17,7 @@ using namespace std;
 using namespace tinyxml2;
 
 
-float str2Color(const char * str) {
+float str2Num(const char * str) {
 
 	if (str == nullptr) {
 		return 1;
@@ -39,8 +39,11 @@ float str2Float(const char * str) {
 @param 
 @return
 */
-vector<float> interpretador(const char * file) {
 
+Figura interpretador(const char * file){
+	Figura fig; 
+	int x = 0;
+	vector<float> normais;
 	vector<float> point;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
@@ -52,16 +55,24 @@ vector<float> interpretador(const char * file) {
 			ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
 			fscanf_s(pfile, "%f ", &py, sizeof(py));
 			fscanf_s(pfile, "%f", &pz, sizeof(pz));
-			if (ok >= 0) {
+			if (ok >= 0 && x % 2 == 0) {
 				point.push_back(px);
 				point.push_back(py);
 				point.push_back(pz);
 			}
+			else if(ok >= 0){ 
+				normais.push_back(px);
+				normais.push_back(py);
+				normais.push_back(pz);
+			}
+			x++;
+
 		}
 		fclose(pfile);
+		fig.setPontos(point);
+		fig.setNormais(normais);
 	}
-
-	return point;
+	return fig;
 }
 
 vector<Ponto> getControlPoints(XMLNode * element) {
@@ -82,19 +93,55 @@ vector<Ponto> getControlPoints(XMLNode * element) {
 Grupo* models(Grupo *group, XMLNode * element) {
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
-		const char* iOutListValue, *diffR, *diffG, *diffB;
-		float r, g, b;
+		const char* iOutListValue, *diffR, *diffG, *diffB, *colorR, *colorG, *colorB, *emissiveR, *emissiveG, *emissiveB, *ambientR, *ambientG, *ambientB, *specularR, *specularG, *specularB;
+		float r, g, b, cR, cG, cB, dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
+		//if (model->Attribute("texture") == nullptr) {		
+		colorR = model->Attribute("colorR");
+		colorG = model->Attribute("colorG");
+		colorB = model->Attribute("colorB");
 		diffR = model->Attribute("diffR");
 		diffG = model->Attribute("diffG");
 		diffB = model->Attribute("diffB");
-		r = str2Color(diffR);
-		g = str2Color(diffG);
-		b = str2Color(diffB);
+		emissiveR = model->Attribute("emissiveR");
+		emissiveG = model->Attribute("emissiveG");
+		emissiveB = model->Attribute("emissiveB");
+		specularR = model->Attribute("specularR");
+		specularG = model->Attribute("specularG");
+		specularB = model->Attribute("specularB");
+		ambientR = model->Attribute("ambientR");
+		ambientG = model->Attribute("ambientG");
+		ambientB = model->Attribute("ambientB");
+		
+		r = str2Num(colorR);
+		g = str2Num(colorG);
+		b = str2Num(colorB);
+		dR = str2Num(diffR);
+		dG = str2Num(diffG);
+		dB = str2Num(diffB);
+		eR = str2Num(emissiveR);
+		eG = str2Num(emissiveG);
+		eB = str2Num(emissiveB);
+		aR = str2Num(ambientR);
+		aG = str2Num(ambientG);
+		aB = str2Num(ambientB);
+		sR = str2Num(specularR);
+		sG = str2Num(specularG);
+		sB = str2Num(specularB);
+
+		float diffuse[3] = {dR, dG, dB};
+		float emissive[3] = {eR, eG, eB };
+		float specular[3] = {sR, sG, sB };
+		float ambient[3] = {aR, aG, aB };
+
 		iOutListValue = model->Attribute("file");
-		vector<float> pontos = interpretador(iOutListValue);
-		FiguraCor* fig = new FiguraCor(r, g, b, pontos);
-		group->addFigura(fig);
+		Figura fig = interpretador(iOutListValue);
+		FiguraDifusa* dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos(), fig.getNormais());
+		group->addFigura(dif);
 		element = element->NextSibling();
+		//}
+		/*
+		else fazer a textura
+		*/
 	}
 	return group;
 }

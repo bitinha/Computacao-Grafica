@@ -5,7 +5,7 @@
 			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
-				<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.3" diffB="0.1"/>
+				<model file="../xml/sphere.3d"  colorR="0.8" colorG="0.3" colorB="0.1" diffuseR="0" diffuseG="0" diffuseB="0"/>
 			</models>
 		</group>
 		<group>		<!-- MERCURIO -->
@@ -17,7 +17,7 @@
 			</translate>
 			<rotate time="58.6" axisX="0" axisY="1" axisZ="0" /> 
 			<models>
-				<model file="../xml/sphere.3d" diffR="0.8" diffG="0.8" diffB="0.8"/>
+				<model file="../xml/sphere.3d" colorR="0.8" colorG="0.8" colorB="0.8"/>
 			</models>
 		</group>
 		<group>		<!-- VENUS -->
@@ -32,7 +32,7 @@
 				<rotate time="243" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="2" Y="2" Z="2" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.9" diffG="0.5" diffB="0.2"/>
+					<model file="../xml/sphere.3d" colorR="0.9" colorG="0.5" colorB="0.2"/>
 				</models>
 			</group>
 		</group>
@@ -48,7 +48,7 @@
 				<rotate time="1" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="2" Y="2" Z="2" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.1" diffG="0.1" diffB="0.7"/>
+					<model file="../xml/sphere.3d" colorR="0.1" colorG="0.1" colorB="0.7" diffuseR="0.1" diffuseG="0.1" diffuseB="0.7"/>
 				</models>
 			</group>
 			<group>			<!-- LUA -->
@@ -63,7 +63,7 @@
 					<rotate time="28" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.5" Y="0.5" Z="0.5" />
 					<models>
-						<model file="../xml/sphere.3d" diffR="0.8" diffG="0.8" diffB="0.8"/>
+						<model file="../xml/sphere.3d" colorR="0.8" colorG="0.8" colorB="0.8"/>
 					</models>
 				</group>
 			</group>
@@ -80,7 +80,7 @@
 				<rotate time="1.02" axisX="0" axisY="1" axisZ="0" />
 				<scale X="1.2" Y="1.2" Z="1.2" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.9" diffG="0.1" diffB="0.1"/>
+					<model file="../xml/sphere.3d" colorR="0.9" colorG="0.1" colorB="0.1"/>
 				</models>
 			</group>
 			<group>			<!-- FOBOS -->
@@ -95,7 +95,7 @@
 					<rotate time="0.14" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.05" Y="0.07" Z="0.10" />
 					<models>
-						<model file="../xml/sphere.3d" diffR="0.8" diffG="0.8" diffB="0.8"/>
+						<model file="../xml/sphere.3d" colorR="0.8" colorG="0.8" colorB="0.8"/>
 					</models>
 				</group>
 			</group>
@@ -111,7 +111,7 @@
 					<rotate time="1.26" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.05" Y="0.07" Z="0.10" />
 					<models>
-						<model file="../xml/sphere.3d" diffR="0.9" diffG="0.75" diffB="0.6"/>
+						<model file="../xml/sphere.3d" colorR="0.9" colorG="0.75" colorB="0.6"/>
 					</models>
 				</group>
 			</group>
@@ -128,7 +128,7 @@
 				<rotate time="0.4" axisX="0" axisY="1" axisZ="0" />
 				<scale X="8" Y="8" Z="8" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.8" diffG="0.5" diffB="0.25"/>
+					<model file="../xml/sphere.3d" colorR="0.8" colorG="0.5" colorB="0.25"/>
 				</models>
 			</group>
 			<group>		<!-- GANIMEDES -->
@@ -142,7 +142,7 @@
 					<rotate angle="2" axisX="1" axisY="0" axisZ="0" /> 
 					<rotate time="0.3" axisX="0" axisY="1" axisZ="0" />
 					<models>
-						<model file="../xml/sphere.3d" diffR="0.5" diffG="0.4" diffB="0.3"/>
+						<model file="../xml/sphere.3d" colorR="0.5" colorG="0.4" colorB="0.3"/>
 					</models>
 				</group>
 			</group>
@@ -156,7 +156,7 @@
 				<group>
 					<rotate time="3.55" axisX="0" axisY="1" axisZ="0" />
 					<models>
-						<model file="../xml/sphere.3d" diffR="0.9" diffG="0.6" diffB="0.3"/>
+						<model file="../xml/sphere.3d" colorR="0.9" colorG="0.6" colorB="0.3"/>
 					</models>
 				</group>
 			</group>
@@ -173,7 +173,7 @@
 				<rotate time="0.42" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="5" Y="5" Z="5" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.9" diffG="0.7" diffB="0.4"/>
+					<model file="../xml/sphere.3d" colorR="0.9" colorG="0.7" colorB="0.4"/>
 				</models>
 			</group>
 		</group>
@@ -189,7 +189,7 @@
 				<rotate time="0.75" axisX="0" axisY="1" axisZ="0" />
 				<scale X="3" Y="3" Z="3" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.5" diffG="0.8" diffB="0.8"/>
+					<model file="../xml/sphere.3d" colorR="0.5" colorG="0.8" colorB="0.8"/>
 				</models>
 			</group>
 		</group>
@@ -205,7 +205,7 @@
 				<rotate time="0.8" axisX="0" axisY="1" axisZ="0" />
 				<scale X="2.95" Y="2.95" Z="2.95" />
 				<models>
-					<model file="../xml/sphere.3d" diffR="0.3" diffG="0.45" diffB="0.75"/>
+					<model file="../xml/sphere.3d" colorR="0.3" colorG="0.45" colorB="0.75"/>
 				</models>
 			</group>
 		</group>
@@ -219,7 +219,7 @@
 		</translate>
 		<group> 
 			<models>
-				<model file="../xml/teapot.3d" diffR="0.9" diffG="0.9" diffB="0.9"/>
+				<model file="../xml/teapot.3d" colorR="0.9" colorG="0.9" colorB="0.9"/>
 			</models>
 		</group>
     </group>
