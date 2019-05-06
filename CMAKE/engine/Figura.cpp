@@ -39,6 +39,20 @@ void Figura::setBufferNormal(GLuint normais) {
 	this->bufferNormal = normais;
 }
 
+vector<float> Figura::getTextura(){
+	return this->textura;
+}
+
+void Figura::setTextura(vector<float> textura){
+	this->textura = textura;
+}
+GLuint Figura::getBufferTextura(){
+	return this->bufferTextura;
+}
+void Figura::setBufferTextura(GLuint bufferTextura){
+	this->bufferTextura = bufferTextura;
+}
+
 void Figura::draw()
 {
 }

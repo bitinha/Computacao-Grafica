@@ -45,6 +45,7 @@ Figura interpretador(const char * file){
 	int x = 0;
 	vector<float> normais;
 	vector<float> point;
+	//vector<float> textura;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
 	int ch, ok;
@@ -52,26 +53,36 @@ Figura interpretador(const char * file){
 	erro = fopen_s(&pfile, file, "r");
 	if (erro == 0) {
 		while (EOF != (ch = getc(pfile))) {
-			ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
-			fscanf_s(pfile, "%f ", &py, sizeof(py));
-			fscanf_s(pfile, "%f", &pz, sizeof(pz));
-			if (ok >= 0 && x % 2 == 0) {
-				point.push_back(px);
-				point.push_back(py);
-				point.push_back(pz);
-			}
-			else if(ok >= 0){ 
+			//if (x % 2 == 0){
+					ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+					fscanf_s(pfile, "%f ", &py, sizeof(py));
+					fscanf_s(pfile, "%f", &pz, sizeof(pz));
+					point.push_back(px);
+					point.push_back(py);
+					point.push_back(pz);
+				//}
+			/*
+			else if (x % 2 == 1) {
+				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+				fscanf_s(pfile, "%f ", &py, sizeof(py));
+				fscanf_s(pfile, "%f", &pz, sizeof(pz));
 				normais.push_back(px);
 				normais.push_back(py);
 				normais.push_back(pz);
 			}
+			else{
+				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+				fscanf_s(pfile, "%f ", &py, sizeof(py));
+				textura.push_back(px);
+				textura.push_back(py);
+			}*/
 			x++;
-
 		}
-		fclose(pfile);
-		fig.setPontos(point);
-		fig.setNormais(normais);
 	}
+	fclose(pfile);
+	fig.setPontos(point);
+	//fig.setNormais(normais);
+	//fig.setTextura(textura);
 	return fig;
 }
 
@@ -135,7 +146,7 @@ Grupo* models(Grupo *group, XMLNode * element) {
 
 		iOutListValue = model->Attribute("file");
 		Figura fig = interpretador(iOutListValue);
-		FiguraDifusa* dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos(), fig.getNormais());
+		FiguraDifusa* dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos()/*,fig.getNormais(), fig.getTextura()*/);
 		group->addFigura(dif);
 		element = element->NextSibling();
 		//}

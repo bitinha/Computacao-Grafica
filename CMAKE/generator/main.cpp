@@ -9,6 +9,7 @@
 #include "Patches.h"
 #include "Patch.h"
 #include "Ponto.h"
+#include "Ponto2D.h"
 
 float pi = M_PI;
 
@@ -64,6 +65,34 @@ Ponto normal(Ponto l1, Ponto l2, Ponto c1, Ponto c2) {
 	return p;
 }
 
+vector<Ponto2D> generateTextCoord(int tesslation, int np) {
+	vector<Ponto2D> text;
+	float tess = (float)tesslation;
+	for(int i = 0; i < np; i++){
+		for(float j = 0; j < tess; j++){
+			for(float k = 0; k < tess; k++){
+				Ponto2D p = Ponto2D(j / tess, k/tess);
+				text.push_back(p);
+
+				p = Ponto2D(j / tess, (k + 1)/tess);
+				text.push_back(p);
+
+				p = Ponto2D((j + 1) / tess, (k + 1)/tess);
+				text.push_back(p);
+
+				p = Ponto2D(j / tess, k/tess);
+				text.push_back(p);
+
+				p = Ponto2D((j + 1) / tess, (k + 1)/tess);
+				text.push_back(p);
+
+				p = Ponto2D((j + 1)/ tess, k/tess);
+				text.push_back(p);
+			}
+		}
+	}
+	return text;
+}
 
 vector<Ponto> generateNormais(vector<Ponto*> pontos, int tess, int np) {
 	vector<Ponto> normais;
@@ -331,6 +360,7 @@ void writePatchFile(const char *inputFile, const char *tesselation,string output
 		//GERA PONTOS
 		vector<Ponto*> pts = ps->generatePoints();
 		vector<Ponto> nrm = generateNormais(pts, tess, np);
+		//vector<Ponto2D> textC = generateTextCoord(tess, np);
 
 		//ESCREVE PONTOS
 		
@@ -339,12 +369,14 @@ void writePatchFile(const char *inputFile, const char *tesselation,string output
 		if (file.is_open()) {
 			vector<Ponto*>::iterator it = pts.begin();
 			vector<Ponto>::iterator itN = nrm.begin();
+			//vector<Ponto2D>::iterator itT = textC.begin();
 			for (; it != pts.end(); it++) {
 				file << " " << (*it)->getX() << " " << (*it)->getY() << " " << (*it)->getZ() << "\n";
 				file << " " << (itN)->getX() << " " << (itN)->getY() << " " << (itN)->getZ() << "\n";
+				//file << " " << (itT)->getX() << " " << (itT)->getY() << "\n";
+				//itT++;
 				itN++;
 			}
-			
 		}
 		else printf("File not opened\n");
 		file.close();
@@ -375,34 +407,17 @@ void writeSphereFile(const char* r, const char* sl, const char* st, string name)
 			
 			file << " " << 0 << " " << radius << " " << 0 << "\n";
 			file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal
-			file << " " << i / slices << " " << 1 << "\n"; //Textura
-
-			
+			//file << " " << i / slices << " " << 1 << "\n"; //Textura
+						
 			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
 			p[0] = cos(b) * sin(a); p[1] = sin(b); p[2] = cos(b) * cos(a); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << i / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
+			//file << " " << i / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
 			
 			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 			p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << (i + 1) / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
-
-			b = -b;
-
-			file << " " << 0 << " " << -radius << " " << 0 << "\n";
-			file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal
-			file << " " << i / slices << " " << 0 << "\n"; //Textura
-
-			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
-			p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);
-			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << (i + 1) / slices << " " << (1 / stacks) << "\n"; //Textura
-			
-			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
-			p[0] = cos(b) * sin(a); p[1] = sin(b); p[2] = cos(b) * cos(a); normalize(p);
-			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << i / slices << " " << (1 / stacks) << "\n"; //Textura
+			//file << " " << (i + 1) / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
 
 			for (int j = 1; j < stacks - 1; j++) {
 				b = pi / 2 - (j * pi / (stacks));
@@ -411,34 +426,50 @@ void writeSphereFile(const char* r, const char* sl, const char* st, string name)
 				file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
 				p[0] = cos(b) * sin(a); p[1] = sin(b); p[2] = cos(b) * cos(a); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / slices << " " << 1 - (j / stacks) << "\n"; //Textura
+				//file << " " << i / slices << " " << 1 - (j / stacks) << "\n"; //Textura
 
 				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
 				p[0] = cos(teta) * sin(a), p[1] = sin(teta); p[2] = cos(a) * cos(teta); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
+				//file << " " << i / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
 				
 				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 				p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / slices << " " << 1 - (j / stacks) << "\n"; //Textura
+				//file << " " << (i + 1) / slices << " " << 1 - (j / stacks) << "\n"; //Textura
 
 				file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 				p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / slices << " " << 1 - (j / stacks) << "\n"; //Textura
+				//file << " " << (i + 1) / slices << " " << 1 - (j / stacks) << "\n"; //Textura
 				
 				file << " " << radius * cos(teta) * sin(a) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(a) << "\n";
 				p[0] = cos(teta) * sin(a); p[1] = sin(teta); p[2] = cos(teta) * cos(a); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
+				//file << " " << i / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
 				
 				file << " " << radius * cos(teta) * sin(gama) << " " << radius * sin(teta) << " " << radius * cos(teta) * cos(gama) << "\n";
 				p[0] = cos(teta) * sin(gama); p[1] = sin(teta); p[2] = cos(teta) * cos(gama); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
+				//file << " " << (i + 1) / slices << " " << 1 - ((j + 1) / stacks) << "\n"; //Textura
 
 			}
+
+			b = - ((pi / 2) - (pi / stacks));
+
+			file << " " << 0 << " " << -radius << " " << 0 << "\n";
+			file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal
+			//file << " " << i / slices << " " << 0 << "\n"; //Textura
+
+			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
+			p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);
+			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
+			//file << " " << (i + 1) / slices << " " << (1 / stacks) << "\n"; //Textura
+
+			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
+			p[0] = cos(b) * sin(a); p[1] = sin(b); p[2] = cos(b) * cos(a); normalize(p);
+			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
+			//file << " " << i / slices << " " << (1 / stacks) << "\n"; //Textura
 		}
 	}
 	else printf("File not opened\n");
@@ -502,128 +533,153 @@ void writeBoxFile(const char* sizeX, const char* sizeY, const char* sizeZ, const
 				//Tras
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 1 << " " << 1 << "\n"; //Textura Tras
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Tras
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 0 << " " << 0 << "\n"; //Textura Tras
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Tras
+				
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 1 << " " << 0 << "\n"; //Textura Tras
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Tras
+
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 1 << " " << 1 << "\n"; //Textura Tras
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Tras
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 0 << " " << 1 << "\n"; //Textura Tras
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Tras
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << 0 << " " << 0 << "\n"; //Textura Tras
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Tras
 				
 				//Frente
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 0 << " " << 0 << "\n"; //Textura Frente
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Frente
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 1 << " " << 0 << "\n"; //Textura Frente
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Frente
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 1 << " " << 1 << "\n"; //Textura Frente
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Frente
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 0 << " " << 0 << "\n"; //Textura Frente
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Frente
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 1 << " " << 1 << "\n"; //Textura Frente
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Frente
+				
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << 0 << " " << 1 << "\n"; //Textura Frente
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Frente
 
 				//Baixo
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 0 << " " << 0 << "\n"; //Textura Baixo
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Baixo
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 1 << " " << 0 << "\n"; //Textura Baixo
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Baixo
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 1 << " " << 1 << "\n"; //Textura Baixo
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Baixo
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 0 << " " << 0 << "\n"; //Textura Baixo
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Baixo
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 1 << " " << 1 << "\n"; //Textura Baixo
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Baixo
+				
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << 0 << " " << 1 << "\n"; //Textura Baixo
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Baixo
 				
 				//Cima
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 0 << " " << 1 << "\n"; //Textura Cima
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Cima
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 1 << " " << 0 << "\n"; //Textura Cima
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Cima
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 1 << " " << 1 << "\n"; //Textura Cima
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Cima
 
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 0 << " " << 1 << "\n"; //Textura Cima
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Cima
+				
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 0 << " " << 0 << "\n"; //Textura Cima
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Cima
+				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << 1 << " " << 0 << "\n"; //Textura Cima
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Cima
 
 				//Esquerda
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 0 << " " << 0 << "\n"; //Textura Esquerda
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Esquerda
+				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 1 << " " << 1 << "\n"; //Textura Esquerda
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Esquerda
+				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 1 << " " << 0 << "\n"; //Textura Esquerda
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Esquerda
 
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 0 << " " << 0 << "\n"; //Textura Esquerda
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Esquerda
+				
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 0 << " " << 1 << "\n"; //Textura Esquerda
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Esquerda
+				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << 1 << " " << 1 << "\n"; //Textura Esquerda
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Esquerda
 
 				//Direita
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 0 << " " << 1 << "\n"; //Textura Direita
+				//file << " " << 0 << " " << 1 << "\n"; //Textura Direita
+				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 << " " << 1 << "\n"; //Textura Direita
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Direita
+				
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 0 << " " << 0 << "\n"; //Textura Direita
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Direita
 
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 0 << " " << 0 << "\n"; //Textura Direita
+				//file << " " << 0 << " " << 0 << "\n"; //Textura Direita
+				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 << " " << 1 << "\n"; //Textura Direita
+				//file << " " << 1 << " " << 1 << "\n"; //Textura Direita
+				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 << " " << 0 << "\n"; //Textura Direita
+				//file << " " << 1 << " " << 0 << "\n"; //Textura Direita
 			}
 		}
 
@@ -662,15 +718,15 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 			//Cria a base
 			file << " " << 0 << " " << 0 << " " << 0 << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			file << " " << i / slices << " " << 1 << "\n"; //Textura
+			//file << " " << i / slices << " " << 1 << "\n"; //Textura
 
 			file << " " << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			file << " " << i / slices << " " << 0 << "\n"; //Textura
+			//file << " " << i / slices << " " << 0 << "\n"; //Textura
 
 			file << " " << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			file << " " << (i + 1) / slices << " " << 0 << "\n"; //Textura
+			//file << " " << (i + 1) / slices << " " << 0 << "\n"; //Textura
 
 			for (int j = 0; j < stacks - 1; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
 				float lowerH = j * stackH; // Altura na camada inferior
@@ -681,32 +737,32 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << i / stacks << " " << j / stacks << "\n"; //Textura
 
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
 				
 				file << " " << upperR * cos(angle2) << " " << upperH << " " << upperR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << (i + 1) / stacks << " " << (j + 1) / stacks << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
 
 			}
 			// Acabar com os triangulos do bico
@@ -718,18 +774,18 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 			file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 			p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << i / slices << " " << 1 << "\n"; //Textura
+			//file << " " << i / slices << " " << 1 << "\n"; //Textura
 
 			
 			file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 			p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << (i + 1) / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
+			//file << " " << (i + 1) / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
 			
 			file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 			p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			file << " " << i / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
+			//file << " " << i / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
 		}
 	}
 	else printf("File not opened\n");

@@ -20,7 +20,8 @@ float pi = M_PI;
 
 Cena cena;
 GLuint *buffers;
-//Gluint *buffersNormal;
+//GLuint *buffersNormal;
+//GLuint *buffersTextura;
 
 int generateBuffers(Grupo *group, int j) {
 
@@ -29,11 +30,18 @@ int generateBuffers(Grupo *group, int j) {
 		vector<float> pontos = (*it)->getPontos();
 		glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
 		glBufferData(GL_ARRAY_BUFFER, pontos.size() * 4, &pontos.front(), GL_STATIC_DRAW);
-		//vector<float> normais = (*it)->getNormais();
-		//glBindBuffer(GL_ARRAY_BUFFER, buffersNormal[1]);
-		//glBufferData(GL_ARRAY_BUFFER, normais.size() * 4, &normais.front(), GL_STATIC_DRAW);
+		/*
+		vector<float> normais = (*it)->getNormais();
+		glBindBuffer(GL_ARRAY_BUFFER, buffersNormal[j]);
+		glBufferData(GL_ARRAY_BUFFER, normais.size() * 4, &normais.front(), GL_STATIC_DRAW);
+		
+		vector<float> textura = (*it)->getTextura();
+		glBindBuffer(GL_ARRAY_BUFFER, buffersTextura[j]);
+		glBufferData(GL_ARRAY_BUFFER, textura.size() * 4, &textura.front(), GL_STATIC_DRAW);
+		*/
 		(*it)->setBuffer(buffers[j]);
-		//(*it)->setBuffer(buffers[j]);
+		//(*it)->setBuffer(buffersNormal[j]);
+		//(*it)->setBuffer(buffersTextura[j]);
 		j++;
 	}
 	vector<Grupo*> grupos = group->getGrupos();
@@ -81,6 +89,8 @@ void renderScene(void) {
 		0,0,0,
 		0.0f, 1.0f, 0.0f);
 	/*
+	
+	//Para cada objeto
 	GLfloat amb[4] = { 0.2, 0.2, 0.2, 1.0 };
 	GLfloat diff[4] = { 1.0, 1.0, 1.0, 1.0 };
 	GLfloat dir[4] = { 0.0, 0.0 ,1.0, 0.0 };
@@ -114,7 +124,6 @@ void processKeys(unsigned char c, int xx, int yy) {
 
 	glutPostRedisplay();
 }
-
 
 void processSpecialKeys(int key, int xx, int yy) {
 
@@ -193,9 +202,11 @@ int main(int argc, char** argv) {
 
 	buffers = (GLuint*) malloc(tam * sizeof(GLuint));
 	//buffersNormal = (GLuint*) malloc(tam * sizeof(GLuint));
+	//buffersTextura = (GLuint*)malloc(tam * sizeof(GLuint));
 	
 	glGenBuffers(tam, buffers);
 	//glGenBuffers(tam, buffersNormal);
+	//glGenBuffers(tam, buffersTextura);
 
 	int j = 0;
 	for(vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++){

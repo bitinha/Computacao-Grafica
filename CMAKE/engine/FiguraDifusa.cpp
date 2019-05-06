@@ -5,7 +5,7 @@ FiguraDifusa::FiguraDifusa()
 {
 }
 
-FiguraDifusa::FiguraDifusa(float r, float g, float b, float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos, vector<float> normais)
+FiguraDifusa::FiguraDifusa(float r, float g, float b, float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos/*, vector<float> normais, vector<float> textura*/)
 {
 	this->r = r;
 	this->g = g;
@@ -15,7 +15,8 @@ FiguraDifusa::FiguraDifusa(float r, float g, float b, float diffuse[3], float sp
 	this->emissive[0] = emissive[0]; this->emissive[1] = emissive[1]; this->emissive[2] = emissive[2];
 	this->ambient[0] = ambient[0]; this->ambient[1] = ambient[1]; this->ambient[2] = ambient[2];
 	this->pontos = pontos;
-	this->normais = normais;
+	//this->normais = normais;
+	//this->textura = textura;
 }
 
 FiguraDifusa::~FiguraDifusa()
@@ -66,11 +67,19 @@ void FiguraDifusa::setAmbient(float *ambient) {
 void FiguraDifusa::draw()
 {	
 	glColor3f(this->r, this->g, this->b);
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, this->diffuse);
-	glMaterialfv(GL_FRONT, GL_SPECULAR, this->specular);
-	glMaterialfv(GL_FRONT, GL_EMISSION, this->emissive);
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, this->diffuse);
+	//glMaterialfv(GL_FRONT, GL_SPECULAR, this->specular);
+	//glMaterialfv(GL_FRONT, GL_EMISSION, this->emissive);
 	glBindBuffer(GL_ARRAY_BUFFER, this->buffer);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
+	
+	glBindBuffer(GL_ARRAY_BUFFER, this->bufferNormal);
+	glNormalPointer(GL_FLOAT, 0, 0);
+	
+	//glBindBuffer(GL_ARRAY_BUFFER, this->bufferTextura);
+	//glTexCoordPointer(2, GL_FLOAT, 0, 0);
+
 	glDrawArrays(GL_TRIANGLES, 0, this->pontos.size() / 3);
+
 	glColor3f(1, 1, 1);
 }
