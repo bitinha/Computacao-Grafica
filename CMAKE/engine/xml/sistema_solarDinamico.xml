@@ -1,11 +1,14 @@
 <scene>
+	<lights>
+		<light type="POINT" posX = "20" posY = "0" posZ = "0" ambX = "0.2" ambY ="0.2" ambZ = "0.2" diffR="1" diffG="1" diffB="1"/>
+	</lights>
     <group>
 		<group>		<!-- SOL -->
 			<rotate angle="7" axisX="1" axisY="0" axisZ="0" /> 
 			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
-				<model file="../xml/sphere.3d"  colorR="0.8" colorG="0.3" colorB="0.1" diffuseR="0" diffuseG="0" diffuseB="0"/>
+				<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.2" diffB="0.2" ambR="1" ambG="1" ambB="1"/>
 			</models>
 		</group>
 		<group>		<!-- MERCURIO -->
@@ -17,7 +20,7 @@
 			</translate>
 			<rotate time="58.6" axisX="0" axisY="1" axisZ="0" /> 
 			<models>
-				<model file="../xml/sphere.3d" colorR="0.8" colorG="0.8" colorB="0.8"/>
+				<model file="../xml/sphere.3d" diffR="1" diffG="1" diffB="1" ambR="1" ambG="1" ambB="1"/>
 			</models>
 		</group>
 		<group>		<!-- VENUS -->

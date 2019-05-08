@@ -8,13 +8,14 @@ class Cena
 {
 public: 
 	vector<Grupo*> grupos;
-	Luz* luz;
+	vector<Luz*> luz;
 	
 	Cena();
-	Cena(vector<Grupo*> grupo, Luz* l);
+	Cena(vector<Grupo*> grupo, vector<Luz*> l);
 	~Cena();
-	Luz* getLuz();
-	void setLuz(Luz* l);
+	vector<Luz*> getLuz();
+	void setLuz(vector<Luz*> l);
 	vector<Grupo*> getGrupos();
 	void setGrupos(vector<Grupo*> g);
+	void ilumina();
 };

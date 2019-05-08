@@ -10,10 +10,10 @@ class Figura
 public:
 	vector<float> pontos;
 	vector<float> normais;
-	vector<float> textura;
+	//vector<float> textura;
 	GLuint buffer;
 	GLuint bufferNormal;
-	GLuint bufferTextura;
+	//GLuint bufferTextura;
 	Figura();
 	~Figura();
 	vector<float> getPontos();

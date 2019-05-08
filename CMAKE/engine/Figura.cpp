@@ -38,7 +38,7 @@ GLuint Figura::getBufferNormal() {
 void Figura::setBufferNormal(GLuint normais) {
 	this->bufferNormal = normais;
 }
-
+/*
 vector<float> Figura::getTextura(){
 	return this->textura;
 }
@@ -52,7 +52,7 @@ GLuint Figura::getBufferTextura(){
 void Figura::setBufferTextura(GLuint bufferTextura){
 	this->bufferTextura = bufferTextura;
 }
-
+*/
 void Figura::draw()
 {
 }

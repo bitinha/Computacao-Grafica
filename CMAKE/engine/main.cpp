@@ -20,7 +20,7 @@ float pi = M_PI;
 
 Cena cena;
 GLuint *buffers;
-//GLuint *buffersNormal;
+GLuint *buffersNormal;
 //GLuint *buffersTextura;
 
 int generateBuffers(Grupo *group, int j) {
@@ -30,17 +30,17 @@ int generateBuffers(Grupo *group, int j) {
 		vector<float> pontos = (*it)->getPontos();
 		glBindBuffer(GL_ARRAY_BUFFER, buffers[j]);
 		glBufferData(GL_ARRAY_BUFFER, pontos.size() * 4, &pontos.front(), GL_STATIC_DRAW);
-		/*
+		
 		vector<float> normais = (*it)->getNormais();
 		glBindBuffer(GL_ARRAY_BUFFER, buffersNormal[j]);
 		glBufferData(GL_ARRAY_BUFFER, normais.size() * 4, &normais.front(), GL_STATIC_DRAW);
-		
+		/*
 		vector<float> textura = (*it)->getTextura();
 		glBindBuffer(GL_ARRAY_BUFFER, buffersTextura[j]);
 		glBufferData(GL_ARRAY_BUFFER, textura.size() * 4, &textura.front(), GL_STATIC_DRAW);
 		*/
 		(*it)->setBuffer(buffers[j]);
-		//(*it)->setBuffer(buffersNormal[j]);
+		(*it)->setBufferNormal(buffersNormal[j]);
 		//(*it)->setBuffer(buffersTextura[j]);
 		j++;
 	}
@@ -77,6 +77,15 @@ void changeSize(int w, int h) {
 	glMatrixMode(GL_MODELVIEW);
 }
 
+void geraIluminacao() {
+	int i = 0;
+	vector<Luz*> luz = cena.getLuz();
+	for (vector<Luz*>::iterator it = luz.begin(); it != luz.end(); it++) {
+		(*it)->ilumina(i);
+		i++;
+	}
+}
+
 void renderScene(void) {
 
 	// clear buffers
@@ -88,16 +97,9 @@ void renderScene(void) {
 	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
 		0,0,0,
 		0.0f, 1.0f, 0.0f);
-	/*
 	
-	//Para cada objeto
-	GLfloat amb[4] = { 0.2, 0.2, 0.2, 1.0 };
-	GLfloat diff[4] = { 1.0, 1.0, 1.0, 1.0 };
-	GLfloat dir[4] = { 0.0, 0.0 ,1.0, 0.0 };
-	glLightfv(GL_LIGHT0, GL_AMBIENT, amb);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, diff);
-	glLightfv(GL_LIGHT0, GL_POSITION, dir);
-	*/
+	geraIluminacao();
+
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
 	vector<Grupo*> grupos = cena.getGrupos();
 
@@ -176,24 +178,19 @@ int main(int argc, char** argv) {
 #ifndef __APPLE__
 	glewInit();
 #endif
-/*
-	// OpenGL settings 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
 
-	// init
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_NORMAL_ARRAY);
-
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
-	*/
 	//  OpenGL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	
+	// init
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+
 	vector<Grupo*> grupos = cena.getGrupos();
 	int tam = 0;
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
@@ -201,11 +198,11 @@ int main(int argc, char** argv) {
 	}
 
 	buffers = (GLuint*) malloc(tam * sizeof(GLuint));
-	//buffersNormal = (GLuint*) malloc(tam * sizeof(GLuint));
+	buffersNormal = (GLuint*) malloc(tam * sizeof(GLuint));
 	//buffersTextura = (GLuint*)malloc(tam * sizeof(GLuint));
 	
 	glGenBuffers(tam, buffers);
-	//glGenBuffers(tam, buffersNormal);
+	glGenBuffers(tam, buffersNormal);
 	//glGenBuffers(tam, buffersTextura);
 
 	int j = 0;

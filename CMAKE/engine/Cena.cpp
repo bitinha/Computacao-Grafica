@@ -4,7 +4,7 @@ Cena::Cena(){
 
 }
 
-Cena::Cena(vector<Grupo*> g, Luz* l) {
+Cena::Cena(vector<Grupo*> g, vector<Luz*> l) {
 	this->grupos = g;
 	this->luz = l;
 }
@@ -14,11 +14,11 @@ Cena::~Cena() {
 
 }
 
-Luz* Cena::getLuz() {
+vector<Luz*> Cena::getLuz() {
 	return this-> luz;
 }
 
-void Cena::setLuz(Luz* l) {
+void Cena::setLuz(vector<Luz*> l) {
 	this->luz = l;
 }
 
@@ -28,4 +28,11 @@ vector<Grupo*> Cena::getGrupos() {
 
 void Cena::setGrupos(vector<Grupo*> g) {
 	this->grupos = g;
+}
+
+void Cena::ilumina() {
+	int tam = this->luz.size();
+	for (int i = 0; i < tam; i++) {
+
+	}
 }

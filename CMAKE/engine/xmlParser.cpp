@@ -25,11 +25,18 @@ float str2Num(const char * str) {
 	return atof(str);
 }
 
-
 float str2Float(const char * str) {
 
 	if (str == nullptr) {
 		return 0;
+	}
+	return atof(str);
+}
+
+float str2Comp(const char * str) {
+
+	if (str == nullptr) {
+		return -1;
 	}
 	return atof(str);
 }
@@ -53,35 +60,25 @@ Figura interpretador(const char * file){
 	erro = fopen_s(&pfile, file, "r");
 	if (erro == 0) {
 		while (EOF != (ch = getc(pfile))) {
-			//if (x % 2 == 0){
-					ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
-					fscanf_s(pfile, "%f ", &py, sizeof(py));
-					fscanf_s(pfile, "%f", &pz, sizeof(pz));
-					point.push_back(px);
-					point.push_back(py);
-					point.push_back(pz);
-				//}
-			/*
-			else if (x % 2 == 1) {
-				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
-				fscanf_s(pfile, "%f ", &py, sizeof(py));
-				fscanf_s(pfile, "%f", &pz, sizeof(pz));
+			ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+			fscanf_s(pfile, "%f ", &py, sizeof(py));
+			fscanf_s(pfile, "%f", &pz, sizeof(pz));
+			if (ok >= 0 && x % 2 == 0){
+				point.push_back(px);
+				point.push_back(py);
+				point.push_back(pz);
+			}
+			else if (ok >= 0) {
 				normais.push_back(px);
 				normais.push_back(py);
 				normais.push_back(pz);
 			}
-			else{
-				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
-				fscanf_s(pfile, "%f ", &py, sizeof(py));
-				textura.push_back(px);
-				textura.push_back(py);
-			}*/
 			x++;
 		}
 	}
 	fclose(pfile);
 	fig.setPontos(point);
-	//fig.setNormais(normais);
+	fig.setNormais(normais);
 	//fig.setTextura(textura);
 	return fig;
 }
@@ -113,31 +110,31 @@ Grupo* models(Grupo *group, XMLNode * element) {
 		diffR = model->Attribute("diffR");
 		diffG = model->Attribute("diffG");
 		diffB = model->Attribute("diffB");
-		emissiveR = model->Attribute("emissiveR");
-		emissiveG = model->Attribute("emissiveG");
-		emissiveB = model->Attribute("emissiveB");
-		specularR = model->Attribute("specularR");
-		specularG = model->Attribute("specularG");
-		specularB = model->Attribute("specularB");
-		ambientR = model->Attribute("ambientR");
-		ambientG = model->Attribute("ambientG");
-		ambientB = model->Attribute("ambientB");
+		emissiveR = model->Attribute("emiR");
+		emissiveG = model->Attribute("emiG");
+		emissiveB = model->Attribute("emiB");
+		specularR = model->Attribute("specR");
+		specularG = model->Attribute("specG");
+		specularB = model->Attribute("specB");
+		ambientR = model->Attribute("ambR");
+		ambientG = model->Attribute("ambG");
+		ambientB = model->Attribute("ambB");
 		
-		r = str2Num(colorR);
-		g = str2Num(colorG);
-		b = str2Num(colorB);
-		dR = str2Num(diffR);
-		dG = str2Num(diffG);
-		dB = str2Num(diffB);
-		eR = str2Num(emissiveR);
-		eG = str2Num(emissiveG);
-		eB = str2Num(emissiveB);
-		aR = str2Num(ambientR);
-		aG = str2Num(ambientG);
-		aB = str2Num(ambientB);
-		sR = str2Num(specularR);
-		sG = str2Num(specularG);
-		sB = str2Num(specularB);
+		r = str2Comp(colorR);
+		g = str2Comp(colorG);
+		b = str2Comp(colorB);
+		dR = str2Comp(diffR);
+		dG = str2Comp(diffG);
+		dB = str2Comp(diffB);
+		eR = str2Comp(emissiveR);
+		eG = str2Comp(emissiveG);
+		eB = str2Comp(emissiveB);
+		aR = str2Comp(ambientR);
+		aG = str2Comp(ambientG);
+		aB = str2Comp(ambientB);
+		sR = str2Comp(specularR);
+		sG = str2Comp(specularG);
+		sB = str2Comp(specularB);
 
 		float diffuse[3] = {dR, dG, dB};
 		float emissive[3] = {eR, eG, eB };
@@ -145,8 +142,8 @@ Grupo* models(Grupo *group, XMLNode * element) {
 		float ambient[3] = {aR, aG, aB };
 
 		iOutListValue = model->Attribute("file");
-		Figura fig = interpretador(iOutListValue);
-		FiguraDifusa* dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos()/*,fig.getNormais(), fig.getTextura()*/);
+		Figura fig = interpretador(iOutListValue);		
+		FiguraDifusa *dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais()/*, fig.getTextura()*/);
 		group->addFigura(dif);
 		element = element->NextSibling();
 		//}
@@ -228,35 +225,45 @@ Grupo* trataGrupo(XMLNode * node) {
 	return gr;
 }
 
-Luz* trataLuz(XMLNode * node) {
+vector<Luz*> trataLuz(XMLNode * node) {
 	XMLNode * element = node;
 	XMLElement * transformacao;
-	Luz* l = nullptr;
+	vector<Luz*> l;
 
 	while (node != nullptr) {
 		if (!strcmp(node->Value(), "light")) {
 			transformacao = node->ToElement();
+				float p[3], dir[3], diff[3], spec[3], amb[3];
+				p[0] = str2Float(transformacao->Attribute("posX"));
+				p[1] = str2Float(transformacao->Attribute("posY"));
+				p[2] = str2Float(transformacao->Attribute("posZ"));
+				dir[0] = str2Float(transformacao->Attribute("dirX"));
+				dir[1] = str2Float(transformacao->Attribute("dirY"));
+				dir[2] = str2Float(transformacao->Attribute("dirZ"));
+				diff[0] = str2Float(transformacao->Attribute("diffX"));
+				diff[1] = str2Float(transformacao->Attribute("diffY"));
+				diff[2] = str2Float(transformacao->Attribute("diffZ"));
+				spec[0] = str2Float(transformacao->Attribute("specX"));
+				spec[1] = str2Float(transformacao->Attribute("specY"));
+				spec[2] = str2Float(transformacao->Attribute("specZ"));
+				amb[0] = str2Float(transformacao->Attribute("ambX"));
+				amb[1] = str2Float(transformacao->Attribute("ambY"));
+				amb[2] = str2Float(transformacao->Attribute("ambZ"));
+				float atenuation = str2Float(transformacao->Attribute("atenuation"));
+				GLfloat angle = str2Float(transformacao->Attribute("angle"));
+				GLfloat exponent = str2Float(transformacao->Attribute("exponent"));
 			if (!strcmp(transformacao->Attribute("type"), "POINT")) {
-				float dx = str2Float(transformacao->Attribute("posX"));
-				float dy = str2Float(transformacao->Attribute("posY"));
-				float dz = str2Float(transformacao->Attribute("posZ"));
-				PointLight* p = new PointLight(dx, dy, dz);
-				l = p;
+				
+				PointLight* pl = new PointLight(p, diff, spec, amb, atenuation);
+				l.push_back(pl);
 			}
 			else if (!strcmp(transformacao->Attribute("type"), "DIRECTIONAL")) {
-				float dx = str2Float(transformacao->Attribute("dirX"));
-				float dy = str2Float(transformacao->Attribute("dirY"));
-				float dz = str2Float(transformacao->Attribute("dirZ"));
-				Directional* p = new Directional(dx, dy, dz);
-				l = p;
+				Directional* di = new Directional(p, diff, spec, amb);
+				l.push_back(di);
 			}
 			else if (!strcmp(transformacao->Attribute("type"), "SPOT")) {
-				float dx = str2Float(transformacao->Attribute("dirX"));
-				float dy = str2Float(transformacao->Attribute("dirY"));
-				float dz = str2Float(transformacao->Attribute("dirZ"));
-				float angle = str2Float(transformacao->Attribute("angle"));
-				Spot* p = new Spot(dx, dy, dz, angle);
-				l = p;
+				Spot* s = new Spot(p, diff, spec, amb, dir, angle, exponent, atenuation);
+				l.push_back(s);
 			}
 			else;
 			node = node->NextSibling();
@@ -296,7 +303,7 @@ Cena xmlParser(const char* filename) {
 	}
 
 	vector<Grupo*> grupos;
-	Luz* l = nullptr;
+	vector<Luz*> l;
 
 	pRoot = pRoot->FirstChild();
 	
@@ -314,6 +321,5 @@ Cena xmlParser(const char* filename) {
 	}
 
 	c = Cena(grupos, l);
-	
 	return c;
 }
