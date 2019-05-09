@@ -748,56 +748,61 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 		for (int i = 0; i < slices; i++) { // Itera pelas fatias
 			float angle1 = i * slice;
 			float angle2 = (i + 1) * slice;
+			float rad_base_texture = 0.25;
 			float p[3];
 
 			//Cria a base
 			file << " " << 0 << " " << 0 << " " << 0 << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			//file << " " << i / slices << " " << 1 << "\n"; //Textura
+			//file << " " << 0.25 << " " << 0.75 << "\n"; //Textura
 
 			file << " " << radius * cos(angle1) << " " << 0 << " " << radius * sin(angle1) << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			//file << " " << i / slices << " " << 0 << "\n"; //Textura
+			//file << " " << 0.25 + rad_base_texture * cos(angle1) << " " << 0.75 + rad_base_texture * sin(angle1) << "\n"; //Textura
 
 			file << " " << radius * cos(angle2) << " " << 0 << " " << radius * sin(angle2) << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n";//Normal base
-			//file << " " << (i + 1) / slices << " " << 0 << "\n"; //Textura
+			//file << " " << 0.25 + rad_base_texture * cos(angle2) << " " << 0.75 + rad_base_texture * sin(angle2) << "\n"; //Textura
 
 			for (int j = 0; j < stacks - 1; j++) { //Itera pelas camadas ; Na ultima camada vai desenhar um por cima do outro
 				float lowerH = j * stackH; // Altura na camada inferior
 				float upperH = (j + 1) * stackH; // Altura na camada superior
 				float lowerR = radius - stackR * j;// Raio para a camada inferior
 				float upperR = radius - stackR * (j + 1);// Raio para a camada superior
+				float angle_sup_tex1 = angle1 / 2.0 + M_PI;// Angulo da parte superior do cone na textura
+				float angle_sup_tex2 = angle2 / 2.0 + M_PI;// Angulo da parte superior do cone na textura
+				float rad_sup_tex1 = stackR * j;// Raio da parte superior do cone na textura
+				float rad_sup_tex2 = stackR * (j + 1);// Raio da parte superior do cone na textura
 				
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex2 * cos(angle_sup_tex1) << " " << rad_sup_tex2 * sin(angle_sup_tex1) << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex1 * cos(angle_sup_tex2) << " " << rad_sup_tex1 * sin(angle_sup_tex2) << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << i / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex1 * cos(angle_sup_tex1) << " " << rad_sup_tex1 * sin(angle_sup_tex1) << "\n"; //Textura
 
 				file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 				p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << i / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex2 * cos(angle_sup_tex1) << " " << rad_sup_tex2 * sin(angle_sup_tex1) << "\n"; //Textura
 				
 				file << " " << upperR * cos(angle2) << " " << upperH << " " << upperR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << (i + 1) / stacks << " " << (j + 1) / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex2 * cos(angle_sup_tex2) << " " << rad_sup_tex2 * sin(angle_sup_tex2) << "\n"; //Textura
 				
 				file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 				p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 				file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-				//file << " " << (i + 1) / stacks << " " << j / stacks << "\n"; //Textura
+				//file << " " << rad_sup_tex1 * cos(angle_sup_tex2) << " " << rad_sup_tex1 * sin(angle_sup_tex2) << "\n"; //Textura
 
 			}
 			// Acabar com os triangulos do bico
@@ -805,22 +810,23 @@ void writeConeFile(const char* r, const char* h, const char* sl, const char* st,
 			float upperH = stacks * stackH; // Altura na camada superior
 			float lowerR = radius - stackR * (stacks - 1);// Raio para a camada inferior
 			float upperR = radius - stackR * stacks;// Raio para a camada superior
+			float rad_lower_tex = stackR * (stacks - 1);// Raio da parte superior do cone na textura
 
 			file << " " << upperR * cos(angle1) << " " << upperH << " " << upperR * sin(angle1) << "\n";
 			p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			//file << " " << i / slices << " " << 1 << "\n"; //Textura
+			//file << " " << 0.5 << " " << 0.5 << "\n"; //Textura
 
 			
 			file << " " << lowerR * cos(angle2) << " " << lowerH << " " << lowerR * sin(angle2) << "\n";
 			p[0] = cos(angle2); p[1] = sin(ang); p[2] = sin(angle2); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			//file << " " << (i + 1) / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
+			//file << " " << rad_lower_tex * cos(angle2 / 2.0 + M_PI) << " " << rad_lower_tex * sin(angle2 / 2.0 + M_PI) << "\n"; //Textura
 			
 			file << " " << lowerR * cos(angle1) << " " << lowerH << " " << lowerR * sin(angle1) << "\n";
 			p[0] = cos(angle1); p[1] = sin(ang); p[2] = sin(angle1); normalize(p);
 			file << " " << p[0] << " " << p[1] << " " << p[2] << "\n"; //Normal
-			//file << " " << i / slices << " " << 1 - (1 / stacks) << "\n"; //Textura
+			//file << " " << rad_lower_tex * cos(angle1 / 2.0 + M_PI) << " " << rad_lower_tex * sin(angle1 / 2.0 + M_PI) << "\n"; //Textura
 		}
 	}
 	else printf("File not opened\n");
