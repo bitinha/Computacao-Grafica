@@ -101,12 +101,10 @@ vector<Ponto> getControlPoints(XMLNode * element) {
 Grupo* models(Grupo *group, XMLNode * element) {
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
-		const char* iOutListValue, *diffR, *diffG, *diffB, *colorR, *colorG, *colorB, *emissiveR, *emissiveG, *emissiveB, *ambientR, *ambientG, *ambientB, *specularR, *specularG, *specularB;
-		float r, g, b, cR, cG, cB, dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
+		const char* iOutListValue, *diffR, *diffG, *diffB, *emissiveR, *emissiveG, *emissiveB, *ambientR, *ambientG, *ambientB, *specularR, *specularG, *specularB;
+		float cR, cG, cB, dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
 		//if (model->Attribute("texture") == nullptr) {		
-		colorR = model->Attribute("colorR");
-		colorG = model->Attribute("colorG");
-		colorB = model->Attribute("colorB");
+
 		diffR = model->Attribute("diffR");
 		diffG = model->Attribute("diffG");
 		diffB = model->Attribute("diffB");
@@ -120,21 +118,19 @@ Grupo* models(Grupo *group, XMLNode * element) {
 		ambientG = model->Attribute("ambG");
 		ambientB = model->Attribute("ambB");
 		
-		r = str2Comp(colorR);
-		g = str2Comp(colorG);
-		b = str2Comp(colorB);
-		dR = str2Comp(diffR);
-		dG = str2Comp(diffG);
-		dB = str2Comp(diffB);
-		eR = str2Comp(emissiveR);
-		eG = str2Comp(emissiveG);
-		eB = str2Comp(emissiveB);
-		aR = str2Comp(ambientR);
-		aG = str2Comp(ambientG);
-		aB = str2Comp(ambientB);
-		sR = str2Comp(specularR);
-		sG = str2Comp(specularG);
-		sB = str2Comp(specularB);
+
+		dR = str2Num(diffR);
+		dG = str2Num(diffG);
+		dB = str2Num(diffB);
+		eR = str2Num(emissiveR);
+		eG = str2Num(emissiveG);
+		eB = str2Num(emissiveB);
+		aR = str2Num(ambientR);
+		aG = str2Num(ambientG);
+		aB = str2Num(ambientB);
+		sR = str2Num(specularR);
+		sG = str2Num(specularG);
+		sB = str2Num(specularB);
 
 		float diffuse[3] = {dR, dG, dB};
 		float emissive[3] = {eR, eG, eB };
@@ -143,7 +139,7 @@ Grupo* models(Grupo *group, XMLNode * element) {
 
 		iOutListValue = model->Attribute("file");
 		Figura fig = interpretador(iOutListValue);		
-		FiguraDifusa *dif = new FiguraDifusa(r, g, b, diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais()/*, fig.getTextura()*/);
+		FiguraDifusa *dif = new FiguraDifusa(diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais()/*, fig.getTextura()*/);
 		group->addFigura(dif);
 		element = element->NextSibling();
 		//}
@@ -234,21 +230,21 @@ vector<Luz*> trataLuz(XMLNode * node) {
 		if (!strcmp(node->Value(), "light")) {
 			transformacao = node->ToElement();
 				float p[3], dir[3], diff[3], spec[3], amb[3];
-				p[0] = str2Float(transformacao->Attribute("posX"));
-				p[1] = str2Float(transformacao->Attribute("posY"));
-				p[2] = str2Float(transformacao->Attribute("posZ"));
-				dir[0] = str2Float(transformacao->Attribute("dirX"));
-				dir[1] = str2Float(transformacao->Attribute("dirY"));
-				dir[2] = str2Float(transformacao->Attribute("dirZ"));
-				diff[0] = str2Float(transformacao->Attribute("diffX"));
-				diff[1] = str2Float(transformacao->Attribute("diffY"));
-				diff[2] = str2Float(transformacao->Attribute("diffZ"));
-				spec[0] = str2Float(transformacao->Attribute("specX"));
-				spec[1] = str2Float(transformacao->Attribute("specY"));
-				spec[2] = str2Float(transformacao->Attribute("specZ"));
-				amb[0] = str2Float(transformacao->Attribute("ambX"));
-				amb[1] = str2Float(transformacao->Attribute("ambY"));
-				amb[2] = str2Float(transformacao->Attribute("ambZ"));
+				p[0] = str2Comp(transformacao->Attribute("posX"));
+				p[1] = str2Comp(transformacao->Attribute("posY"));
+				p[2] = str2Comp(transformacao->Attribute("posZ"));
+				dir[0] = str2Comp(transformacao->Attribute("dirX"));
+				dir[1] = str2Comp(transformacao->Attribute("dirY"));
+				dir[2] = str2Comp(transformacao->Attribute("dirZ"));
+				diff[0] = str2Comp(transformacao->Attribute("diffX"));
+				diff[1] = str2Comp(transformacao->Attribute("diffY"));
+				diff[2] = str2Comp(transformacao->Attribute("diffZ"));
+				spec[0] = str2Comp(transformacao->Attribute("specX"));
+				spec[1] = str2Comp(transformacao->Attribute("specY"));
+				spec[2] = str2Comp(transformacao->Attribute("specZ"));
+				amb[0] = str2Comp(transformacao->Attribute("ambX"));
+				amb[1] = str2Comp(transformacao->Attribute("ambY"));
+				amb[2] = str2Comp(transformacao->Attribute("ambZ"));
 				float atenuation = str2Float(transformacao->Attribute("atenuation"));
 				GLfloat angle = str2Float(transformacao->Attribute("angle"));
 				GLfloat exponent = str2Float(transformacao->Attribute("exponent"));

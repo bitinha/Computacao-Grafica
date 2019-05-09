@@ -2,10 +2,10 @@
 class Luz
 {
 public: 
-	float position[3];
-	float diffuse[3];
-	float ambient[3];
-	float specular[3];
+	float position[4];
+	float diffuse[4];
+	float ambient[4];
+	float specular[4];
 	Luz();
 	Luz(float p[3], float diff[3], float s[3], float a[3]);
 	~Luz();

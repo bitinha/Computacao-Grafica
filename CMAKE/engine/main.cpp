@@ -52,6 +52,10 @@ int generateBuffers(Grupo *group, int j) {
 	return j;
 }
 
+void iniciaLuzSecundaria() {
+
+}
+
 void changeSize(int w, int h) {
 
 	// Prevent a divide by zero, when window is too short
@@ -189,6 +193,7 @@ int main(int argc, char** argv) {
 	
 	// init
 	glEnable(GL_LIGHTING);
+	iniciaLuzSecundaria();
 	glEnable(GL_LIGHT0);
 
 	vector<Grupo*> grupos = cena.getGrupos();

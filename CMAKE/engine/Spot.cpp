@@ -20,14 +20,18 @@ Spot::~Spot() {
 }
 
 void Spot::ilumina(int i){
-	glLightfv(i, GL_POSITION, this->position);
-	glLightfv(i, GL_AMBIENT, this->ambient);
-	glLightfv(i, GL_DIFFUSE, this->diffuse);
-	glLightfv(i, GL_SPECULAR, this->specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, this->position);
+	if (this->ambient[0] != -1)
+		glLightfv(GL_LIGHT0, GL_AMBIENT, this->ambient);
+	if (this->specular[0] != -1)
+		glLightfv(GL_LIGHT0, GL_SPECULAR, this->specular);
+	if (this->diffuse[0] != -1)
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, this->diffuse);
 
-	glLightfv(i, GL_SPOT_DIRECTION, this->spotDirection);
+	glLightfv(GL_LIGHT0, GL_SPOT_DIRECTION, this->spotDirection);
 	
-	glLightfv(i, GL_SPOT_CUTOFF, &this->angle);
-	glLightfv(i, GL_SPOT_EXPONENT, &this->exponent);
-	glLightf(i, GL_QUADRATIC_ATTENUATION, this->atenuacao);
+	glLightfv(GL_LIGHT0, GL_SPOT_CUTOFF, &this->angle);
+	glLightfv(GL_LIGHT0, GL_SPOT_EXPONENT, &this->exponent);
+	if (this->atenuacao != -1)
+		glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, this->atenuacao);
 }

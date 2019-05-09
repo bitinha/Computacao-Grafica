@@ -5,11 +5,8 @@ FiguraDifusa::FiguraDifusa()
 {
 }
 
-FiguraDifusa::FiguraDifusa(float r, float g, float b, float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos, vector<float> normais)
+FiguraDifusa::FiguraDifusa(float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos, vector<float> normais)
 {
-	this->r = r;
-	this->g = g;
-	this->b = b;
 	this->diffuse[0] = diffuse[0]; this->diffuse[1] = diffuse[1]; this->diffuse[2] = diffuse[2];
 	this->specular[0] = specular[0]; this->specular[1] = specular[1]; this->specular[2] = specular[2];
 	this->emissive[0] = emissive[0]; this->emissive[1] = emissive[1]; this->emissive[2] = emissive[2];
@@ -63,43 +60,17 @@ void FiguraDifusa::setAmbient(float *ambient) {
 	this->ambient[2] = ambient[2];
 }
 
-float FiguraDifusa::getR() {
-	return this->r;
-}
-
-void FiguraDifusa::setR(float r) {
-	this->r = r;
-}
-
-float FiguraDifusa::getG() {
-	return this->g;
-}
-
-void FiguraDifusa::setG(float g) {
-	this->g = g;
-}
-
-float FiguraDifusa::getB() {
-	return this->b;
-}
-
-void FiguraDifusa::setB(float b) {
-	this->b = b;
-}
-
 void FiguraDifusa::draw()
 {	
-	if (this->r >= 0 && this->r <= 1)
-		glColor3f(this->r, this->g, this->b);
-	if(this->diffuse[0] != -1)
+	if (this->diffuse[0] != -1)
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, this->diffuse);
-	if(this->specular[0] != -1)
+	if (this->specular[0] != -1)
 		glMaterialfv(GL_FRONT, GL_SPECULAR, this->specular);
 	if (this->emissive[0] != -1)
 		glMaterialfv(GL_FRONT, GL_EMISSION, this->emissive);
 	if (this->ambient[0] != -1)
 		glMaterialfv(GL_FRONT, GL_AMBIENT, this->ambient);
-	
+
 	glBindBuffer(GL_ARRAY_BUFFER, this->buffer);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
 
