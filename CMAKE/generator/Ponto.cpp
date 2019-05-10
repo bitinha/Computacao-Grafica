@@ -20,9 +20,9 @@ float Ponto::getX() {
 }
 
 float Ponto::getZ() {
-	return this->y;
+	return this->z;
 }
 
 float Ponto::getY() {
-	return this->z;
+	return this->y;
 }
