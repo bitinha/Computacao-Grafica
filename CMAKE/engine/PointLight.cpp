@@ -17,8 +17,9 @@ PointLight::~PointLight() {
 }
 
 void PointLight::ilumina(int i) {
-		glLightfv(GL_LIGHT0, GL_POSITION, this->position);
-		glLightfv(GL_LIGHT0, GL_AMBIENT, this->ambient);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, this->diffuse);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, this->specular);
+	glLightfv(GL_LIGHT0, GL_POSITION, this->position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, this->ambient);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, this->specular);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, this->diffuse);
+	
 }

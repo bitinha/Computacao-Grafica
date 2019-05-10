@@ -10,7 +10,7 @@ public:
 	float specular[4];
 	float emissive[4];
 	float ambient[4];
-	FiguraDifusa(float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos ,vector<float> normais/*, vector<float> textura*/);
+	FiguraDifusa(float diffuse[3], float specular[3], float emissive[3], float ambient[3], vector<float> pontos ,vector<float> normais, vector<float> textura);
 	FiguraDifusa();
 	~FiguraDifusa();
 	float* getDiffuse();
@@ -22,4 +22,5 @@ public:
 	float* getAmbient();
 	void setAmbient(float *ambient);
 	void draw();
+	void generateTexturaFigura();
 };

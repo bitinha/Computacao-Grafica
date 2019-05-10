@@ -1,6 +1,7 @@
 #include <vector>
 #include "GL/glew.h"
 #include "GL/glut.h"
+#include "IL/il.h"
 #pragma once
 
 using namespace std;
@@ -10,10 +11,10 @@ class Figura
 public:
 	vector<float> pontos;
 	vector<float> normais;
-	//vector<float> textura;
+	vector<float> textura;
 	GLuint buffer;
 	GLuint bufferNormal;
-	//GLuint bufferTextura;
+	GLuint bufferTextura;
 	Figura();
 	~Figura();
 	vector<float> getPontos();
@@ -28,5 +29,6 @@ public:
 	GLuint getBufferTextura();
 	void setBufferTextura(GLuint bufferTextura);
 	virtual void draw();
+	virtual void generateTexturaFigura();
 };
 

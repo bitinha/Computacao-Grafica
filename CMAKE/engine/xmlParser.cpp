@@ -5,6 +5,7 @@
 #include "Rotacao.h"
 #include "Scale.h"
 #include "FiguraDifusa.h"
+#include "FiguraTextura.h"
 #include "PointLight.h"
 #include "Directional.h"
 #include "Spot.h"
@@ -52,7 +53,7 @@ Figura interpretador(const char * file){
 	int x = 0;
 	vector<float> normais;
 	vector<float> point;
-	//vector<float> textura;
+	vector<float> textura;
 	errno_t erro;
 	float px = 0, py = 0, pz = 0;
 	int ch, ok;
@@ -60,18 +61,33 @@ Figura interpretador(const char * file){
 	erro = fopen_s(&pfile, file, "r");
 	if (erro == 0) {
 		while (EOF != (ch = getc(pfile))) {
-			ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
-			fscanf_s(pfile, "%f ", &py, sizeof(py));
-			fscanf_s(pfile, "%f", &pz, sizeof(pz));
-			if (ok >= 0 && x % 2 == 0){
-				point.push_back(px);
-				point.push_back(py);
-				point.push_back(pz);
+			if (x % 3 == 0){
+				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+				fscanf_s(pfile, "%f ", &py, sizeof(py));
+				fscanf_s(pfile, "%f", &pz, sizeof(pz));
+				if (ok >= 0) {
+					point.push_back(px);
+					point.push_back(py);
+					point.push_back(pz);
+				}
 			}
-			else if (ok >= 0) {
-				normais.push_back(px);
-				normais.push_back(py);
-				normais.push_back(pz);
+			else if (x % 3 == 1) {
+				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+				fscanf_s(pfile, "%f ", &py, sizeof(py));
+				fscanf_s(pfile, "%f", &pz, sizeof(pz));
+				if (ok >= 0) {
+					normais.push_back(px);
+					normais.push_back(py);
+					normais.push_back(pz);
+				}
+			}
+			else {
+				ok = fscanf_s(pfile, "%f ", &px, sizeof(px));
+				fscanf_s(pfile, "%f", &py, sizeof(py));
+				if (ok >= 0) {
+					textura.push_back(px);
+					textura.push_back(py);
+				}
 			}
 			x++;
 		}
@@ -79,7 +95,7 @@ Figura interpretador(const char * file){
 	fclose(pfile);
 	fig.setPontos(point);
 	fig.setNormais(normais);
-	//fig.setTextura(textura);
+	fig.setTextura(textura);
 	return fig;
 }
 
@@ -102,50 +118,59 @@ Grupo* models(Grupo *group, XMLNode * element) {
 	while (element != nullptr) {
 		XMLElement * model = element->ToElement();
 		const char* iOutListValue, *diffR, *diffG, *diffB, *emissiveR, *emissiveG, *emissiveB, *ambientR, *ambientG, *ambientB, *specularR, *specularG, *specularB;
-		float cR, cG, cB, dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
-		//if (model->Attribute("texture") == nullptr) {		
-
-		diffR = model->Attribute("diffR");
-		diffG = model->Attribute("diffG");
-		diffB = model->Attribute("diffB");
-		emissiveR = model->Attribute("emiR");
-		emissiveG = model->Attribute("emiG");
-		emissiveB = model->Attribute("emiB");
-		specularR = model->Attribute("specR");
-		specularG = model->Attribute("specG");
-		specularB = model->Attribute("specB");
-		ambientR = model->Attribute("ambR");
-		ambientG = model->Attribute("ambG");
-		ambientB = model->Attribute("ambB");
+		float dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
+		if (model->Attribute("texture") == nullptr) {		
+			diffR = model->Attribute("diffR");
+			diffG = model->Attribute("diffG");
+			diffB = model->Attribute("diffB");
+			diffR = model->Attribute("diffR");
+			diffG = model->Attribute("diffG");
+			diffB = model->Attribute("diffB");
+			emissiveR = model->Attribute("emiR");
+			emissiveG = model->Attribute("emiG");
+			emissiveB = model->Attribute("emiB");
+			specularR = model->Attribute("specR");
+			specularG = model->Attribute("specG");
+			specularB = model->Attribute("specB");
+			ambientR = model->Attribute("ambR");
+			ambientG = model->Attribute("ambG");
+			ambientB = model->Attribute("ambB");
 		
 
-		dR = str2Num(diffR);
-		dG = str2Num(diffG);
-		dB = str2Num(diffB);
-		eR = str2Num(emissiveR);
-		eG = str2Num(emissiveG);
-		eB = str2Num(emissiveB);
-		aR = str2Num(ambientR);
-		aG = str2Num(ambientG);
-		aB = str2Num(ambientB);
-		sR = str2Num(specularR);
-		sG = str2Num(specularG);
-		sB = str2Num(specularB);
+			dR = str2Float(diffR);
+			dG = str2Float(diffG);
+			dB = str2Float(diffB);
+			eR = str2Float(emissiveR);
+			eG = str2Float(emissiveG);
+			eB = str2Float(emissiveB);
+			aR = str2Float(ambientR);
+			aG = str2Float(ambientG);
+			aB = str2Float(ambientB);
+			sR = str2Float(specularR);
+			sG = str2Float(specularG);
+			sB = str2Float(specularB);
 
-		float diffuse[3] = {dR, dG, dB};
-		float emissive[3] = {eR, eG, eB };
-		float specular[3] = {sR, sG, sB };
-		float ambient[3] = {aR, aG, aB };
+			float diffuse[3] = {dR, dG, dB};
+			float emissive[3] = {eR, eG, eB };
+			float specular[3] = {sR, sG, sB };
+			float ambient[3] = {aR, aG, aB };
 
-		iOutListValue = model->Attribute("file");
-		Figura fig = interpretador(iOutListValue);		
-		FiguraDifusa *dif = new FiguraDifusa(diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais()/*, fig.getTextura()*/);
-		group->addFigura(dif);
-		element = element->NextSibling();
-		//}
-		/*
-		else fazer a textura
-		*/
+			iOutListValue = model->Attribute("file");
+			Figura fig = interpretador(iOutListValue);		
+			FiguraDifusa *dif = new FiguraDifusa(diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais(), fig.getTextura());
+			group->addFigura(dif);
+			element = element->NextSibling();
+		}
+		else {
+			const char* tex;
+			tex = model->Attribute("texture");
+
+			iOutListValue = model->Attribute("file");
+			Figura fig = interpretador(iOutListValue);
+			FiguraTextura *textura = new FiguraTextura((char*)tex, fig.getPontos(), fig.getNormais(), fig.getTextura());
+			group->addFigura(textura);
+			element = element->NextSibling();
+		}
 	}
 	return group;
 }
@@ -230,21 +255,21 @@ vector<Luz*> trataLuz(XMLNode * node) {
 		if (!strcmp(node->Value(), "light")) {
 			transformacao = node->ToElement();
 				float p[3], dir[3], diff[3], spec[3], amb[3];
-				p[0] = str2Comp(transformacao->Attribute("posX"));
-				p[1] = str2Comp(transformacao->Attribute("posY"));
-				p[2] = str2Comp(transformacao->Attribute("posZ"));
-				dir[0] = str2Comp(transformacao->Attribute("dirX"));
-				dir[1] = str2Comp(transformacao->Attribute("dirY"));
-				dir[2] = str2Comp(transformacao->Attribute("dirZ"));
-				diff[0] = str2Comp(transformacao->Attribute("diffX"));
-				diff[1] = str2Comp(transformacao->Attribute("diffY"));
-				diff[2] = str2Comp(transformacao->Attribute("diffZ"));
-				spec[0] = str2Comp(transformacao->Attribute("specX"));
-				spec[1] = str2Comp(transformacao->Attribute("specY"));
-				spec[2] = str2Comp(transformacao->Attribute("specZ"));
-				amb[0] = str2Comp(transformacao->Attribute("ambX"));
-				amb[1] = str2Comp(transformacao->Attribute("ambY"));
-				amb[2] = str2Comp(transformacao->Attribute("ambZ"));
+				p[0] = str2Float(transformacao->Attribute("posX"));
+				p[1] = str2Float(transformacao->Attribute("posY"));
+				p[2] = str2Float(transformacao->Attribute("posZ"));
+				dir[0] = str2Float(transformacao->Attribute("dirX"));
+				dir[1] = str2Float(transformacao->Attribute("dirY"));
+				dir[2] = str2Float(transformacao->Attribute("dirZ"));
+				diff[0] = str2Float(transformacao->Attribute("diffR"));
+				diff[1] = str2Float(transformacao->Attribute("diffG"));
+				diff[2] = str2Float(transformacao->Attribute("diffB"));
+				spec[0] = str2Float(transformacao->Attribute("specR"));
+				spec[1] = str2Float(transformacao->Attribute("specG"));
+				spec[2] = str2Float(transformacao->Attribute("specB"));
+				amb[0] = str2Float(transformacao->Attribute("ambR"));
+				amb[1] = str2Float(transformacao->Attribute("ambG"));
+				amb[2] = str2Float(transformacao->Attribute("ambB"));
 				float atenuation = str2Float(transformacao->Attribute("atenuation"));
 				GLfloat angle = str2Float(transformacao->Attribute("angle"));
 				GLfloat exponent = str2Float(transformacao->Attribute("exponent"));

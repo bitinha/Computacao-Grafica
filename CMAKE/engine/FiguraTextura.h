@@ -1,18 +1,19 @@
 #pragma once
 #include "Figura.h"
 #include "GL/glew.h"
+#include <vector>
 
 using namespace std;
 
 class FiguraTextura : public Figura
 {
 public:
-	char *nome, *textData;
-	//unsigned int ima[1], text;
-	FiguraTextura(char* name, char* textData, vector<float> pontos, vector<float> normais, vector<float> textura);
-	FiguraTextura();
+	char * nome;
+	GLuint texID;
+	FiguraTextura(char *nome, vector<float> pontos, vector<float> normais, vector<float> texCoord);
 	~FiguraTextura();
-	void loadTexture();
-	void init();
+	void setNome(char* nome);
+	void setTexID(GLuint texID);
+	void generateTexturaFigura();
 	void draw();
 };
