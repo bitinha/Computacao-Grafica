@@ -83,7 +83,7 @@
 				<rotate time="1.02" axisX="0" axisY="1" axisZ="0" />
 				<scale X="1.2" Y="1.2" Z="1.2" />
 				<models>
-					<model file="../xml/sphere.3d" colorR="0.9" colorG="0.1" colorB="0.1"/>
+					<model file="../xml/sphere.3d" diffR="0.9" diffG="0.1" diffB="0.1"/>
 				</models>
 			</group>
 			<group>			<!-- FOBOS -->

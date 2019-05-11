@@ -73,11 +73,13 @@ void FiguraDifusa::draw()
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->bufferNormal);
 	glNormalPointer(GL_FLOAT, 0, 0);
-		
+	
 	glBindBuffer(GL_ARRAY_BUFFER, this->bufferTextura);
 	glTexCoordPointer(2, GL_FLOAT, 0, 0);
 
 	glDrawArrays(GL_TRIANGLES, 0, this->pontos.size() / 3);
+
+
 }
 
 void FiguraDifusa::generateTexturaFigura() {

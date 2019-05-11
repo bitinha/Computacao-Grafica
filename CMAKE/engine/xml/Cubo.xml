@@ -1,0 +1,5 @@
+<scene>
+    <group>	
+		<model file="../xml/box.3d"/>
+    </group>
+</scene>

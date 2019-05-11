@@ -1,16 +1,47 @@
 <scene>
+	<lights>
+		<light type="POINT" posX = "0" posY = "0" posZ = "0" ambR = "0" ambG ="1" ambB = "0" diffR="1" diffG="1" diffB="1"/>
+	</lights>
     <group>
-		<translate time="10" >
-			<point X="1" Y="0" Z="1" />
-			<point X="2" Y="0" Z="2" />
-			<point X="3" Y="0" Z="1" />
-			<point X="4" Y="0.2" Z="1" />
-			<point X="1" Y="30" Z="1.4" />
-		</translate>
-		<scale X="11" Y="11" Z="11"/>
-		<models>
-			<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.8" diffB="0.15"/>
-			<model file="../xml/cone.3d"  	diffR="0.5" diffG="0.5" diffB="0"/>
-		</models>
+		<group>		<!-- SOL -->
+			<rotate angle="7" axisX="1" axisY="0" axisZ="0" /> 
+			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
+			<scale X="20" Y="20" Z="20" />
+			<models>
+				<model file="../xml/sphere.3d"  texture="../Textura/sun.jpg"/>
+			</models>
+		</group>
+		<group>			<!-- TERRA -->
+			<translate time="36.525" >
+				<point X="0" Y="0" Z="-55" />
+				<point X="55" Y="0" Z="0" />
+				<point X="0" Y="0" Z="55" />
+				<point X="-55" Y="0" Z="0" />
+			</translate>
+			<group>			<!-- TERRA -->
+				<rotate angle="23" axisX="1" axisY="0" axisZ="0" /> 
+				<rotate time="1" axisX="0" axisY="1" axisZ="0" /> 
+				<scale X="2" Y="2" Z="2" />
+				<models>
+					<model file="../xml/sphere.3d" texture="../Textura/earth.jpg"/>
+				</models>
+			</group>
+			<group>			<!-- LUA -->
+				<translate time="28" >
+					<point X="0" Y="0" Z="-4" />
+					<point X="4" Y="0" Z="0" />
+					<point X="0" Y="0" Z="4" />
+					<point X="-4" Y="0" Z="0" />
+				</translate>
+				<group>
+					<rotate angle="5" axisX="1" axisY="0" axisZ="0" /> 
+					<rotate time="28" axisX="0" axisY="1" axisZ="0" />
+					<scale X="0.5" Y="0.5" Z="0.5" />
+					<models>
+						<model file="../xml/sphere.3d" ambR="0.8" ambG="0.8" ambB="0.8"  diffR="0.0" diffG="0.0" diffB="0.0"/>
+					</models>
+				</group>
+			</group>
+		</group>
 	</group>
 </scene>

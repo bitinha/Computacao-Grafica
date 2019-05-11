@@ -27,7 +27,9 @@ void generateTextura(Grupo* g) {
 	vector<Figura*> figuras = (*g).getFiguras();
 	
 	for (vector<Figura*>::iterator itF = figuras.begin(); itF != figuras.end(); itF++) {
-		(*itF)->generateTexturaFigura();
+		if ((*itF)->getNome() != nullptr) {
+			(*itF)->generateTexturaFigura();
+		}
 	}
 
 	vector<Grupo*> grupos = g->getGrupos();

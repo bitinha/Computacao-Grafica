@@ -407,7 +407,7 @@ void writeSphereFile(const char* r, const char* sl, const char* st, string name)
 			
 			file << " " << 0 << " " << radius << " " << 0 << "\n";
 			file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal
-			file << " " << i / slices << " " << 1 << "\n"; //Textura
+			file << " " << i / slices + (1 / (2*slices)) << " " << 1 << "\n"; //Textura
 						
 			file << " " << radius * cos(b) * sin(a) << " " << radius * sin(b) << " " << radius * cos(b) * cos(a) << "\n";
 			p[0] = cos(b) * sin(a); p[1] = sin(b); p[2] = cos(b) * cos(a); normalize(p);
@@ -459,7 +459,7 @@ void writeSphereFile(const char* r, const char* sl, const char* st, string name)
 
 			file << " " << 0 << " " << -radius << " " << 0 << "\n";
 			file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal
-			file << " " << i / slices << " " << 0 << "\n"; //Textura
+			file << " " << i / slices + (1 / (2 * slices)) << " " << 0 << "\n"; //Textura
 
 			file << " " << radius * cos(b) * sin(gama) << " " << radius * sin(b) << " " << radius * cos(b) * cos(gama) << "\n";
 			p[0] = cos(b) * sin(gama); p[1] = sin(b); p[2] = cos(b) * cos(gama); normalize(p);

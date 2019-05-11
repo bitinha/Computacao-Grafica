@@ -4,8 +4,6 @@
 #include "Translacao.h"
 #include "Rotacao.h"
 #include "Scale.h"
-#include "FiguraDifusa.h"
-#include "FiguraTextura.h"
 #include "PointLight.h"
 #include "Directional.h"
 #include "Spot.h"
@@ -119,45 +117,45 @@ Grupo* models(Grupo *group, XMLNode * element) {
 		XMLElement * model = element->ToElement();
 		const char* iOutListValue, *diffR, *diffG, *diffB, *emissiveR, *emissiveG, *emissiveB, *ambientR, *ambientG, *ambientB, *specularR, *specularG, *specularB;
 		float dR, dG, dB, eR, eG, eB, aR, aG, aB, sR, sG, sB;
+		diffR = model->Attribute("diffR");
+		diffG = model->Attribute("diffG");
+		diffB = model->Attribute("diffB");
+		diffR = model->Attribute("diffR");
+		diffG = model->Attribute("diffG");
+		diffB = model->Attribute("diffB");
+		emissiveR = model->Attribute("emiR");
+		emissiveG = model->Attribute("emiG");
+		emissiveB = model->Attribute("emiB");
+		specularR = model->Attribute("specR");
+		specularG = model->Attribute("specG");
+		specularB = model->Attribute("specB");
+		ambientR = model->Attribute("ambR");
+		ambientG = model->Attribute("ambG");
+		ambientB = model->Attribute("ambB");
+
+
+		dR = str2Float(diffR);
+		dG = str2Float(diffG);
+		dB = str2Float(diffB);
+		eR = str2Float(emissiveR);
+		eG = str2Float(emissiveG);
+		eB = str2Float(emissiveB);
+		aR = str2Num(ambientR);
+		aG = str2Num(ambientG);
+		aB = str2Num(ambientB);
+		sR = str2Float(specularR);
+		sG = str2Float(specularG);
+		sB = str2Float(specularB);
+
+		float diffuse[3] = { dR, dG, dB };
+		float emissive[3] = { eR, eG, eB };
+		float specular[3] = { sR, sG, sB };
+		float ambient[3] = { aR, aG, aB };
 		if (model->Attribute("texture") == nullptr) {		
-			diffR = model->Attribute("diffR");
-			diffG = model->Attribute("diffG");
-			diffB = model->Attribute("diffB");
-			diffR = model->Attribute("diffR");
-			diffG = model->Attribute("diffG");
-			diffB = model->Attribute("diffB");
-			emissiveR = model->Attribute("emiR");
-			emissiveG = model->Attribute("emiG");
-			emissiveB = model->Attribute("emiB");
-			specularR = model->Attribute("specR");
-			specularG = model->Attribute("specG");
-			specularB = model->Attribute("specB");
-			ambientR = model->Attribute("ambR");
-			ambientG = model->Attribute("ambG");
-			ambientB = model->Attribute("ambB");
-		
-
-			dR = str2Float(diffR);
-			dG = str2Float(diffG);
-			dB = str2Float(diffB);
-			eR = str2Float(emissiveR);
-			eG = str2Float(emissiveG);
-			eB = str2Float(emissiveB);
-			aR = str2Float(ambientR);
-			aG = str2Float(ambientG);
-			aB = str2Float(ambientB);
-			sR = str2Float(specularR);
-			sG = str2Float(specularG);
-			sB = str2Float(specularB);
-
-			float diffuse[3] = {dR, dG, dB};
-			float emissive[3] = {eR, eG, eB };
-			float specular[3] = {sR, sG, sB };
-			float ambient[3] = {aR, aG, aB };
-
 			iOutListValue = model->Attribute("file");
+			
 			Figura fig = interpretador(iOutListValue);		
-			FiguraDifusa *dif = new FiguraDifusa(diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais(), fig.getTextura());
+			Figura *dif = new Figura(nullptr, diffuse, specular, emissive, ambient, fig.getPontos(),fig.getNormais(), fig.getTextura());
 			group->addFigura(dif);
 			element = element->NextSibling();
 		}
@@ -167,7 +165,7 @@ Grupo* models(Grupo *group, XMLNode * element) {
 
 			iOutListValue = model->Attribute("file");
 			Figura fig = interpretador(iOutListValue);
-			FiguraTextura *textura = new FiguraTextura(tex, fig.getPontos(), fig.getNormais(), fig.getTextura());
+			Figura *textura = new Figura((char*)tex, diffuse, specular, emissive, ambient, fig.getPontos(), fig.getNormais(), fig.getTextura());
 			group->addFigura(textura);
 			element = element->NextSibling();
 		}
