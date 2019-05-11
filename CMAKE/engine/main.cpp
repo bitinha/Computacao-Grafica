@@ -23,6 +23,19 @@ GLuint *buffers;
 GLuint *buffersNormal;
 GLuint *buffersTextura;
 
+void generateTextura(Grupo* g) {
+	vector<Figura*> figuras = (*g).getFiguras();
+	
+	for (vector<Figura*>::iterator itF = figuras.begin(); itF != figuras.end(); itF++) {
+		(*itF)->generateTexturaFigura();
+	}
+
+	vector<Grupo*> grupos = g->getGrupos();
+	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
+		generateTextura((*it));
+	}
+}
+
 int generateBuffers(Grupo *group, int j) {
 
 	vector<Figura*> figuras = group->getFiguras();
@@ -221,11 +234,7 @@ int main(int argc, char** argv) {
 	}
 
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
-		vector<Figura*> figuras;
-		vector<Figura*>::iterator itF = figuras.begin();
-		for (; itF != figuras.end(); itF++) {
-			(*itF)->generateTexturaFigura();
-		}
+		generateTextura(*it);
 	}
 
 	// enter GLUT's main cycle

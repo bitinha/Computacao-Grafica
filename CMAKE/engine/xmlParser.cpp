@@ -167,7 +167,7 @@ Grupo* models(Grupo *group, XMLNode * element) {
 
 			iOutListValue = model->Attribute("file");
 			Figura fig = interpretador(iOutListValue);
-			FiguraTextura *textura = new FiguraTextura((char*)tex, fig.getPontos(), fig.getNormais(), fig.getTextura());
+			FiguraTextura *textura = new FiguraTextura(tex, fig.getPontos(), fig.getNormais(), fig.getTextura());
 			group->addFigura(textura);
 			element = element->NextSibling();
 		}

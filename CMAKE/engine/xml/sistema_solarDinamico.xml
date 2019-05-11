@@ -8,7 +8,7 @@
 			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
-				<model file="../xml/sphere.3d"  diffR="0.8" diffG="0.3" diffB="0.5" ambR="0.3" ambG="0.3" ambB="0.3"/>
+				<model file="../xml/sphere.3d"  texture="../Textura/sun.jpg"/>
 			</models>
 		</group>
 		<group>		<!-- MERCURIO -->
@@ -20,7 +20,7 @@
 			</translate>
 			<rotate time="58.6" axisX="0" axisY="1" axisZ="0" /> 
 			<models>
-				<model file="../xml/sphere.3d" diffR="0.1" diffG="0.5" diffB="0.2" ambR="0.5" ambG="0.5" ambB="0.5"/>
+				<model file="../xml/sphere.3d" diffR="0.1" diffG="0.5" diffB="0.2" ambR="0.0" ambG="0.0" ambB="0.0"/>
 			</models>
 		</group>
 		<group>		<!-- VENUS -->
@@ -51,7 +51,7 @@
 				<rotate time="1" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="2" Y="2" Z="2" />
 				<models>
-					<model file="../xml/sphere.3d" colorR="0.1" colorG="0.1" colorB="0.7" diffuseR="0.1" diffuseG="0.1" diffuseB="0.7"/>
+					<model file="../xml/sphere.3d" texture="../Textura/earth.jpg"/>
 				</models>
 			</group>
 			<group>			<!-- LUA -->

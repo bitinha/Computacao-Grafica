@@ -1,7 +1,11 @@
 #include "FiguraTextura.h"
 
-FiguraTextura::FiguraTextura(char* nome,vector<float> pontos, vector<float> normais, vector<float> texCoord){
-	this->nome = nome;
+FiguraTextura::FiguraTextura(const char* nome,vector<float> pontos, vector<float> normais, vector<float> texCoord){
+	this->nome = (char*)malloc(strlen(nome)* sizeof(char));
+	int i = 0;
+	for(; i < strlen(nome); i++)
+		this->nome[i] = nome[i];
+	this->nome[i] = '\0';
 	this->pontos = pontos;
 	this->normais = normais;
 	this->textura = texCoord;
@@ -50,13 +54,14 @@ void FiguraTextura::generateTexturaFigura() {
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-	this->texID = t;
+	this->texID = texID;
 
 }
 
 void FiguraTextura::draw() {
 		
 	glBindTexture(GL_TEXTURE_2D, this->texID);
+
 	glBindBuffer(GL_ARRAY_BUFFER, this->buffer);
 	glVertexPointer(3, GL_FLOAT, 0, 0);
 

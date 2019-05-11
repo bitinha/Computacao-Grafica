@@ -10,7 +10,7 @@ class FiguraTextura : public Figura
 public:
 	char * nome;
 	GLuint texID;
-	FiguraTextura(char *nome, vector<float> pontos, vector<float> normais, vector<float> texCoord);
+	FiguraTextura(const char *nome, vector<float> pontos, vector<float> normais, vector<float> texCoord);
 	~FiguraTextura();
 	void setNome(char* nome);
 	void setTexID(GLuint texID);
