@@ -1,6 +1,6 @@
 <scene>
 	<lights>
-		<light type="POINT" posX = "0" posY = "0" posZ = "0" ambR = "1" ambG ="1" ambB = "1" diffR="1" diffG="1" diffB="1"/>
+		<light type="POINT" posX = "0" posY = "0" posZ = "0" ambR = "1" ambG ="1" ambB = "1" diffR="1" diffG="1" diffB="1" />
 	</lights>
     <group>
 		<group>		<!-- SOL -->
@@ -8,7 +8,7 @@
 			<rotate time="30" axisX="0" axisY="1" axisZ="0" /> 
 			<scale X="20" Y="20" Z="20" />
 			<models>
-				<model file="../xml/sphere.3d"  texture="../Textura/sun.jpg"/>
+				<model file="../xml/sphere.3d"  texture="../Textura/sun.jpg" emiR = "1" emiG ="1" emiB = "1"/>
 			</models>
 		</group>
 		<group>		<!-- MERCURIO -->
@@ -20,7 +20,7 @@
 			</translate>
 			<rotate time="58.6" axisX="0" axisY="1" axisZ="0" /> 
 			<models>
-				<model file="../xml/sphere.3d" texture="../Textura/mercury.jpg"/>
+				<model file="../xml/sphere.3d" texture="../Textura/mercury.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 			</models>
 		</group>
 		<group>		<!-- VENUS -->
@@ -35,7 +35,7 @@
 				<rotate time="243" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="2" Y="2" Z="2" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/venus.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/venus.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 		</group>
@@ -51,7 +51,7 @@
 				<rotate time="1" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="2" Y="2" Z="2" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/earth.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/earth.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 			<group>			<!-- LUA -->
@@ -66,7 +66,7 @@
 					<rotate time="28" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.5" Y="0.5" Z="0.5" />
 					<models>
-						<model file="../xml/sphere.3d" texture="../Textura/moon.jpg"/>
+						<model file="../xml/sphere.3d" texture="../Textura/moon.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 					</models>
 				</group>
 			</group>
@@ -83,7 +83,7 @@
 				<rotate time="1.02" axisX="0" axisY="1" axisZ="0" />
 				<scale X="1.2" Y="1.2" Z="1.2" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/mars.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/mars.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 			<group>			<!-- FOBOS -->
@@ -98,7 +98,7 @@
 					<rotate time="0.14" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.05" Y="0.07" Z="0.10" />
 					<models>
-						<model file="../xml/sphere.3d" texture="../Textura/phobos.jpg"/>
+						<model file="../xml/sphere.3d" texture="../Textura/phobos.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 					</models>
 				</group>
 			</group>
@@ -114,7 +114,7 @@
 					<rotate time="1.26" axisX="0" axisY="1" axisZ="0" />
 					<scale X="0.05" Y="0.07" Z="0.10" />
 					<models>
-						<model file="../xml/sphere.3d" texture="../Textura/deimos.jpg"/>
+						<model file="../xml/sphere.3d" texture="../Textura/deimos.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 					</models>
 				</group>
 			</group>
@@ -131,7 +131,7 @@
 				<rotate time="0.4" axisX="0" axisY="1" axisZ="0" />
 				<scale X="8" Y="8" Z="8" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/jupiter.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/jupiter.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 			<group>		<!-- GANIMEDES -->
@@ -145,7 +145,7 @@
 					<rotate angle="2" axisX="1" axisY="0" axisZ="0" /> 
 					<rotate time="0.3" axisX="0" axisY="1" axisZ="0" />
 					<models>
-						<model file="../xml/sphere.3d" texture="../Textura/ganymede.jpg"/>
+						<model file="../xml/sphere.3d" texture="../Textura/ganymede.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 					</models>
 				</group>
 			</group>
@@ -159,7 +159,7 @@
 				<group>
 					<rotate time="3.55" axisX="0" axisY="1" axisZ="0" />
 					<models>
-						<model file="../xml/sphere.3d" texture="../Textura/europa.jpg"/>
+						<model file="../xml/sphere.3d" texture="../Textura/europa.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 					</models>
 				</group>
 			</group>
@@ -176,7 +176,7 @@
 				<rotate time="0.42" axisX="0" axisY="1" axisZ="0" /> 
 				<scale X="5" Y="5" Z="5" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/saturn.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/saturn.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 		</group>
@@ -192,7 +192,7 @@
 				<rotate time="0.75" axisX="0" axisY="1" axisZ="0" />
 				<scale X="3" Y="3" Z="3" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/uranus.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/uranus.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 		</group>
@@ -208,7 +208,7 @@
 				<rotate time="0.8" axisX="0" axisY="1" axisZ="0" />
 				<scale X="2.95" Y="2.95" Z="2.95" />
 				<models>
-					<model file="../xml/sphere.3d" texture="../Textura/neptune.jpg"/>
+					<model file="../xml/sphere.3d" texture="../Textura/neptune.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 				</models>
 			</group>
 		</group>
@@ -222,7 +222,7 @@
 		</translate>
 		<group> 
 			<models>
-				<model file="../xml/teapot.3d" colorR="0.9" colorG="0.9" colorB="0.9"/>
+				<model file="../xml/teapot.3d"  diffR="1" diffG="1" diffB="1" ambR = "0.1" ambG ="0.1" ambB = "0.1"/>
 			</models>
 		</group>
     </group>

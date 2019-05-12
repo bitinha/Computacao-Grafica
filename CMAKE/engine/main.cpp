@@ -10,13 +10,16 @@
 using namespace tinyxml2;
 using namespace std;
 
+float pi = M_PI;
 //Shape formas;
-float alfa = 0;
+//float alfa = pi/2;
+float alfa = 0;//
 float beta = 0;
 float zoom = 200;
 float look = 0;
-
-float pi = M_PI;
+int xAnt, yAnt;
+float camX = -100, camY = 0, camZ = 0;
+bool mouseMoving = false;
 
 Cena cena;
 GLuint *buffers;
@@ -96,7 +99,7 @@ void iniciaLuz() {
 	if (cena.getLuz().size() > 0)
 		glEnable(GL_LIGHTING);
 	for (int i = 0; i < cena.getLuz().size(); i++)
-		glEnable(16384 + i);
+		glEnable(GL_LIGHT0 + i);
 }
 
 void geraIluminacao() {
@@ -115,10 +118,15 @@ void renderScene(void) {
 
 	// set the camera
 	glLoadIdentity();
-	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),
-		0,0,0,
+
+	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),//
+		0, 0, 0,//
+		0.0f, 1.0f, 0.0f);//
+	/*
+	gluLookAt(camX, camY , camZ,
+		camX + sin(alfa)*cos(beta), camY + sin(beta), camZ + cos(alfa)*cos(beta),
 		0.0f, 1.0f, 0.0f);
-	
+	*/
 	geraIluminacao();
 
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
@@ -132,7 +140,6 @@ void renderScene(void) {
 }
 
 void processKeys(unsigned char c, int xx, int yy) {
-
 	if (c == '+' && zoom > 1) {
 		zoom -= 1;
 	}if (c == '-') {
@@ -145,6 +152,36 @@ void processKeys(unsigned char c, int xx, int yy) {
 		look += 1;
 	}
 
+	/*
+	if (c == 'w') {
+		camX += sin(alfa)*cos(beta);
+		camY += sin(beta);
+		camZ += cos(alfa)*cos(beta);
+	}
+
+	else if (c == 'd') {
+		camX += sin(alfa - M_PI_2);
+		camZ += cos(alfa - M_PI_2);
+	}
+
+	else if (c == 's') {
+		camX += sin(alfa + M_PI)*cos(beta + M_PI);
+		camY += sin(beta + M_PI);
+		camZ += cos(alfa + M_PI)*cos(beta + M_PI);
+	}
+
+	else if (c == 'a') {
+		camX += sin(alfa + M_PI_2);
+		camZ += cos(alfa + M_PI_2);
+	}
+
+	else if (c == 'z') {
+		alfa += M_PI / 64.0f;
+	}
+
+	else if (c == 'x') {
+		alfa -= M_PI / 64.0f;
+	}*/
 	glutPostRedisplay();
 }
 
@@ -167,7 +204,49 @@ void processSpecialKeys(int key, int xx, int yy) {
 		alfa += 0.05;
 		break;
 	}
+	/*switch (key) {
+	case GLUT_KEY_UP:
+		if (!(beta + M_PI / 64.0f > (pi / 2)))
+			beta += M_PI / 64.0f;
+		break;
+	case GLUT_KEY_DOWN:
+		if (!(beta - M_PI / 64.0f < -(pi / 2)))
+			beta -= M_PI / 64.0f;
+		break;
+	case GLUT_KEY_LEFT:
+		alfa += M_PI / 64.0f;
+		break;
+	case GLUT_KEY_RIGHT:
+		alfa -= M_PI / 64.0f;
+		break;
+	}*/
 	glutPostRedisplay();
+}
+
+void processMouse(int button, int state, int x, int y) {
+
+	
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		mouseMoving = true;
+		xAnt = x;
+		yAnt = y;
+	}
+	else if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
+		mouseMoving = false;
+	}
+
+	glutPostRedisplay();
+}
+void mouseMotion(int x, int y) {
+
+	if (mouseMoving) {
+
+		if (!(beta + (y - yAnt)*M_PI / 2048.0f > (pi / 2)) && !(beta + (y - yAnt)*M_PI / 2048.0f < -(pi / 2)))
+			beta += (y-yAnt)*M_PI / 2048.0f;
+		alfa += (x - xAnt)*M_PI / 2048.0f;
+		xAnt = x;
+		yAnt = y;
+	}
 }
 
 int main(int argc, char** argv) {
@@ -195,6 +274,8 @@ int main(int argc, char** argv) {
 	// Callback registration for keyboard processing
 	glutKeyboardFunc(processKeys);
 	glutSpecialFunc(processSpecialKeys);
+	glutMouseFunc(processMouse);
+	glutMotionFunc(mouseMotion);
 
 #ifndef __APPLE__
 	glewInit();
@@ -210,7 +291,7 @@ int main(int argc, char** argv) {
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
+	glEnable(GL_NORMALIZE);
 	glEnable(GL_TEXTURE_2D);
 	
 	// init
