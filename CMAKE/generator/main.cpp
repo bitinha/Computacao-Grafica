@@ -60,7 +60,7 @@ Ponto normal(Ponto l1, Ponto l2, Ponto c1, Ponto c2) {
 
 	cross(v1, v2, res);
 	normalize(res);
-	Ponto p = Ponto(res[0], res[1], res[2]);
+	Ponto p = Ponto(-res[0], -res[1], -res[2]);
 
 	return p;
 }
@@ -533,46 +533,44 @@ void writeBoxFile(const char* sizeX, const char* sizeY, const char* sizeZ, const
 				//Tras
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras Cima Esquerda
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << (1 / 3) - (j / (3*d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n";//
+				file << " " << (1.0f / 3.0f) - (j / (3*d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n";//
 
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras Direita Baixo
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << (1 / 3) - ((j + 1) / (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n";//
-				
+				file << " " << (1.0f / 3.0f) - ((j + 1) / (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n";//
+
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras Esquerda Baixo
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				//file << " " << 1 << " " << 0 << "\n"; //Textura Tras
-				//file << " " << (1 / 3) - (j / (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n
+				file << " " << (1.0f / 3.0f) - (j / (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n";
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << (1 / 3) - (j / (3*d)) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n";//
+				file << " " << (1.0f / 3.0f) - (j / (3*d)) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n";//
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << (1 / 3) - ((j + 1) / (3*d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n";//
+				file << " " << (1.0f / 3.0f) - ((j + 1) / (3*d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n";//
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << -z << "\n";//Ponto Tras
 				file << " " << 0 << " " << 0 << " " << -1 << "\n"; //Normal Tras
-				file << " " << (1 / 3) - ((j + 1)/ (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n";//
+				file << " " << (1.0f / 3.0f) - ((j + 1)/ (3*d)) << " " << 0.5 + (i / (2 * d)) << "\n";//
 				
 				//Frente
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << (j / 3 * d) << " " << (i / (2 * d)) << "\n"; //Textura Frente
+				file << " " << (j / (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura Frente
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				//file << " " << 1 << " " << 0 << "\n"; //Textura Frente
-				//file << " " << ((j + 1) / 3 * d) << " " << (i / (2 * d)) << "\n"; //Textura Frente
+				file << " " << ((j + 1) / (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura Frente
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << ((j + 1) / 3 * d) << " " << ((i + 1) / (2 * d)) << "\n"; //Textura Frente
+				file << " " << ((j + 1) / (3 * d)) << " " << ((i + 1) / (2 * d)) << "\n"; //Textura Frente
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y + (i / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
-				file << " " << (j / 3 * d) << " " << (i / (2 * d)) << "\n"; //Textura Frente
+				file << " " << (j / (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura Frente
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y + ((i + 1) / d) * (y * 2) << " " << z << "\n";//Ponto Frente
 				file << " " << 0 << " " << 0 << " " << 1 << "\n"; //Normal Frente
@@ -585,102 +583,102 @@ void writeBoxFile(const char* sizeX, const char* sizeY, const char* sizeZ, const
 				//Baixo
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - (j / (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - (j / (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - ((j  + 1)/ (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - ((j  + 1)/ (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - ((j + 1)/ (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - ((j + 1)/ (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
 
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - (j / (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - (j / (3 * d)) << " " << 0.5 - (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - ((j + 1)/ (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - ((j + 1)/ (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + (j / d) * (x * 2) << " " << -y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Baixo
 				file << " " << 0 << " " << -1 << " " << 0 << "\n"; //Normal Baixo
-				file << " " << (2 / 3) - (j / (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) - (j / (3 * d)) << " " << 0.5 - ((i + 1)/ (2 * d)) << "\n"; //Textura
 				
 				//Cima
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + (j / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + ((j + 1)/ 3 * d) << " " << 0.5 + ((i + 1 )/ (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + ((j + 1)/ (3 * d)) << " " << 0.5 + ((i + 1 )/ (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + ((j + 1)/ 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + ((j + 1)/ (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + (j / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + (j / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + (j / 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x + ((j + 1) / d) * (x * 2) << " " << y << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Cima
 				file << " " << 0 << " " << 1 << " " << 0 << "\n"; //Normal Cima
-				file << " " << (1 / 3) + ((j + 1)/ 3 * d) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n"; //Textura
+				file << " " << (1.0f / 3.0f) + ((j + 1)/ (3 * d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n"; //Textura
 
 				//Esquerda
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + (j / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + ((j + 1)/ 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + ((j + 1)/ (3 * d)) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + ((j + 1) / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + ((j + 1) / (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + (j / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + (j / 3 * d) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + (j / (3 * d)) << " " << 0.5 + ((i + 1) / (2 * d)) << "\n"; //Textura
 				
 				file << " " << -x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Esquerda
 				file << " " << -1 << " " << 0 << " " << 0 << "\n"; //Normal Esquerda
-				file << " " << (2 / 3) + ((j + 1)/ 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << (2.0f / 3.0f) + ((j + 1)/ (3 * d)) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
 
 				//Direita
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - (j / 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << 1 - (j / (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - ((j + 1)/ 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << 1 - ((j + 1)/ (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura
 
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - (j / 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << 1 - (j / (3 * d)) << " " << ((i + 1)/ (2 * d)) << "\n"; //Textura
 
 				file << " " << x << " " << -y + (j / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - (j / 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << 1 - (j / (3 * d)) << " " << ((i + 1)/ (2 * d)) << "\n"; //Textura
 				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + (i / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - ((j + 1)/ 3 * d) << " " << 0.5 + (i / (2 * d)) << "\n"; //Textura
+				file << " " << 1 - ((j + 1)/ (3 * d)) << " " << (i / (2 * d)) << "\n"; //Textura
 				
 				file << " " << x << " " << -y + ((j + 1) / d) * (y * 2) << " " << -z + ((i + 1) / d) * (z * 2) << "\n";//Ponto Direita
 				file << " " << 1 << " " << 0 << " " << 0 << "\n"; //Normal Direita
-				file << " " << 1 - ((j + 1) / 3 * d) << " " << 0.5 + ((i + 1)/ (2 * d)) << "\n"; //Textura
+				file << " " << 1 - ((j + 1) / (3 * d)) << " " << ((i + 1)/ (2 * d)) << "\n"; //Textura
 			}
 		}
 
