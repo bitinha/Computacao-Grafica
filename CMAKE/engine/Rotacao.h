@@ -10,5 +10,5 @@ public:float angle;
 	~Rotacao();
 	float getAngle();
 	void setAngle(float a);
-	void aplicaTransformacao(float *deriv);
+	void aplicaTransformacao();
 };

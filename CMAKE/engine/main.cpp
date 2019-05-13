@@ -12,8 +12,8 @@ using namespace std;
 
 float pi = M_PI;
 //Shape formas;
-//float alfa = pi/2;
-float alfa = 0;//
+float alfa = pi/2;
+//float alfa = 0;//
 float beta = 0;
 float zoom = 200;
 float look = 0;
@@ -119,14 +119,14 @@ void renderScene(void) {
 	// set the camera
 	glLoadIdentity();
 
-	gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),//
+	/*gluLookAt(zoom * cos(beta) * sin(alfa), zoom * sin(beta), zoom * cos(beta) * cos(alfa),//
 		0, 0, 0,//
-		0.0f, 1.0f, 0.0f);//
-	/*
+		0.0f, 1.0f, 0.0f);//*/
+	
 	gluLookAt(camX, camY , camZ,
 		camX + sin(alfa)*cos(beta), camY + sin(beta), camZ + cos(alfa)*cos(beta),
 		0.0f, 1.0f, 0.0f);
-	*/
+	
 	geraIluminacao();
 
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
@@ -140,7 +140,7 @@ void renderScene(void) {
 }
 
 void processKeys(unsigned char c, int xx, int yy) {
-	if (c == '+' && zoom > 1) {
+	/*if (c == '+' && zoom > 1) {
 		zoom -= 1;
 	}if (c == '-') {
 		zoom += 1;
@@ -150,9 +150,9 @@ void processKeys(unsigned char c, int xx, int yy) {
 		look -= 1;
 	}if (c == 'd') {
 		look += 1;
-	}
+	}*/
 
-	/*
+	
 	if (c == 'w') {
 		camX += sin(alfa)*cos(beta);
 		camY += sin(beta);
@@ -165,9 +165,9 @@ void processKeys(unsigned char c, int xx, int yy) {
 	}
 
 	else if (c == 's') {
-		camX += sin(alfa + M_PI)*cos(beta + M_PI);
-		camY += sin(beta + M_PI);
-		camZ += cos(alfa + M_PI)*cos(beta + M_PI);
+		camX -= sin(alfa )*cos(beta );
+		camY -= sin(beta );
+		camZ -= cos(alfa )*cos(beta );
 	}
 
 	else if (c == 'a') {
@@ -181,14 +181,14 @@ void processKeys(unsigned char c, int xx, int yy) {
 
 	else if (c == 'x') {
 		alfa -= M_PI / 64.0f;
-	}*/
+	}
 	glutPostRedisplay();
 }
 
 void processSpecialKeys(int key, int xx, int yy) {
 
 	// put code to process special keys in here
-	switch (key) {
+	/*switch (key) {
 	case GLUT_KEY_UP:
 		if (!(beta + 0.05 > (pi / 2)))
 			beta += 0.05;
@@ -203,8 +203,8 @@ void processSpecialKeys(int key, int xx, int yy) {
 	case GLUT_KEY_RIGHT:
 		alfa += 0.05;
 		break;
-	}
-	/*switch (key) {
+	}*/
+	switch (key) {
 	case GLUT_KEY_UP:
 		if (!(beta + M_PI / 64.0f > (pi / 2)))
 			beta += M_PI / 64.0f;
@@ -219,7 +219,7 @@ void processSpecialKeys(int key, int xx, int yy) {
 	case GLUT_KEY_RIGHT:
 		alfa -= M_PI / 64.0f;
 		break;
-	}*/
+	}
 	glutPostRedisplay();
 }
 

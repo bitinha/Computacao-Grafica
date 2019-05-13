@@ -24,6 +24,6 @@ void Rotacao::setAngle(float a) {
 	this->angle = a;
 }
 
-void Rotacao::aplicaTransformacao(float * deriv){
-
+void Rotacao::aplicaTransformacao(){
+	glRotatef(angle, x, y, z);
 }
