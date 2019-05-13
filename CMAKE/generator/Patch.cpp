@@ -73,12 +73,12 @@ void Patch::geraPontos(vector<Ponto*> cp, int tesselation){
 	for(int i = 0; i < tesselation; i++){
 		for(int j = 0;j < tesselation; j++){
 			this->pontos.push_back(ps.at(i * (tesselation + 1) + j));
+			this->pontos.push_back(ps.at((i + 1) * (tesselation + 1) + j + 1));
 			this->pontos.push_back(ps.at(i * (tesselation + 1) + j + 1));
-			this->pontos.push_back(ps.at((i+1) * (tesselation + 1) + j + 1));
 			
 			this->pontos.push_back(ps.at(i * (tesselation + 1) + j));
-			this->pontos.push_back(ps.at((i + 1) * (tesselation + 1) + j + 1));
 			this->pontos.push_back(ps.at((i + 1) * (tesselation + 1) + j));
+			this->pontos.push_back(ps.at((i + 1) * (tesselation + 1) + j + 1));
 		}	
 	}
 	

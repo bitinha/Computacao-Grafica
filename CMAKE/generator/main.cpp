@@ -47,6 +47,12 @@ void cross(float *a, float *b, float *res) {
 void normalize(float *a) {
 
 	float l = sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+	if (l == 0) {
+		a[0] = 0;
+		a[1] = 0;
+		a[2] = 0;
+		return;
+	}
 	a[0] = a[0] / l;
 	a[1] = a[1] / l;
 	a[2] = a[2] / l;
@@ -56,11 +62,14 @@ void normalize(float *a) {
 Ponto normal(Ponto l1, Ponto l2, Ponto c1, Ponto c2) {
 	float v1[3] = { l1.getX() - l2.getX(), l1.getY() - l2.getY(), l1.getZ() - l2.getZ() };
 	float v2[3] = { c1.getX() - c2.getX(), c1.getY() - c2.getY(), c1.getZ() - c2.getZ() };
+
 	float res[3];
 
+
 	cross(v1, v2, res);
+	
 	normalize(res);
-	Ponto p = Ponto(-res[0], -res[1], -res[2]);
+	Ponto p = Ponto(res[0], res[1], res[2]);
 
 	return p;
 }
@@ -74,19 +83,19 @@ vector<Ponto2D> generateTextCoord(int tesslation, int np) {
 				Ponto2D p = Ponto2D(j / tess, k/tess);
 				text.push_back(p);
 
-				p = Ponto2D(j / tess, (k + 1)/tess);
+				p = Ponto2D((j + 1) / tess, (k + 1) / tess);
 				text.push_back(p);
 
-				p = Ponto2D((j + 1) / tess, (k + 1)/tess);
+				p = Ponto2D(j / tess, (k + 1)/tess);
 				text.push_back(p);
 
 				p = Ponto2D(j / tess, k/tess);
 				text.push_back(p);
 
-				p = Ponto2D((j + 1) / tess, (k + 1)/tess);
+				p = Ponto2D((j + 1) / tess, k / tess);
 				text.push_back(p);
 
-				p = Ponto2D((j + 1)/ tess, k/tess);
+				p = Ponto2D((j + 1) / tess, (k + 1)/tess);
 				text.push_back(p);
 			}
 		}
@@ -97,235 +106,422 @@ vector<Ponto2D> generateTextCoord(int tesslation, int np) {
 vector<Ponto> generateNormais(vector<Ponto*> pontos, int tess, int np) {
 	vector<Ponto> normais;
 	int n = 0;
+
+	if (tess == 1) {
+		for (int k = 0; k < np; k++) {
+			Ponto p;
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+			n++;
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+			n++;
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+			n++;
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+			n++;
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+			n++;
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
+		}
+		return normais;
+	}
+
+
 	//para cada comentario acrescentar 6 pontos
 	for (int k = 0; k < np; k++) {
 		// Fazer para o triangulo inferior esquerda
-		Ponto p = normal(*pontos[n], *pontos[n + 5], *pontos[n], *pontos[n + 1]);
+		Ponto p = normal(*pontos[n], *pontos[n + 4], *pontos[n], *pontos[n + 2]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n], *pontos[n + 3], *pontos[n - 1], *pontos[n + 6]);
+		p = normal(*pontos[n + 1], *pontos[n + 6 *tess], *pontos[n + 3], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n-1], *pontos[n + 1], *pontos[n-1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+		p = normal(*pontos[n], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n], *pontos[n + 2], *pontos[n], *pontos[n - 2]);
+		p = normal(*pontos[n], *pontos[n + 1], *pontos[n], *pontos[n - 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n + 6]);
+		p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n], *pontos[n + 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 2], *pontos[n + 6*tess], *pontos[n], *pontos[n + 6]);
+		p = normal(*pontos[n - 3], *pontos[n + 6*tess], *pontos[n-1], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 		//Fazer para os do meio da primeira linha
 		for (int i = 1; i < tess - 1; i++) {
-			p = normal(*pontos[n], *pontos[n + 5], *pontos[n - 6], *pontos[n + 6]);
+			p = normal(*pontos[n], *pontos[n + 4], *pontos[n - 6], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n], *pontos[n + 1], *pontos[n - 1], *pontos[n + 6]);
+			p = normal(*pontos[n + 1], *pontos[n + 6*tess], *pontos[n +3], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+			p = normal(*pontos[n], *pontos[n + 1], *pontos[n - 6], *pontos[n -1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n + 6]);
+			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 2], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n + 6]);
+			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 		}
 		//Fazer para o canto da inferior direita
-			p = normal(*pontos[n], *pontos[n + 5], *pontos[n - 6], *pontos[n + 6]);
+			p = normal(*pontos[n], *pontos[n + 4], *pontos[n - 6], *pontos[n + 2]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n], *pontos[n + 1], *pontos[n - 1], *pontos[n]);
+			p = normal(*pontos[n + 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n]);
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n - 2], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+			p = normal(*pontos[n], *pontos[n + 1], *pontos[n - 6], *pontos[n - 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n]);
+			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n+1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 2], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n - 1]);
+			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n - 1], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 		//Fazer para as linhas do meio
 		for (int i = 1; i < tess - 1; i++) {
 			//Fazer para a primeira coluna
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n], *pontos[n + 1]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n], *pontos[n + 2]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 1], *pontos[n + 6]);
+			p = normal(*pontos[n + 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+			p = normal(*pontos[n - 6*tess], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n], *pontos[n - 2]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n], *pontos[n - 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n + 6]);
+			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n], *pontos[n + 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 2], *pontos[n + 6 * tess], *pontos[n], *pontos[n - 1]);
+			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n - 1], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 			//Fazer para as colunas do meio
 			for (int j = 1; j < tess - 1; j++) {
-				p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n - 6], *pontos[n + 1]);
+				p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n - 6], *pontos[n + 2]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 
-				p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 1], *pontos[n + 6]);
+				p = normal(*pontos[n + 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 
-				p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n + 6]);
+				p = normal(*pontos[n - 6*tess], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 
-				p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+				p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 6], *pontos[n - 1]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 
-				p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n + 6]);
+				p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n + 1]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 
-				p = normal(*pontos[n - 2], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n - 1]);
+				p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n - 1], *pontos[n + 6]);
+				if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+					p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+				}
 				normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 				n++;
 			}
 			//Fazer para a ultima coluna
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n - 6], *pontos[n + 1]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n - 6], *pontos[n + 2]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n], *pontos[n + 1]);
+			p = normal(*pontos[n + 1], *pontos[n + 6*tess], *pontos[n + 3], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n + 3], *pontos[n]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n - 1], *pontos[n - 2], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 6], *pontos[n - 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n + 1], *pontos[n]);
+			p = normal(*pontos[n - 1], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n + 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 2], *pontos[n + 6 * tess], *pontos[n - 6], *pontos[n - 1]);
+			p = normal(*pontos[n - 3], *pontos[n + 6 * tess], *pontos[n - 1], *pontos[n]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 		}
 		//Fazer para o canto superior esquerdo
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n], *pontos[n + 1]);
+		p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n], *pontos[n + 2]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 1], *pontos[n + 6]);
+		p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 3], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 1], *pontos[n], *pontos[n + 3], *pontos[n + 6]);
+		p = normal(*pontos[n - 6*tess], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n], *pontos[n - 2]);
+		p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n], *pontos[n - 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 3], *pontos[n], *pontos[n + 1], *pontos[n + 6]);
+		p = normal(*pontos[n - 1], *pontos[n], *pontos[n], *pontos[n + 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 2], *pontos[n], *pontos[n], *pontos[n - 1]);
+		p = normal(*pontos[n - 3], *pontos[n], *pontos[n - 1], *pontos[n + 6]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 		//Fazer para as colunas do meio
 		for (int i = 1; i < tess - 1; i++) {
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n - 6], *pontos[n + 1]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n - 6], *pontos[n + 2]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 1], *pontos[n + 6]);
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 3], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 1], *pontos[n], *pontos[n + 3], *pontos[n + 6]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n - 1], *pontos[n - 2], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+			p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 6], *pontos[n - 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 3], *pontos[n], *pontos[n + 1], *pontos[n + 6]);
+			p = normal(*pontos[n - 1], *pontos[n], *pontos[n - 6], *pontos[n + 1]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 
-			p = normal(*pontos[n - 2], *pontos[n], *pontos[n - 6], *pontos[n - 1]);
+			p = normal(*pontos[n - 3], *pontos[n], *pontos[n - 1], *pontos[n + 6]);
+			if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+				p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+			}
 			normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 			n++;
 		}
 		//Fazer para o canto superior direito
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 5], *pontos[n - 6], *pontos[n + 1]);
+		p = normal(*pontos[n - 6 * tess], *pontos[n + 4], *pontos[n - 6], *pontos[n + 2]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 1], *pontos[n]);
+		p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 3], *pontos[n]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 1], *pontos[n], *pontos[n + 3], *pontos[n]);
+		p = normal(*pontos[n - 6*tess], *pontos[n - 1], *pontos[n - 2], *pontos[n]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 6 * tess], *pontos[n + 2], *pontos[n - 6], *pontos[n - 2]);
+		p = normal(*pontos[n - 6 * tess], *pontos[n + 1], *pontos[n - 6], *pontos[n - 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n + 1], *pontos[n], *pontos[n + 2], *pontos[n]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 3], *pontos[n], *pontos[n + 1], *pontos[n]);
+		p = normal(*pontos[n - 1], *pontos[n], *pontos[n - 6], *pontos[n + 1]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n], *pontos[n - 1], *pontos[n + 1], *pontos[n - 1]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 
-		p = normal(*pontos[n - 2], *pontos[n], *pontos[n - 6], *pontos[n - 1]);
+		p = normal(*pontos[n - 3], *pontos[n], *pontos[n - 1], *pontos[n]);
+		if (p.getX() == 0 && p.getY() == 0 && p.getZ() == 0) {
+			p = normal(*pontos[n - 1], *pontos[n - 2], *pontos[n], *pontos[n - 2]);
+		}
 		normais.push_back(Ponto(p.getX(), p.getY(), p.getZ()));
 		n++;
 	}
-	n = n;
 	return normais;
 }
 

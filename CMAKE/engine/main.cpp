@@ -128,8 +128,10 @@ void renderScene(void) {
 		0.0f, 1.0f, 0.0f);
 	
 	geraIluminacao();
-
+	
 	float time = glutGet(GLUT_ELAPSED_TIME) / 1000.0;
+	
+	
 	vector<Grupo*> grupos = cena.getGrupos();
 
 	for (vector<Grupo*>::iterator it = grupos.begin(); it != grupos.end(); it++) {
