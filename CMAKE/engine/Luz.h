@@ -17,5 +17,5 @@ public:
 	void setSpecular(float s[3]);
 	float* getAmbient();
 	void setAmbient(float a[3]);
-	void ilumina(int i);
+	virtual void ilumina(int i);
 };
