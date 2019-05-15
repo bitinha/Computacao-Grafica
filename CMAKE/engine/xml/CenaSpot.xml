@@ -1,0 +1,34 @@
+<scene>
+	<lights>
+		<light type="SPOT" posX = "5" posY = "5" posZ = "0" ambR = "1" ambG ="1" ambB = "1" diffR="1" diffG="1" diffB="1" dirX = "-1" dirY = "0" dirZ = "0" angle="30"/>
+	</lights>
+    <group>
+    	<group>		<!-- PLANO -->
+			<scale X="20" Y="20" Z="20" />
+			<models>
+				<model file="../xml/plane.3d"  texture="../Textura/mercury.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.5" ambG ="0.5" ambB = "0.5"/>
+			</models>
+		</group>
+		<group>		<!-- CAIXA -->
+			<translate X="-10" Y="10" Z="-10" /> 
+			<scale X="5" Y="5" Z="5" />
+			<models>
+				<model file="../xml/box.3d"  texture="../Textura/boxFace.png" diffR="1" diffG="1" diffB="1" ambR = "0.5" ambG ="0.5" ambB = "0.5"/>
+			</models>
+		</group>
+		<group>		<!-- CONE -->
+			<translate X="10" Y="0" Z="-10" /> 
+			<scale X="5" Y="10" Z="5" />
+			<models>
+				<model file="../xml/cone.3d"  texture="../Textura/coneTwitter.png" diffR="1" diffG="1" diffB="1" ambR = "0.5" ambG ="0.5" ambB = "0.5"/>
+			</models>
+		</group>
+		<group>		<!-- ESFERA -->
+			<translate X="10" Y="5" Z="10" /> 
+			<scale X="5" Y="5" Z="5" />
+			<models>
+				<model file="../xml/sphere.3d"  texture="../Textura/earth.jpg" diffR="1" diffG="1" diffB="1" ambR = "0.5" ambG ="0.5" ambB = "0.5"/>
+			</models>
+		</group>
+    </group>
+</scene>
